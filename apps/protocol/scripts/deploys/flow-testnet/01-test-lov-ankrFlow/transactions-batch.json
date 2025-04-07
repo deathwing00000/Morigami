@@ -1,0 +1,31 @@
+{
+  "chainId": "1",
+  "meta": {},
+  "transactions": [
+    {
+      "to": "0x40eD9824964aefe744A3Ce7E75202F93DFA6B849",
+      "value": "0",
+      "data": null,
+      "contractMethod": {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "tokenAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes",
+            "name": "fnCalldata",
+            "type": "bytes"
+          }
+        ],
+        "name": "setTokenPriceFunction",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "tokenAddress": "0x87fDa685d17865825474d99d5153b8a17c402bA5",
+        "fnCalldata": "0x7eb11c6300000000000000000000000087fda685d17865825474d99d5153b8a17c402ba5"
+      }
+    }
+  ]
+}
