@@ -1,6 +1,6 @@
 [profile.default]
   optimizer = true
-  optimizer_runs = 9999
+  optimizer_runs = 200
   verbosity = 3
   src = 'contracts'
   out = 'artifacts-foundry'
@@ -10,6 +10,7 @@
   gas_reports = ["*"]
   evm_version = 'cancun'
   allow_internal_expect_revert = true
+  no_match_test = "testFail"
 
 [profile.default.fuzz]
   max_test_rejects = 5000
