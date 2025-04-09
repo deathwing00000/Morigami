@@ -1,11 +1,11 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Morigami (investments/lovToken/managers/MorigamiLovTokenFlashAndBorrowManager.sol)
+// Morigami (investments/lovToken/managers/MorigamiLovTokenFlashAndBorrowManagerFeesless.sol)
 
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-import {IMorigamiLovTokenFlashAndBorrowManager} from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenFlashAndBorrowManager.sol";
+import {IMorigamiLovTokenFlashAndBorrowManagerFeesless} from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenFlashAndBorrowManagerFeesless.sol";
 import {IMorigamiOracle} from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 import {IMorigamiSwapper} from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 import {IMorigamiLovTokenManager} from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
@@ -25,8 +25,8 @@ import {IMorigamiBorrowAndLend} from "contracts/interfaces/common/borrowAndLend/
  * @dev `reserveToken`, `debtToken` must be 18 decimals. If other precision is needed later
  * then this contract can be extended
  */
-contract MorigamiLovTokenFlashAndBorrowManager is
-    IMorigamiLovTokenFlashAndBorrowManager,
+contract MorigamiLovTokenFlashAndBorrowManagerFeesless is
+    IMorigamiLovTokenFlashAndBorrowManagerFeesless,
     MorigamiAbstractLovTokenManager
 {
     using SafeERC20 for IERC20;
@@ -110,7 +110,7 @@ contract MorigamiLovTokenFlashAndBorrowManager is
      */
     function setOracles(
         address _debtTokenToReserveTokenOracle,
-        address _dynamicFeePriceOracle
+        address
     ) external override onlyElevatedAccess {
         debtTokenToReserveTokenOracle = _validatedOracle(
             _debtTokenToReserveTokenOracle,
