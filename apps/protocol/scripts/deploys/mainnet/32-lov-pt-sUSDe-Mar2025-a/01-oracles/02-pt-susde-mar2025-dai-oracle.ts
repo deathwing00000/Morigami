@@ -1,5 +1,5 @@
 import '@nomiclabs/hardhat-ethers';
-import { OrigamiCrossRateOracle__factory } from '../../../../../typechain';
+import { MorigamiCrossRateOracle__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   runAsyncMain,
@@ -9,7 +9,7 @@ import { getDeployContext } from '../../deploy-context';
 async function main() {
   const { owner, ADDRS, INSTANCES } = await getDeployContext(__dirname);
 
-  const factory = new OrigamiCrossRateOracle__factory(owner);
+  const factory = new MorigamiCrossRateOracle__factory(owner);
   await deployAndMine(
     'ORACLES.PT_SUSDE_MAR_2025_DAI',
     factory,

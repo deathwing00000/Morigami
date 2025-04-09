@@ -1,10 +1,10 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (libraries/DexAggregator.sol)
+// Morigami (libraries/DexAggregator.sol)
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 /**
@@ -49,7 +49,7 @@ library DexAggregator {
                     revert(add(32, _returndata), returndata_size)
                 }
             }
-            revert IOrigamiSwapper.UnknownSwapError(_returndata);
+            revert IMorigamiSwapper.UnknownSwapError(_returndata);
         }
 
         unchecked {
@@ -58,11 +58,11 @@ library DexAggregator {
         }
 
         // The caller's balance of sellToken must end up at the same value as before the swap
-        if (sellToken.balanceOf(address(this)) != _initialSellTokenBalance) revert IOrigamiSwapper.InvalidSwap();
+        if (sellToken.balanceOf(address(this)) != _initialSellTokenBalance) revert IMorigamiSwapper.InvalidSwap();
 
         buyTokenAmount = buyToken.balanceOf(address(this)) - _initialBuyTokenBalance;
 
         // Must have a non-zero amount of buyToken's
-        if (buyTokenAmount == 0) revert IOrigamiSwapper.InvalidSwap();
+        if (buyTokenAmount == 0) revert IMorigamiSwapper.InvalidSwap();
     }
 }

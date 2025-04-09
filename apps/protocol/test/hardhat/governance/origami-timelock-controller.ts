@@ -11,7 +11,7 @@ import {
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { getSigners } from "../signers";
 
-describe("Origami Timelock Controller", async () => {
+describe("Morigami Timelock Controller", async () => {
     let token: DummyMintableToken;
     let timelock: DummyTimelockController;
 

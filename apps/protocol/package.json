@@ -1,8 +1,8 @@
 {
-  "name": "origami",
+  "name": "Morigami",
   "version": "1.0.0",
-  "description": "Origami smart contracts",
-  "author": "TempleDAO",
+  "description": "Morigami smart contracts",
+  "author": "MoreLabsXYZ",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
     "@aave/core-v3": "^1.18.0",

@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiOToken__factory } from '../../../../../typechain';
+import { MorigamiOToken__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -10,13 +10,13 @@ async function main() {
   ensureExpectedEnvvars();
   const [owner] = await ethers.getSigners();
 
-  const factory = new OrigamiOToken__factory(owner);
+  const factory = new MorigamiOToken__factory(owner);
   await deployAndMine(
     'OV_USDC.TOKENS.O_USDC_TOKEN',
     factory,
     factory.deploy,
     await owner.getAddress(),
-    "Origami USDC Token",
+    "Morigami USDC Token",
     "oUSDC",
   );
 }

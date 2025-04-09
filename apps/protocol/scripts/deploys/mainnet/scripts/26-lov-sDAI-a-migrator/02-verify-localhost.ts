@@ -3,7 +3,7 @@ import { ethers } from "hardhat";
 import { ensureExpectedEnvvars, impersonateAndFund, mine, setExplicitAccess } from "../../../helpers";
 import { ContractInstances, connectToContracts1, getDeployedContracts1 } from "../../contract-addresses";
 import { ContractAddresses } from "../../contract-addresses/types";
-import { OrigamiBorrowLendMigrator, OrigamiBorrowLendMigrator__factory, OrigamiMorphoBorrowAndLend, OrigamiMorphoBorrowAndLend__factory } from "../../../../../typechain";
+import { MorigamiBorrowLendMigrator, MorigamiBorrowLendMigrator__factory, MorigamiMorphoBorrowAndLend, MorigamiMorphoBorrowAndLend__factory } from "../../../../../typechain";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BigNumber, Signer } from "ethers";
 
@@ -15,9 +15,9 @@ const OLD_BORROW_LEND_ADDRESS = '0xDF3D394669Fe433713D170c6DE85f02E260c1c34';
 const DEPOSIT_TOKEN_WHALE = "0xcD40532686B94aBc88b06B9705AAcBc14c8364D6";
 
 async function execute(
-  migrator: OrigamiBorrowLendMigrator, 
-  oldBorrowLend: OrigamiMorphoBorrowAndLend, 
-  newBorrowLend: OrigamiMorphoBorrowAndLend,
+  migrator: MorigamiBorrowLendMigrator, 
+  oldBorrowLend: MorigamiMorphoBorrowAndLend, 
+  newBorrowLend: MorigamiMorphoBorrowAndLend,
   multisig: Signer,
 ) {
   // Grant access to the migrator on the old
@@ -99,9 +99,9 @@ async function main() {
   await supplyIntoMorpho(owner);
 
   const multisig = await impersonateAndFund(owner, ADDRS.CORE.MULTISIG);
-  const oldBorrowLend = OrigamiMorphoBorrowAndLend__factory.connect(OLD_BORROW_LEND_ADDRESS, multisig);
+  const oldBorrowLend = MorigamiMorphoBorrowAndLend__factory.connect(OLD_BORROW_LEND_ADDRESS, multisig);
   const newBorrowLend = INSTANCES.LOV_SDAI_A.MORPHO_BORROW_LEND.connect(multisig);
-  const migrator = OrigamiBorrowLendMigrator__factory.connect(MIGRATOR_ADDRESS, multisig);
+  const migrator = MorigamiBorrowLendMigrator__factory.connect(MIGRATOR_ADDRESS, multisig);
 
   const oldSuppliedBefore = await oldBorrowLend.suppliedBalance();
   const oldDebtBefore = await oldBorrowLend.debtBalance();

@@ -4,13 +4,13 @@ pragma solidity 0.8.19;
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-import { OrigamiAbstractIdleStrategy } from "contracts/investments/lending/idleStrategy/OrigamiAbstractIdleStrategy.sol";
-import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+import { MorigamiAbstractIdleStrategy } from "contracts/investments/lending/idleStrategy/MorigamiAbstractIdleStrategy.sol";
+import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-contract DummyIdleStrategy is OrigamiAbstractIdleStrategy {
+contract DummyIdleStrategy is MorigamiAbstractIdleStrategy {
     using SafeERC20 for IERC20;
-    using OrigamiMath for uint256;
+    using MorigamiMath for uint256;
 
     // How much is available (vs not available) out of the balance
     uint256 public availableSplit;
@@ -19,8 +19,8 @@ contract DummyIdleStrategy is OrigamiAbstractIdleStrategy {
         address _initialOwner,
         address _asset,
         uint128 _availableSplit
-    ) OrigamiAbstractIdleStrategy(_initialOwner, _asset) {
-        if (_availableSplit > OrigamiMath.BASIS_POINTS_DIVISOR) revert CommonEventsAndErrors.InvalidParam();
+    ) MorigamiAbstractIdleStrategy(_initialOwner, _asset) {
+        if (_availableSplit > MorigamiMath.BASIS_POINTS_DIVISOR) revert CommonEventsAndErrors.InvalidParam();
         availableSplit = _availableSplit;
     }
 
@@ -69,7 +69,7 @@ contract DummyIdleStrategy is OrigamiAbstractIdleStrategy {
     function availableToWithdraw() public override view returns (uint256 available) {
         (,available) = totalBalance().splitSubtractBps(
             availableSplit,
-            OrigamiMath.Rounding.ROUND_DOWN
+            MorigamiMath.Rounding.ROUND_DOWN
         );
     }
 

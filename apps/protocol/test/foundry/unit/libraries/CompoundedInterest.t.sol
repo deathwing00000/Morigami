@@ -1,12 +1,12 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { OrigamiTest } from "test/foundry/OrigamiTest.sol";
-import { CompoundedInterest } from "contracts/libraries/CompoundedInterest.sol";
-import { PRBMath_MulDiv18_Overflow } from "@prb/math/src/Common.sol";
-import { PRBMath_UD60x18_Exp_InputTooBig } from "@prb/math/src/UD60x18.sol";
+import {MorigamiTest} from "test/foundry/MorigamiTest.sol";
+import {CompoundedInterest} from "contracts/libraries/CompoundedInterest.sol";
+import {PRBMath_MulDiv18_Overflow} from "@prb/math/src/Common.sol";
+import {PRBMath_UD60x18_Exp_InputTooBig} from "@prb/math/src/UD60x18.sol";
 
-contract CompoundedInterestTest is OrigamiTest {
+contract CompoundedInterestTest is MorigamiTest {
     using CompoundedInterest for uint256;
 
     uint96 public constant ZERO_PCT_INTEREST = 0e18;

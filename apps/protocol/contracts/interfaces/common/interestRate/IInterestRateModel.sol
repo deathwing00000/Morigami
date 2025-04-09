@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (interfaces/common/interestRate/IInterestRateModel.sol)
+// Morigami (interfaces/common/interestRate/IInterestRateModel.sol)
 
 /**
  * @notice Calculate the interest rate derived from the current utilization ratio (UR) of debt.

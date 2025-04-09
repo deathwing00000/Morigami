@@ -1,5 +1,5 @@
 import '@nomiclabs/hardhat-ethers';
-import { OrigamiVolatileChainlinkOracle__factory } from '../../../../../typechain';
+import { MorigamiVolatileChainlinkOracle__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   runAsyncMain,
@@ -10,7 +10,7 @@ import { getDeployContext } from '../../deploy-context';
 async function main() {
   const { owner, ADDRS, INSTANCES } = await getDeployContext(__dirname);
 
-  const factory = new OrigamiVolatileChainlinkOracle__factory(owner);
+  const factory = new MorigamiVolatileChainlinkOracle__factory(owner);
   await deployAndMine(
     'ORACLES.PT_SUSDE_MAR_2025_DISCOUNT_TO_MATURITY',
     factory,

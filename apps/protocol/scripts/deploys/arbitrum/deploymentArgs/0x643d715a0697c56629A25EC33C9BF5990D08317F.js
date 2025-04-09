@@ -1,4 +1,4 @@
-// arbitrum: origamiGlpRewardsAggregator=0x643d715a0697c56629A25EC33C9BF5990D08317F
+// arbitrum: morigamiGlpRewardsAggregator=0x643d715a0697c56629A25EC33C9BF5990D08317F
 // yarn hardhat verify --network arbitrum 0x643d715a0697c56629A25EC33C9BF5990D08317F --constructor-args scripts/deploys/arbitrum/deploymentArgs/0x643d715a0697c56629A25EC33C9BF5990D08317F.js
 module.exports = [
   "0xb20AaE0Fe007519b7cE6f090a2aB8353B3Da5d80",

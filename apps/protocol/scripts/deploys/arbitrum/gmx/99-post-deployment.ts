@@ -3,12 +3,12 @@ import { BigNumberish } from 'ethers';
 import { ethers } from 'hardhat';
 import { ZERO_ADDRESS, setExplicitAccess } from '../../helpers';
 import { 
-    OrigamiGmxEarnAccount, OrigamiGmxEarnAccount__factory,
-    OrigamiGmxRewardsAggregator, OrigamiGmxRewardsAggregator__factory,
-    OrigamiGmxManager, OrigamiGmxManager__factory,
-    OrigamiGlpInvestment, OrigamiGlpInvestment__factory,
-    OrigamiGmxInvestment, OrigamiGmxInvestment__factory,
-    OrigamiInvestmentVault, OrigamiInvestmentVault__factory,
+    MorigamiGmxEarnAccount, MorigamiGmxEarnAccount__factory,
+    MorigamiGmxRewardsAggregator, MorigamiGmxRewardsAggregator__factory,
+    MorigamiGmxManager, MorigamiGmxManager__factory,
+    MorigamiGlpInvestment, MorigamiGlpInvestment__factory,
+    MorigamiGmxInvestment, MorigamiGmxInvestment__factory,
+    MorigamiInvestmentVault, MorigamiInvestmentVault__factory,
     TokenPrices, TokenPrices__factory, 
 } from '../../../../typechain';
 import {
@@ -19,33 +19,33 @@ import { GmxDeployedContracts, getDeployedContracts as gmxDeployedContracts } fr
 import { getDeployedContracts as govDeployedContracts } from '../governance/contract-addresses';
 
 interface ContractInstances {
-    gmxEarnAccount: OrigamiGmxEarnAccount,
-    glpPrimaryEarnAccount: OrigamiGmxEarnAccount,
-    glpSecondaryEarnAccount: OrigamiGmxEarnAccount,
-    gmxManager: OrigamiGmxManager,
-    glpManager: OrigamiGmxManager,
-    gmxRewardsAggregator: OrigamiGmxRewardsAggregator,
-    glpRewardsAggregator: OrigamiGmxRewardsAggregator,
-    oGMX: OrigamiGmxInvestment,
-    oGLP: OrigamiGlpInvestment,
-    ovGMX: OrigamiInvestmentVault,
-    ovGLP: OrigamiInvestmentVault,
+    gmxEarnAccount: MorigamiGmxEarnAccount,
+    glpPrimaryEarnAccount: MorigamiGmxEarnAccount,
+    glpSecondaryEarnAccount: MorigamiGmxEarnAccount,
+    gmxManager: MorigamiGmxManager,
+    glpManager: MorigamiGmxManager,
+    gmxRewardsAggregator: MorigamiGmxRewardsAggregator,
+    glpRewardsAggregator: MorigamiGmxRewardsAggregator,
+    oGMX: MorigamiGmxInvestment,
+    oGLP: MorigamiGlpInvestment,
+    ovGMX: MorigamiInvestmentVault,
+    ovGLP: MorigamiInvestmentVault,
     tokenPrices: TokenPrices,
 }
 
 function connectToContracts(DEPLOYED: GmxDeployedContracts, owner: SignerWithAddress): ContractInstances {
     return {
-        gmxEarnAccount: OrigamiGmxEarnAccount__factory.connect(DEPLOYED.ORIGAMI.GMX.GMX_EARN_ACCOUNT, owner),
-        glpPrimaryEarnAccount: OrigamiGmxEarnAccount__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_PRIMARY_EARN_ACCOUNT, owner),
-        glpSecondaryEarnAccount: OrigamiGmxEarnAccount__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_SECONDARY_EARN_ACCOUNT, owner),
-        gmxManager: OrigamiGmxManager__factory.connect(DEPLOYED.ORIGAMI.GMX.GMX_MANAGER, owner),
-        glpManager: OrigamiGmxManager__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_MANAGER, owner),
-        gmxRewardsAggregator: OrigamiGmxRewardsAggregator__factory.connect(DEPLOYED.ORIGAMI.GMX.GMX_REWARDS_AGGREGATOR, owner),
-        glpRewardsAggregator: OrigamiGmxRewardsAggregator__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_REWARDS_AGGREGATOR, owner),
-        oGMX: OrigamiGmxInvestment__factory.connect(DEPLOYED.ORIGAMI.GMX.oGMX, owner),
-        oGLP: OrigamiGlpInvestment__factory.connect(DEPLOYED.ORIGAMI.GMX.oGLP, owner),
-        ovGMX: OrigamiInvestmentVault__factory.connect(DEPLOYED.ORIGAMI.GMX.ovGMX, owner),
-        ovGLP: OrigamiInvestmentVault__factory.connect(DEPLOYED.ORIGAMI.GMX.ovGLP, owner),
+        gmxEarnAccount: MorigamiGmxEarnAccount__factory.connect(DEPLOYED.ORIGAMI.GMX.GMX_EARN_ACCOUNT, owner),
+        glpPrimaryEarnAccount: MorigamiGmxEarnAccount__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_PRIMARY_EARN_ACCOUNT, owner),
+        glpSecondaryEarnAccount: MorigamiGmxEarnAccount__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_SECONDARY_EARN_ACCOUNT, owner),
+        gmxManager: MorigamiGmxManager__factory.connect(DEPLOYED.ORIGAMI.GMX.GMX_MANAGER, owner),
+        glpManager: MorigamiGmxManager__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_MANAGER, owner),
+        gmxRewardsAggregator: MorigamiGmxRewardsAggregator__factory.connect(DEPLOYED.ORIGAMI.GMX.GMX_REWARDS_AGGREGATOR, owner),
+        glpRewardsAggregator: MorigamiGmxRewardsAggregator__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_REWARDS_AGGREGATOR, owner),
+        oGMX: MorigamiGmxInvestment__factory.connect(DEPLOYED.ORIGAMI.GMX.oGMX, owner),
+        oGLP: MorigamiGlpInvestment__factory.connect(DEPLOYED.ORIGAMI.GMX.oGLP, owner),
+        ovGMX: MorigamiInvestmentVault__factory.connect(DEPLOYED.ORIGAMI.GMX.ovGMX, owner),
+        ovGLP: MorigamiInvestmentVault__factory.connect(DEPLOYED.ORIGAMI.GMX.ovGLP, owner),
         tokenPrices: TokenPrices__factory.connect(DEPLOYED.ORIGAMI.TOKEN_PRICES, owner),
     }
 }
@@ -276,8 +276,8 @@ async function main() {
 
     // Link the manager contracts into the investments.
     {
-        await contracts.oGLP.setOrigamiGlpManager(contracts.glpManager.address);
-        await contracts.oGMX.setOrigamiGmxManager(contracts.gmxManager.address);
+        await contracts.oGLP.setMorigamiGlpManager(contracts.glpManager.address);
+        await contracts.oGMX.setMorigamiGmxManager(contracts.gmxManager.address);
     }
 
     // Set default policy

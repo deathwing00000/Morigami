@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { 
-  OrigamiCowSwapper__factory,
+  MorigamiCowSwapper__factory,
 } from '../../../../../typechain';
 import { deployAndMine, runAsyncMain } from '../../../helpers';
 import { getDeployContext } from '../../deploy-context';
@@ -8,7 +8,7 @@ import { getDeployContext } from '../../deploy-context';
 async function main() {
   const { owner, ADDRS } = await getDeployContext(__dirname);
 
-  const factory = new OrigamiCowSwapper__factory(owner);
+  const factory = new MorigamiCowSwapper__factory(owner);
   await deployAndMine(
     'VAULTS.SUSDSpS.COW_SWAPPER',
     factory,

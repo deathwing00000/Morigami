@@ -2,9 +2,9 @@ import { ethers } from "hardhat";
 import { Signer, BigNumber } from "ethers";
 import { expect } from "chai";
 import { 
-    OrigamiGmxEarnAccount, OrigamiGmxEarnAccount__factory,
-    OrigamiGmxManager, OrigamiGmxManager__factory,
-    OrigamiGmxInvestment, OrigamiGmxInvestment__factory, IOrigamiGmxManager, 
+    MorigamiGmxEarnAccount, MorigamiGmxEarnAccount__factory,
+    MorigamiGmxManager, MorigamiGmxManager__factory,
+    MorigamiGmxInvestment, MorigamiGmxInvestment__factory, IMorigamiGmxManager, 
     MintableToken, DummyMintableToken__factory, 
 } from "../../../../typechain";
 import { deployGmx, GmxContracts } from "./gmx-helpers";
@@ -21,18 +21,18 @@ import {
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { getSigners } from "../../signers";
 
-describe("Origami GMX", async () => {
+describe("Morigami GMX", async () => {
     let owner: Signer;
     let alan: Signer;
     let feeCollector: Signer;
     let gov: Signer;
     let govAddr: string;
 
-    let origamiGmxManager: OrigamiGmxManager;
-    let oGMX: OrigamiGmxInvestment;
+    let origamiGmxManager: MorigamiGmxManager;
+    let oGMX: MorigamiGmxInvestment;
 
     let gmxContracts: GmxContracts;
-    let gmxEarnAccount: OrigamiGmxEarnAccount;
+    let gmxEarnAccount: MorigamiGmxEarnAccount;
     let randoErc20: MintableToken;
 
     before( async () => {
@@ -45,10 +45,10 @@ describe("Origami GMX", async () => {
         const esGmxPerSecond = BigNumber.from("20667989410000000"); // 0.02066798941 esGmx per second
         gmxContracts = await deployGmx(owner, esGmxPerSecond, esGmxPerSecond, ethPerSecond, ethPerSecond);
 
-        oGMX = await new OrigamiGmxInvestment__factory(gov).deploy(govAddr);
+        oGMX = await new MorigamiGmxInvestment__factory(gov).deploy(govAddr);
 
         gmxEarnAccount = await deployUupsProxy(
-            new OrigamiGmxEarnAccount__factory(gov), 
+            new MorigamiGmxEarnAccount__factory(gov), 
             [gmxContracts.gmxRewardRouter.address],
             govAddr,
             gmxContracts.gmxRewardRouter.address,
@@ -57,7 +57,7 @@ describe("Origami GMX", async () => {
             gmxContracts.stakedGlp.address,
         );
 
-        origamiGmxManager = await new OrigamiGmxManager__factory(gov).deploy(
+        origamiGmxManager = await new MorigamiGmxManager__factory(gov).deploy(
             govAddr,
             gmxContracts.gmxRewardRouter.address,
             gmxContracts.glpRewardRouter.address,
@@ -68,7 +68,7 @@ describe("Origami GMX", async () => {
             ZERO_ADDRESS,
         );
 
-        await oGMX.setOrigamiGmxManager(origamiGmxManager.address);
+        await oGMX.setMorigamiGmxManager(origamiGmxManager.address);
 
         // The Investment is added as an operator such that it can exit out of oGlp
         await setExplicitAccess(
@@ -125,11 +125,11 @@ describe("Origami GMX", async () => {
         await expect(oGMX.investWithNative(investQuote, {value: 0})).to.be.revertedWithCustomError(oGMX, "Unsupported");
         await expect(oGMX.exitToNative(exitQuote, alan.getAddress())).to.be.revertedWithCustomError(oGMX, "Unsupported");
 
-        await shouldRevertInvalidAccess(oGMX, oGMX.connect(owner).setOrigamiGmxManager(ZERO_ADDRESS));
+        await shouldRevertInvalidAccess(oGMX, oGMX.connect(owner).setMorigamiGmxManager(ZERO_ADDRESS));
         await shouldRevertInvalidAccess(oGMX, oGMX.connect(alan).recoverToken(gmxContracts.bnbToken.address, alan.getAddress(), 10));
 
         // Happy paths
-        await oGMX.connect(gov).setOrigamiGmxManager(origamiGmxManager.address);
+        await oGMX.connect(gov).setMorigamiGmxManager(origamiGmxManager.address);
         await expect(oGMX.recoverToken(gmxContracts.bnbToken.address, alan.getAddress(), 10))
             .to.revertedWith("ERC20: transfer amount exceeds balance");
     });
@@ -140,7 +140,7 @@ describe("Origami GMX", async () => {
         expect(await oGMX.areExitsPaused()).eq(false);
         
         // Set to be paused on the gmx manager.
-        const paused: IOrigamiGmxManager.PausedStruct = {
+        const paused: IMorigamiGmxManager.PausedStruct = {
             glpInvestmentsPaused: true,
             gmxInvestmentsPaused: true,
             glpExitsPaused: true,
@@ -165,11 +165,11 @@ describe("Origami GMX", async () => {
     });
 
     it("Should set gmx manager", async () => {
-        await expect(oGMX.setOrigamiGmxManager(ZERO_ADDRESS))
+        await expect(oGMX.setMorigamiGmxManager(ZERO_ADDRESS))
             .to.be.revertedWithCustomError(oGMX, "InvalidAddress")
             .withArgs(ZERO_ADDRESS);
 
-        const origamiGmxManager2 = await new OrigamiGmxManager__factory(gov).deploy(
+        const origamiGmxManager2 = await new MorigamiGmxManager__factory(gov).deploy(
                 govAddr,
                 gmxContracts.gmxRewardRouter.address,
                 gmxContracts.glpRewardRouter.address,
@@ -179,8 +179,8 @@ describe("Origami GMX", async () => {
                 gmxEarnAccount.address,
                 ZERO_ADDRESS,
             );
-        await expect(oGMX.setOrigamiGmxManager(origamiGmxManager2.address))
-            .to.emit(oGMX, "OrigamiGmxManagerSet")
+        await expect(oGMX.setMorigamiGmxManager(origamiGmxManager2.address))
+            .to.emit(oGMX, "MorigamiGmxManagerSet")
             .withArgs(origamiGmxManager2.address);
 
         expect(await oGMX.origamiGmxManager()).eq(origamiGmxManager2.address);
@@ -365,7 +365,7 @@ describe("Origami GMX", async () => {
                 expect(await gmxContracts.stakedGmxTracker.stakedAmounts(gmxEarnAccount.address)).eq(0);
             }
             
-            // If just directly minting, Origami doesn't have any GMX to unstake.
+            // If just directly minting, Morigami doesn't have any GMX to unstake.
             await oGMX.mint(alan.getAddress(), amount);
             await expect(oGMX.connect(alan).exitToToken(exitQuote.quoteData, alan.getAddress()))
                 .to.be.revertedWith("RewardTracker: _amount exceeds stakedAmount");

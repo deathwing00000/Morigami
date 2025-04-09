@@ -6,7 +6,7 @@ import {
 import { ContractInstances, connectToContracts1, getDeployedContracts1 } from '../contract-addresses';
 import path from 'path';
 import { createSafeBatch, createSafeTransaction, SafeTransaction, writeSafeTransactionsBatch } from '../../safe-tx-builder';
-import { OrigamiMorphoBorrowAndLend__factory } from '../../../../typechain';
+import { MorigamiMorphoBorrowAndLend__factory } from '../../../../typechain';
 import { Contract } from 'ethers';
 
 let INSTANCES: ContractInstances;
@@ -21,7 +21,7 @@ async function main() {
   const ADDRS = await getDeployedContracts1(__dirname);
   INSTANCES = connectToContracts1(owner, ADDRS);
 
-  const oldBorrowLend = OrigamiMorphoBorrowAndLend__factory.connect(OLD_BORROW_LEND_ADDRESS, owner);
+  const oldBorrowLend = MorigamiMorphoBorrowAndLend__factory.connect(OLD_BORROW_LEND_ADDRESS, owner);
   
   if (network.name === "localhost") return;
 
@@ -128,7 +128,7 @@ function setExplicitAccess(
               type: "bool"
             }
           ],
-          internalType: "struct IOrigamiElevatedAccess.ExplicitAccess[]",
+          internalType: "struct IMorigamiElevatedAccess.ExplicitAccess[]",
           name: "access",
           type: "tuple[]"
         }

@@ -1,5 +1,5 @@
 import '@nomiclabs/hardhat-ethers';
-import { OrigamiLovTokenFlashAndBorrowManager__factory } from '../../../../../typechain';
+import { MorigamiLovTokenFlashAndBorrowManager__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -11,7 +11,7 @@ async function main() {
   ensureExpectedEnvvars();
   const { owner, ADDRS } = await getDeployContext(__dirname);
 
-  const factory = new OrigamiLovTokenFlashAndBorrowManager__factory(owner);
+  const factory = new MorigamiLovTokenFlashAndBorrowManager__factory(owner);
   await deployAndMine(
     'LOV_WETH_CBBTC_LONG_A.MANAGER',
     factory,

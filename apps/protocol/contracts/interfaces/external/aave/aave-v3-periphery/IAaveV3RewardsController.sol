@@ -1,6 +1,6 @@
 pragma solidity ^0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (interfaces/external/aave/aave-v3-periphery/IAaveV3RewardsController.sol)
+// Morigami (interfaces/external/aave/aave-v3-periphery/IAaveV3RewardsController.sol)
 
 interface IAaveV3RewardsController {
   /**

@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (common/RepricingToken.sol)
+// Morigami (common/RepricingToken.sol)
 
 import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import { ERC20Permit } from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
@@ -9,8 +9,8 @@ import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.s
 
 import { IRepricingToken } from "contracts/interfaces/common/IRepricingToken.sol";
 import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
-import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
-import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
+import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 import { SafeCast } from "contracts/libraries/SafeCast.sol";
 
 /// @notice A re-pricing token which implements the ERC20 interface.
@@ -19,9 +19,9 @@ import { SafeCast } from "contracts/libraries/SafeCast.sol";
 ///  reservesPerShare = numShares * totalReserves / totalSupply
 /// Elevated access can add new reserves in order to increase the reservesPerShare.
 /// These new reserves are vested per second, over a set period of time.
-abstract contract RepricingToken is IRepricingToken, ERC20Permit, OrigamiElevatedAccess {
+abstract contract RepricingToken is IRepricingToken, ERC20Permit, MorigamiElevatedAccess {
     using SafeERC20 for IERC20;
-    using OrigamiMath for uint256;
+    using MorigamiMath for uint256;
     using SafeCast for uint256;
 
     /// @notice The fully vested reserve tokens
@@ -56,7 +56,7 @@ abstract contract RepricingToken is IRepricingToken, ERC20Permit, OrigamiElevate
     )
         ERC20(_name, _symbol)
         ERC20Permit(_name)
-        OrigamiElevatedAccess(_initialOwner)
+        MorigamiElevatedAccess(_initialOwner)
     {
         reserveToken = _reserveToken;
         reservesVestingDuration = _reservesVestingDuration;
@@ -115,7 +115,7 @@ abstract contract RepricingToken is IRepricingToken, ERC20Permit, OrigamiElevate
         // Round down for calculating reserves from shares
         return (_totalSupply == 0)
             ? shares
-            : shares.mulDiv(totalReserves(), _totalSupply, OrigamiMath.Rounding.ROUND_DOWN);
+            : shares.mulDiv(totalReserves(), _totalSupply, MorigamiMath.Rounding.ROUND_DOWN);
     }
 
     /// @notice How many shares would one get given a number of reserve tokens, as of now
@@ -127,7 +127,7 @@ abstract contract RepricingToken is IRepricingToken, ERC20Permit, OrigamiElevate
         // Round down for calculating shares from reserves
         return (_totalSupply == 0)
             ? reserves
-            : reserves.mulDiv(_totalSupply, totalReserves(), OrigamiMath.Rounding.ROUND_DOWN);
+            : reserves.mulDiv(_totalSupply, totalReserves(), MorigamiMath.Rounding.ROUND_DOWN);
     }
 
     /// @notice The accrued vs outstanding amount of pending reserve tokens which have
@@ -167,10 +167,10 @@ abstract contract RepricingToken is IRepricingToken, ERC20Permit, OrigamiElevate
         // the last snapshot of vested rewards.
         uint256 _vestedReserves = vestedReserves;
         aprBps = (_vestedReserves == 0) ? 0 : (
-            OrigamiMath.BASIS_POINTS_DIVISOR.mulDiv(
+            MorigamiMath.BASIS_POINTS_DIVISOR.mulDiv(
                 pendingReserves * 365 days,
                 reservesVestingDuration,  // reserve rewards per year
-                OrigamiMath.Rounding.ROUND_DOWN
+                MorigamiMath.Rounding.ROUND_DOWN
             ) / _vestedReserves // the last snapshot of vested rewards
         );
     }

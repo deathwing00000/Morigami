@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (libraries/Range.sol)
+// Morigami (libraries/Range.sol)
 
 /**
  * @notice A helper library to track a valid range from floor <= x <= ceiling

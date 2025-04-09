@@ -1,7 +1,7 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
 import { 
-  OrigamiCowSwapper__factory,
+  MorigamiCowSwapper__factory,
 } from '../../../../../typechain';
 import {
   deployAndMine,
@@ -14,7 +14,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = await getDeployedContracts1(__dirname);
 
-  const factory = new OrigamiCowSwapper__factory(owner);
+  const factory = new MorigamiCowSwapper__factory(owner);
   await deployAndMine(
     'MAINNET_TEST.SWAPPERS.COW_SWAPPER_2',
     factory,

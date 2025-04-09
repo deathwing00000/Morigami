@@ -1,4 +1,4 @@
-// arbitrum: origamiGlpManager=0x58833508c3d057FE8901A7A2D89CeCcb3449ac24
+// arbitrum: morigamiGlpManager=0x58833508c3d057FE8901A7A2D89CeCcb3449ac24
 // yarn hardhat verify --network arbitrum 0x58833508c3d057FE8901A7A2D89CeCcb3449ac24 --constructor-args scripts/deploys/arbitrum/deploymentArgs/0x58833508c3d057FE8901A7A2D89CeCcb3449ac24.js
 module.exports = [
   "0xb20AaE0Fe007519b7cE6f090a2aB8353B3Da5d80",

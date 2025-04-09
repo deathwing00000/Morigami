@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers, network } from 'hardhat';
-import { OrigamiLovToken__factory } from '../../../../../typechain';
+import { MorigamiLovToken__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   runAsyncMain,
@@ -11,7 +11,7 @@ import { getDeployContext } from '../../deploy-context';
 async function main() {
   const { owner, ADDRS } = await getDeployContext(__dirname);
 
-  const factory = new OrigamiLovToken__factory(owner);
+  const factory = new MorigamiLovToken__factory(owner);
   await deployAndMine(
     'LOV_PT_SUSDE_MAR_2025_A.TOKEN',
     factory,

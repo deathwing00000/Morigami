@@ -4,7 +4,7 @@ import {
   encodedAliasFor,
   encodedMulPrice,
   encodedOraclePrice,
-  encodedOrigamiOraclePrice,
+  encodedMorigamiOraclePrice,
   encodedRepricingTokenPrice,
   ensureExpectedEnvvars,
   impersonateAndFund,
@@ -28,7 +28,7 @@ const getEncodedPrices = () => (
     lBtcToUsd: encodedAliasFor(ADDRS.EXTERNAL.WBTC_TOKEN),
     ptToUsd: encodedMulPrice(
       // PT LBTC => LBTC
-      encodedOrigamiOraclePrice(
+      encodedMorigamiOraclePrice(
         ADDRS.ORACLES.PT_CORN_LBTC_DEC24_LBTC,
         PriceType.SPOT_PRICE, 
         RoundingMode.ROUND_DOWN

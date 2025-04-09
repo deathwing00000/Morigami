@@ -3,21 +3,21 @@ pragma solidity 0.8.19;
 
 import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import { UUPSUpgradeable } from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import { OrigamiElevatedAccessUpgradeable } from "contracts/common/access/OrigamiElevatedAccessUpgradeable.sol";
-import { IOrigamiElevatedAccess } from "contracts/interfaces/common/access/IOrigamiElevatedAccess.sol";
+import { MorigamiElevatedAccessUpgradeable } from "contracts/common/access/MorigamiElevatedAccessUpgradeable.sol";
+import { IMorigamiElevatedAccess } from "contracts/interfaces/common/access/IMorigamiElevatedAccess.sol";
 import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 
 /** @notice
- * - The first `DummyElevatedAccessUpgradeablev1` instance implements the OrigamiElevatedAccessUpgradeable as-is 
- * - The second `DummyElevatedAccessUpgradeablev2` instance implements OrigamiElevatedAccessUpgradeablev2
+ * - The first `DummyElevatedAccessUpgradeablev1` instance implements the MorigamiElevatedAccessUpgradeable as-is 
+ * - The second `DummyElevatedAccessUpgradeablev2` instance implements MorigamiElevatedAccessUpgradeablev2
  *   where there are a couple of new storage vars (xxx and yyy) where the storage __gap needs to be updated.
  * 
  * Hardhat upgrades is used to verify that it's the correct representation
  */
 
 /* solhint-disable func-name-mixedcase */
-contract DummyElevatedAccessUpgradeablev1 is Initializable, OrigamiElevatedAccessUpgradeable, UUPSUpgradeable {
+contract DummyElevatedAccessUpgradeablev1 is Initializable, MorigamiElevatedAccessUpgradeable, UUPSUpgradeable {
 
     uint256 v1;
 
@@ -27,7 +27,7 @@ contract DummyElevatedAccessUpgradeablev1 is Initializable, OrigamiElevatedAcces
     }
 
     function initialize(address initialOwner) initializer external {
-        __OrigamiElevatedAccess_init(initialOwner);
+        __MorigamiElevatedAccess_init(initialOwner);
         __UUPSUpgradeable_init();
     }
 
@@ -50,19 +50,19 @@ contract DummyElevatedAccessUpgradeablev1 is Initializable, OrigamiElevatedAcces
         return 1;
     }
 
-    function OrigamiElevatedAccess_init(address initialOwner) external {
-        __OrigamiElevatedAccess_init(initialOwner);
+    function MorigamiElevatedAccess_init(address initialOwner) external {
+        __MorigamiElevatedAccess_init(initialOwner);
     }
 
-    function OrigamiElevatedAccess_init_unchained(address initialOwner) external {
-        __OrigamiElevatedAccess_init_unchained(initialOwner);
+    function MorigamiElevatedAccess_init_unchained(address initialOwner) external {
+        __MorigamiElevatedAccess_init_unchained(initialOwner);
     }
 }
 
 /**
  * @notice Inherit to add Owner roles for DAO elevated access.
  */ 
-abstract contract OrigamiElevatedAccessBasev2 is IOrigamiElevatedAccess {
+abstract contract MorigamiElevatedAccessBasev2 is IMorigamiElevatedAccess {
     /**
      * @notice The address which is approved to execute normal operations on behalf of the DAO.
      */ 
@@ -158,14 +158,14 @@ abstract contract OrigamiElevatedAccessBasev2 is IOrigamiElevatedAccess {
 /**
  * @notice Inherit to add Owner roles for DAO elevated access.
  */ 
-abstract contract OrigamiElevatedAccessUpgradeablev2 is Initializable, OrigamiElevatedAccessBasev2 {
+abstract contract MorigamiElevatedAccessUpgradeablev2 is Initializable, MorigamiElevatedAccessBasev2 {
     uint256 public yyy;
 
-    function __OrigamiElevatedAccess_init(address initialOwner) internal onlyInitializing {
-        __OrigamiElevatedAccess_init_unchained(initialOwner);
+    function __MorigamiElevatedAccess_init(address initialOwner) internal onlyInitializing {
+        __MorigamiElevatedAccess_init_unchained(initialOwner);
     }
 
-    function __OrigamiElevatedAccess_init_unchained(address initialOwner) internal onlyInitializing {
+    function __MorigamiElevatedAccess_init_unchained(address initialOwner) internal onlyInitializing {
         _init(initialOwner);
     }
 
@@ -179,7 +179,7 @@ abstract contract OrigamiElevatedAccessUpgradeablev2 is Initializable, OrigamiEl
 
 
 /* solhint-disable func-name-mixedcase */
-contract DummyElevatedAccessUpgradeablev2 is Initializable, OrigamiElevatedAccessUpgradeablev2, UUPSUpgradeable {
+contract DummyElevatedAccessUpgradeablev2 is Initializable, MorigamiElevatedAccessUpgradeablev2, UUPSUpgradeable {
 
     // bytes32 v2;
     uint256 v1;
@@ -190,7 +190,7 @@ contract DummyElevatedAccessUpgradeablev2 is Initializable, OrigamiElevatedAcces
     }
 
     function initialize(address initialOwner) initializer external {
-        __OrigamiElevatedAccess_init(initialOwner);
+        __MorigamiElevatedAccess_init(initialOwner);
         __UUPSUpgradeable_init();
     }
 
@@ -213,11 +213,11 @@ contract DummyElevatedAccessUpgradeablev2 is Initializable, OrigamiElevatedAcces
         return 1;
     }
 
-    function OrigamiElevatedAccess_init(address initialOwner) external {
-        __OrigamiElevatedAccess_init(initialOwner);
+    function MorigamiElevatedAccess_init(address initialOwner) external {
+        __MorigamiElevatedAccess_init(initialOwner);
     }
 
-    function OrigamiElevatedAccess_init_unchained(address initialOwner) external {
-        __OrigamiElevatedAccess_init_unchained(initialOwner);
+    function MorigamiElevatedAccess_init_unchained(address initialOwner) external {
+        __MorigamiElevatedAccess_init_unchained(initialOwner);
     }
 }

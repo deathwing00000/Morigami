@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (interfaces/external/gmx/IGmxVester.sol)
+// Morigami (interfaces/external/gmx/IGmxVester.sol)
 
 interface IGmxVester {
     function balanceOf(address user) external view returns (uint256);

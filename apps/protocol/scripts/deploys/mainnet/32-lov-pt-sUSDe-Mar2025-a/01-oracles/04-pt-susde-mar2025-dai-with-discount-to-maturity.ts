@@ -1,5 +1,5 @@
 import '@nomiclabs/hardhat-ethers';
-import { IERC20Metadata__factory, OrigamiScaledOracle__factory } from '../../../../../typechain';
+import { IERC20Metadata__factory, MorigamiScaledOracle__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   runAsyncMain,
@@ -13,7 +13,7 @@ async function main() {
   const baseAsset = IERC20Metadata__factory.connect(await underlyingOracle.baseAsset(), owner);
   const quoteAsset = IERC20Metadata__factory.connect(await underlyingOracle.quoteAsset(), owner);
 
-  const factory = new OrigamiScaledOracle__factory(owner);
+  const factory = new MorigamiScaledOracle__factory(owner);
   await deployAndMine(
     'ORACLES.PT_SUSDE_MAR_2025_DAI_WITH_DISCOUNT_TO_MATURITY',
     factory,

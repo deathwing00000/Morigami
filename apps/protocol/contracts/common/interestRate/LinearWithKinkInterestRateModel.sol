@@ -1,18 +1,18 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (common/interestRate/LinearWithKinkInterestRateModel.sol)
+// Morigami (common/interestRate/LinearWithKinkInterestRateModel.sol)
 
 import { BaseInterestRateModel } from "contracts/common/interestRate/BaseInterestRateModel.sol";
-import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
-import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 /**
  * @title 'Linear With Kink' Interest Rate Model
  * @notice An interest rate curve derived from the current utilization ratio (UR) of debt.
  * This is represented as two seperate linear slopes, joined at a 'kink' - a particular UR.
  */
-contract LinearWithKinkInterestRateModel is BaseInterestRateModel, OrigamiElevatedAccess {
+contract LinearWithKinkInterestRateModel is BaseInterestRateModel, MorigamiElevatedAccess {
     struct RateParams {
         /// @notice The base interest rate which is the y-intercept when utilization rate is 0
         uint80 baseInterestRate;
@@ -52,7 +52,7 @@ contract LinearWithKinkInterestRateModel is BaseInterestRateModel, OrigamiElevat
         uint80 _maxInterestRate, 
         uint256 _kinkUtilizationRatio, 
         uint80 _kinkInterestRate
-    ) OrigamiElevatedAccess(_initialOwner)
+    ) MorigamiElevatedAccess(_initialOwner)
     {
         _setRateParams(
             _baseInterestRate, 
@@ -92,17 +92,17 @@ contract LinearWithKinkInterestRateModel is BaseInterestRateModel, OrigamiElevat
 
         // The slope between base->kink should be lte the slope between kink->max:
         if (
-            OrigamiMath.mulDiv(
+            MorigamiMath.mulDiv(
                 _kinkInterestRate - _baseInterestRate,
                 PRECISION - _kinkUtilizationRatio,
                 1e18,
-                OrigamiMath.Rounding.ROUND_DOWN
+                MorigamiMath.Rounding.ROUND_DOWN
             ) > 
-            OrigamiMath.mulDiv(
+            MorigamiMath.mulDiv(
                 _maxInterestRate - _kinkInterestRate,
                 _kinkUtilizationRatio,
                 1e18,
-                OrigamiMath.Rounding.ROUND_DOWN
+                MorigamiMath.Rounding.ROUND_DOWN
             )
         ) revert CommonEventsAndErrors.InvalidParam();
 
@@ -140,11 +140,11 @@ contract LinearWithKinkInterestRateModel is BaseInterestRateModel, OrigamiElevat
             
             // linearly interpolated point between kink IR and max IR
             // y = y1 + (x-x1) * (y2-y1) / (x2-x1)
-            interestRate = OrigamiMath.mulDiv(
+            interestRate = MorigamiMath.mulDiv(
                 urDownDelta,
                 irDelta,
                 urUpDelta,
-                OrigamiMath.Rounding.ROUND_UP
+                MorigamiMath.Rounding.ROUND_UP
             );
             unchecked {
                 interestRate = interestRate + kinkInterestRate;
@@ -159,11 +159,11 @@ contract LinearWithKinkInterestRateModel is BaseInterestRateModel, OrigamiElevat
             // linearly interpolated point between base IR and kink IR
             // y = y1 + (x-x1) * (y2-y1) / (x2-x1)
             // where x1 = zero
-            interestRate = OrigamiMath.mulDiv(
+            interestRate = MorigamiMath.mulDiv(
                 utilizationRatio,
                 irDelta,
                 kinkUtilizationRatio,
-                OrigamiMath.Rounding.ROUND_UP
+                MorigamiMath.Rounding.ROUND_UP
             );
             unchecked {
                 interestRate = interestRate + baseInterestRate;

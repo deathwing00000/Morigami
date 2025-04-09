@@ -1,17 +1,17 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (common/borrowAndLend/OrigamiAaveV3BorrowAndLend.sol)
+// Morigami (common/borrowAndLend/MorigamiAaveV3BorrowAndLend.sol)
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
-import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 import { CompoundedInterest } from "contracts/libraries/CompoundedInterest.sol";
-import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-import { IOrigamiBorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IOrigamiBorrowAndLend.sol";
-import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+import { IMorigamiBorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IMorigamiBorrowAndLend.sol";
+import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
 contract MockEscrow {
     using SafeERC20 for IERC20;
@@ -26,12 +26,12 @@ contract MockEscrow {
 }
 
 /**
- * @notice An Origami abstraction over a borrow/lend money market for
+ * @notice An Morigami abstraction over a borrow/lend money market for
  * a single `supplyToken` and a single `borrowToken`.
  */
-contract MockBorrowAndLend is IOrigamiBorrowAndLend, OrigamiElevatedAccess {
+contract MockBorrowAndLend is IMorigamiBorrowAndLend, MorigamiElevatedAccess {
     using SafeERC20 for IERC20;
-    using OrigamiMath for uint256;
+    using MorigamiMath for uint256;
 
     error ExceededLtv(uint256 current, uint256 max);
 
@@ -63,12 +63,12 @@ contract MockBorrowAndLend is IOrigamiBorrowAndLend, OrigamiElevatedAccess {
     uint256 public supplyCap;
 
     /// @notice converting supply -> borrow for LTV check
-    IOrigamiOracle public oracle;
+    IMorigamiOracle public oracle;
 
     MockEscrow public immutable escrow;
 
     /**
-     * @dev Factor when converting the LTV (basis points) to an Origami Assets/Liabilities (1e18)
+     * @dev Factor when converting the LTV (basis points) to an Morigami Assets/Liabilities (1e18)
      */
     uint256 private constant LTV_TO_AL_FACTOR = 1e22;
 
@@ -91,12 +91,12 @@ contract MockBorrowAndLend is IOrigamiBorrowAndLend, OrigamiElevatedAccess {
         uint96 _supplyInterestRate,
         uint96 _borrowInterestRate,
         address _oracle
-    ) OrigamiElevatedAccess(_initialOwner) {
+    ) MorigamiElevatedAccess(_initialOwner) {
         supplyToken = _supplyToken;
         borrowToken = _borrowToken;
         supplyCap = _supplyCap;
         maxLtvBps = _maxLtvBps;
-        oracle = IOrigamiOracle(_oracle);
+        oracle = IMorigamiOracle(_oracle);
         escrow = new MockEscrow();
 
         supplyAccumulatorData = AccumulatorData(block.timestamp, 1e27, 0, _supplyInterestRate);
@@ -117,7 +117,7 @@ contract MockBorrowAndLend is IOrigamiBorrowAndLend, OrigamiElevatedAccess {
 
         maxLtvBps = _maxLtvBps;
         supplyCap = _supplyCap;
-        oracle = IOrigamiOracle(_oracle);
+        oracle = IMorigamiOracle(_oracle);
     }
 
     function updateRates(uint96 supplyRate, uint96 borrowRate) external onlyElevatedAccess {
@@ -287,7 +287,7 @@ contract MockBorrowAndLend is IOrigamiBorrowAndLend, OrigamiElevatedAccess {
             cache.checkpoint = newAccumulator.mulDiv(
                 cache.checkpoint,
                 cache.accumulator,
-                OrigamiMath.Rounding.ROUND_UP
+                MorigamiMath.Rounding.ROUND_UP
             );
 
             cache.accumulator = newAccumulator;
@@ -317,14 +317,14 @@ contract MockBorrowAndLend is IOrigamiBorrowAndLend, OrigamiElevatedAccess {
         uint256 suppliedAsDebt = oracle.convertAmount(
             supplyToken, 
             supplyBal, 
-            IOrigamiOracle.PriceType.SPOT_PRICE, 
-            OrigamiMath.Rounding.ROUND_DOWN
+            IMorigamiOracle.PriceType.SPOT_PRICE, 
+            MorigamiMath.Rounding.ROUND_DOWN
         );
 
         uint256 currentLtvBps = debtBal.mulDiv(
-            OrigamiMath.BASIS_POINTS_DIVISOR, 
+            MorigamiMath.BASIS_POINTS_DIVISOR, 
             suppliedAsDebt, 
-            OrigamiMath.Rounding.ROUND_UP
+            MorigamiMath.Rounding.ROUND_UP
         );
 
         if (currentLtvBps > maxLtvBps) revert ExceededLtv(currentLtvBps, maxLtvBps);

@@ -1,13 +1,13 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { ExternalContracts, OUsdcContracts, LovTokenContracts, OrigamiLovTokenTestDeployer } from "test/foundry/deploys/lovDsr/OrigamiLovTokenTestDeployer.t.sol";
-import { OvUsdcHandler } from "test/foundry/invariant/handlers/lovDsr/OvUsdcHandler.sol";
-import { LovDsrHandler } from "test/foundry/invariant/handlers/lovDsr/LovDsrHandler.sol";
-import { BaseInvariantTest } from "test/foundry/invariant/BaseInvariant.t.sol";
-import { OrigamiLovTokenTestConstants as Constants } from "test/foundry/deploys/lovDsr/OrigamiLovTokenTestConstants.t.sol";
-import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
-import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+import {ExternalContracts, OUsdcContracts, LovTokenContracts, MorigamiLovTokenTestDeployer} from "test/foundry/deploys/lovDsr/MorigamiLovTokenTestDeployer.t.sol";
+import {OvUsdcHandler} from "test/foundry/invariant/handlers/lovDsr/OvUsdcHandler.sol";
+import {LovDsrHandler} from "test/foundry/invariant/handlers/lovDsr/LovDsrHandler.sol";
+import {BaseInvariantTest} from "test/foundry/invariant/BaseInvariant.t.sol";
+import {MorigamiLovTokenTestConstants as Constants} from "test/foundry/deploys/lovDsr/MorigamiLovTokenTestConstants.t.sol";
+import {IMorigamiDebtToken} from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
+import {IMorigamiOracle} from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
 /// @notice Invariant tests on the combined flows of users investing/exiting ovUSDC and also
 /// users investin/exiting lovDSR along with lovDSR rebalances up/down
@@ -15,7 +15,7 @@ contract LovDsrCombinedInvariantTest is BaseInvariantTest {
     OvUsdcHandler internal ovUsdcHandler;
     LovDsrHandler internal lovDsrHandler;
 
-    OrigamiLovTokenTestDeployer private deployer;
+    MorigamiLovTokenTestDeployer private deployer;
     ExternalContracts public externalContracts;
     OUsdcContracts public oUsdcContracts;
     LovTokenContracts public lovTokenContracts;
@@ -24,30 +24,51 @@ contract LovDsrCombinedInvariantTest is BaseInvariantTest {
         BaseInvariantTest.setUp();
 
         {
-            deployer = new OrigamiLovTokenTestDeployer(); 
-            (externalContracts, oUsdcContracts, lovTokenContracts) = deployer.deployNonForked(address(deployer), feeCollector, overlord);
-            doMint(externalContracts.daiToken, address(externalContracts.sDaiToken), 100_000_000e18);
+            deployer = new MorigamiLovTokenTestDeployer();
+            (externalContracts, oUsdcContracts, lovTokenContracts) = deployer
+                .deployNonForked(address(deployer), feeCollector, overlord);
+            doMint(
+                externalContracts.daiToken,
+                address(externalContracts.sDaiToken),
+                100_000_000e18
+            );
 
             // Set the circuit breakers really high since the invariant tests use potentially
             // high values
             vm.startPrank(address(deployer));
             oUsdcContracts.cbUsdcBorrow.updateCap(100_000_000e6);
             oUsdcContracts.cbOUsdcExit.updateCap(100_000_000e18);
-            oUsdcContracts.lendingClerk.setBorrowerDebtCeiling(address(lovTokenContracts.lovDsrManager), 200_000_000e18);
+            oUsdcContracts.lendingClerk.setBorrowerDebtCeiling(
+                address(lovTokenContracts.lovDsrManager),
+                200_000_000e18
+            );
             vm.stopPrank();
         }
 
-        ovUsdcHandler = new OvUsdcHandler(timestampStore, stateStore, externalContracts, oUsdcContracts, lovTokenContracts);
-        vm.label({ account: address(ovUsdcHandler), newLabel: "OvUsdcHandler" });
+        ovUsdcHandler = new OvUsdcHandler(
+            timestampStore,
+            stateStore,
+            externalContracts,
+            oUsdcContracts,
+            lovTokenContracts
+        );
+        vm.label({account: address(ovUsdcHandler), newLabel: "OvUsdcHandler"});
 
-        lovDsrHandler = new LovDsrHandler(timestampStore, stateStore, deployer.overlord(), externalContracts, oUsdcContracts, lovTokenContracts);
-        vm.label({ account: address(lovDsrHandler), newLabel: "LovDsrHandler" });
+        lovDsrHandler = new LovDsrHandler(
+            timestampStore,
+            stateStore,
+            deployer.overlord(),
+            externalContracts,
+            oUsdcContracts,
+            lovTokenContracts
+        );
+        vm.label({account: address(lovDsrHandler), newLabel: "LovDsrHandler"});
 
         // Target only the specific handlers and their functions for invariant testing
         // NB: Because the BaseHandler inherits from DSTest, it would pull in the failed() public function
         // to fuzz. To workaround, manually specify the functions to fuzz instead.
         targetSelectors(
-            address(ovUsdcHandler), 
+            address(ovUsdcHandler),
             mkArray(
                 OvUsdcHandler.investOvUsdc_usdc.selector,
                 OvUsdcHandler.exitOvUsdc_usdc.selector
@@ -55,7 +76,7 @@ contract LovDsrCombinedInvariantTest is BaseInvariantTest {
         );
 
         targetSelectors(
-            address(lovDsrHandler), 
+            address(lovDsrHandler),
             mkArray(
                 LovDsrHandler.investLovDsr_dai.selector,
                 LovDsrHandler.exitLovDsr_dai.selector,
@@ -86,8 +107,12 @@ contract LovDsrCombinedInvariantTest is BaseInvariantTest {
 
     /// @dev The amount of oUSDC in ovUSDC matches the reported vested and pending reserves
     function invariant_ovUsdcReserves() external useCurrentTimestamp {
-        uint256 actualReserves = oUsdcContracts.oUsdc.balanceOf(address(oUsdcContracts.ovUsdc));
-        uint256 pendingAndVestedReserves = oUsdcContracts.ovUsdc.vestedReserves() + oUsdcContracts.ovUsdc.pendingReserves();
+        uint256 actualReserves = oUsdcContracts.oUsdc.balanceOf(
+            address(oUsdcContracts.ovUsdc)
+        );
+        uint256 pendingAndVestedReserves = oUsdcContracts
+            .ovUsdc
+            .vestedReserves() + oUsdcContracts.ovUsdc.pendingReserves();
 
         assertEq(
             actualReserves,
@@ -98,10 +123,16 @@ contract LovDsrCombinedInvariantTest is BaseInvariantTest {
 
     /// @dev The amount of sDAI in lovDSR manager can pay down the debt + the calculated userRedeemableReserves
     function invariant_lovDsrReserves() external useCurrentTimestamp {
-        uint256 totalReserves = externalContracts.sDaiToken.balanceOf(address(lovTokenContracts.lovDsrManager));
+        uint256 totalReserves = externalContracts.sDaiToken.balanceOf(
+            address(lovTokenContracts.lovDsrManager)
+        );
 
-        uint256 liabilities = lovTokenContracts.lovDsrManager.liabilities(IOrigamiOracle.PriceType.SPOT_PRICE);
-        uint256 userRedeemableReserves = lovTokenContracts.lovDsrManager.userRedeemableReserves(IOrigamiOracle.PriceType.SPOT_PRICE);
+        uint256 liabilities = lovTokenContracts.lovDsrManager.liabilities(
+            IMorigamiOracle.PriceType.SPOT_PRICE
+        );
+        uint256 userRedeemableReserves = lovTokenContracts
+            .lovDsrManager
+            .userRedeemableReserves(IMorigamiOracle.PriceType.SPOT_PRICE);
 
         assertGe(
             totalReserves,
@@ -111,23 +142,32 @@ contract LovDsrCombinedInvariantTest is BaseInvariantTest {
     }
 
     /// @dev The iUSDC totalSupply should always be >= to the net USDC deposited into ovUSDC (because of interest)
-    function invariant_iUsdcDebtGeNetUsdcInvested() external useCurrentTimestamp {
+    function invariant_iUsdcDebtGeNetUsdcInvested()
+        external
+        useCurrentTimestamp
+    {
         uint256 totalDebt = oUsdcContracts.iUsdc.totalSupply();
-        uint256 netUsdcInvested = ovUsdcHandler.totalUsdcDeposits() - ovUsdcHandler.totalUsdcExits();
+        uint256 netUsdcInvested = ovUsdcHandler.totalUsdcDeposits() -
+            ovUsdcHandler.totalUsdcExits();
 
         assertGe(
-            totalDebt, 
+            totalDebt,
             netUsdcInvested,
             unicode"Invariant violation: Σ iUsdc supply >= Σ deposited USDC into oUSDC - Σ exited USDC from oUSDC"
         );
     }
 
     /// @dev The iUSDC interest rate for idle strategy and lovDSR borrower should always be within the min/max on the curve
-    function invariant_iUsdcInterestRatesInBounds() external useCurrentTimestamp {
+    function invariant_iUsdcInterestRatesInBounds()
+        external
+        useCurrentTimestamp
+    {
         uint256 totalPrincipal;
         uint256 totalInterest;
         {
-            IOrigamiDebtToken.DebtorPosition memory position = oUsdcContracts.iUsdc.getDebtorPosition(address(oUsdcContracts.idleStrategyManager));
+            IMorigamiDebtToken.DebtorPosition memory position = oUsdcContracts
+                .iUsdc
+                .getDebtorPosition(address(oUsdcContracts.idleStrategyManager));
             totalPrincipal += position.principal;
             totalInterest += position.interest;
             assertGe(
@@ -143,7 +183,9 @@ contract LovDsrCombinedInvariantTest is BaseInvariantTest {
         }
 
         {
-            IOrigamiDebtToken.DebtorPosition memory position = oUsdcContracts.iUsdc.getDebtorPosition(address(lovTokenContracts.lovDsrManager));
+            IMorigamiDebtToken.DebtorPosition memory position = oUsdcContracts
+                .iUsdc
+                .getDebtorPosition(address(lovTokenContracts.lovDsrManager));
             totalPrincipal += position.principal;
             totalInterest += position.interest;
             assertGe(
@@ -158,7 +200,9 @@ contract LovDsrCombinedInvariantTest is BaseInvariantTest {
             );
         }
 
-        IOrigamiDebtToken.DebtOwed memory totalDebt = oUsdcContracts.iUsdc.currentTotalDebt();
+        IMorigamiDebtToken.DebtOwed memory totalDebt = oUsdcContracts
+            .iUsdc
+            .currentTotalDebt();
         assertEq(
             totalPrincipal,
             totalDebt.principal,
@@ -179,7 +223,9 @@ contract LovDsrCombinedInvariantTest is BaseInvariantTest {
             uint256 assets,
             uint256 liabilities,
             uint256 alRatio
-        ) = lovTokenContracts.lovDsrManager.assetsAndLiabilities(IOrigamiOracle.PriceType.SPOT_PRICE);
+        ) = lovTokenContracts.lovDsrManager.assetsAndLiabilities(
+                IMorigamiOracle.PriceType.SPOT_PRICE
+            );
 
         (address handler, bytes4 sig, bool finishedEarly) = stateStore.pop();
 
@@ -191,14 +237,14 @@ contract LovDsrCombinedInvariantTest is BaseInvariantTest {
         if (liabilities == 0) {
             // If no liabilities yet, then A/L is uint128.max
             assertEq(
-                alRatio, 
+                alRatio,
                 type(uint128).max,
                 "Invariant violation: A/L == uint128.max when there are no liabilities"
             );
         } else if (assets == 0) {
             // No assets, but there are somehow liabilities
             assertEq(
-                alRatio, 
+                alRatio,
                 0,
                 "Invariant violation: A/L == 0 when there are no assets"
             );
@@ -265,7 +311,7 @@ contract LovDsrCombinedInvariantTest is BaseInvariantTest {
                 // (minus a small delta since the amount we solved for might not quite bring it over the floor)
                 assertGe(
                     alRatio,
-                    Constants.REBALANCE_AL_FLOOR - 0.0001e18, 
+                    Constants.REBALANCE_AL_FLOOR - 0.0001e18,
                     "Invariant violation: A/L >= REBALANCE_AL_FLOOR after lovDSR rebalance up"
                 );
 

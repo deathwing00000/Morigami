@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (libraries/SafeCast.sol)
+// Morigami (libraries/SafeCast.sol)
 
 /**
  * @notice A helper library for safe uint downcasting

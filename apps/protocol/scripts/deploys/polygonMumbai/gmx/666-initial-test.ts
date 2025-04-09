@@ -1,17 +1,17 @@
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import { ethers, network } from 'hardhat';
 import { 
-    OrigamiGmxInvestment, OrigamiGmxInvestment__factory,
-    OrigamiGlpInvestment, OrigamiGlpInvestment__factory,
+    MorigamiGmxInvestment, MorigamiGmxInvestment__factory,
+    MorigamiGlpInvestment, MorigamiGlpInvestment__factory,
     GMX_NamedToken, GMX_NamedToken__factory,
     GMX_StakedGlp, GMX_StakedGlp__factory, 
     GMX_GMX, GMX_GMX__factory, 
-    OrigamiGmxEarnAccount, OrigamiGmxEarnAccount__factory, 
-    OrigamiInvestmentVault, OrigamiInvestmentVault__factory, 
-    OrigamiGmxRewardsAggregator, OrigamiGmxRewardsAggregator__factory, 
+    MorigamiGmxEarnAccount, MorigamiGmxEarnAccount__factory, 
+    MorigamiInvestmentVault, MorigamiInvestmentVault__factory, 
+    MorigamiGmxRewardsAggregator, MorigamiGmxRewardsAggregator__factory, 
     DummyDex, DummyDex__factory, 
-    OrigamiGmxManager,
-    OrigamiGmxManager__factory,
+    MorigamiGmxManager,
+    MorigamiGmxManager__factory,
     GMX_GLP,
     GMX_GLP__factory,
     TokenPrices,
@@ -41,20 +41,20 @@ interface ContractInstances {
     gmx: GMX_GMX,
     glp: GMX_GLP,
 
-    oGMX: OrigamiGmxInvestment,
-    oGLP: OrigamiGlpInvestment,
+    oGMX: MorigamiGmxInvestment,
+    oGLP: MorigamiGlpInvestment,
 
-    ovGMX: OrigamiInvestmentVault,
-    ovGLP: OrigamiInvestmentVault,
+    ovGMX: MorigamiInvestmentVault,
+    ovGLP: MorigamiInvestmentVault,
 
-    glpPrimaryEarnAccount: OrigamiGmxEarnAccount,
-    glpSecondaryEarnAccount: OrigamiGmxEarnAccount,
+    glpPrimaryEarnAccount: MorigamiGmxEarnAccount,
+    glpSecondaryEarnAccount: MorigamiGmxEarnAccount,
 
-    gmxRewardsAggregator: OrigamiGmxRewardsAggregator,
-    glpRewardsAggregator: OrigamiGmxRewardsAggregator,
+    gmxRewardsAggregator: MorigamiGmxRewardsAggregator,
+    glpRewardsAggregator: MorigamiGmxRewardsAggregator,
 
     dex: DummyDex,
-    gmxManager: OrigamiGmxManager,
+    gmxManager: MorigamiGmxManager,
     tokenPrices: TokenPrices,
 }
 
@@ -68,24 +68,24 @@ function connectToContracts(DEPLOYED: GmxDeployedContracts, owner: SignerWithAdd
         gmx: GMX_GMX__factory.connect(DEPLOYED.GMX.TOKENS.GMX_TOKEN, owner),
         glp: GMX_GLP__factory.connect(DEPLOYED.GMX.TOKENS.GLP_TOKEN, owner),
 
-        oGMX: OrigamiGmxInvestment__factory.connect(DEPLOYED.ORIGAMI.GMX.oGMX, owner),
-        oGLP: OrigamiGlpInvestment__factory.connect(DEPLOYED.ORIGAMI.GMX.oGLP, owner),
-        ovGMX: OrigamiInvestmentVault__factory.connect(DEPLOYED.ORIGAMI.GMX.ovGMX, owner),
-        ovGLP: OrigamiInvestmentVault__factory.connect(DEPLOYED.ORIGAMI.GMX.ovGLP, owner),
+        oGMX: MorigamiGmxInvestment__factory.connect(DEPLOYED.ORIGAMI.GMX.oGMX, owner),
+        oGLP: MorigamiGlpInvestment__factory.connect(DEPLOYED.ORIGAMI.GMX.oGLP, owner),
+        ovGMX: MorigamiInvestmentVault__factory.connect(DEPLOYED.ORIGAMI.GMX.ovGMX, owner),
+        ovGLP: MorigamiInvestmentVault__factory.connect(DEPLOYED.ORIGAMI.GMX.ovGLP, owner),
 
-        glpPrimaryEarnAccount: OrigamiGmxEarnAccount__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_PRIMARY_EARN_ACCOUNT, owner),
-        glpSecondaryEarnAccount: OrigamiGmxEarnAccount__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_SECONDARY_EARN_ACCOUNT, owner),
+        glpPrimaryEarnAccount: MorigamiGmxEarnAccount__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_PRIMARY_EARN_ACCOUNT, owner),
+        glpSecondaryEarnAccount: MorigamiGmxEarnAccount__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_SECONDARY_EARN_ACCOUNT, owner),
 
-        gmxRewardsAggregator: OrigamiGmxRewardsAggregator__factory.connect(DEPLOYED.ORIGAMI.GMX.GMX_REWARDS_AGGREGATOR, owner),
-        glpRewardsAggregator: OrigamiGmxRewardsAggregator__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_REWARDS_AGGREGATOR, owner),
+        gmxRewardsAggregator: MorigamiGmxRewardsAggregator__factory.connect(DEPLOYED.ORIGAMI.GMX.GMX_REWARDS_AGGREGATOR, owner),
+        glpRewardsAggregator: MorigamiGmxRewardsAggregator__factory.connect(DEPLOYED.ORIGAMI.GMX.GLP_REWARDS_AGGREGATOR, owner),
 
         dex: DummyDex__factory.connect(DEPLOYED.ZERO_EX_PROXY, owner),
-        gmxManager: OrigamiGmxManager__factory.connect(DEPLOYED.ORIGAMI.GMX.GMX_MANAGER, owner),
+        gmxManager: MorigamiGmxManager__factory.connect(DEPLOYED.ORIGAMI.GMX.GMX_MANAGER, owner),
         tokenPrices: TokenPrices__factory.connect(DEPLOYED.ORIGAMI.TOKEN_PRICES, owner),
     }
 }
 
-async function getAggregatorRewardBalances(contracts: ContractInstances, aggregator: OrigamiGmxRewardsAggregator) {
+async function getAggregatorRewardBalances(contracts: ContractInstances, aggregator: MorigamiGmxRewardsAggregator) {
     return {
         oGmx: await contracts.oGMX.balanceOf(aggregator.address),
         oGlp: await contracts.oGLP.balanceOf(aggregator.address),
@@ -141,7 +141,7 @@ const harvestGlp = async (contracts: ContractInstances, signer: Signer) => {
     const addToReserveAmountPct = 1_000;
     console.log(`\taddToReserveAmountPct=[${addToReserveAmountPct}]`);
 
-    const harvestParams: OrigamiGmxRewardsAggregator.HarvestGlpParamsStruct = {
+    const harvestParams: MorigamiGmxRewardsAggregator.HarvestGlpParamsStruct = {
         oGmxExitQuoteData: oGmxToGmxExitQuote.quoteData,
         gmxToNativeSwapData: gmxToWethQuoteData,
         oGlpInvestQuoteData: wethToOglpInvestQuote.quoteData,
@@ -199,7 +199,7 @@ const harvestGmx = async (contracts: ContractInstances, signer: Signer) => {
     const addToReserveAmountPct = 1_000;
     console.log(`\taddToReserveAmountPct=[${addToReserveAmountPct}]`);
 
-    const harvestParams: OrigamiGmxRewardsAggregator.HarvestGmxParamsStruct = {
+    const harvestParams: MorigamiGmxRewardsAggregator.HarvestGmxParamsStruct = {
         nativeToGmxSwapData: wethToGmxQuoteData,
         oGmxInvestQuoteData: gmxToOgmxInvestQuote.quoteData,
         addToReserveAmountPct: addToReserveAmountPct,
@@ -338,7 +338,7 @@ async function main() {
 
     // Harvest
     {
-        // Botstrap Origami with some GMX so it can harvest (need to convert oGMX -> GMX)
+        // Botstrap Morigami with some GMX so it can harvest (need to convert oGMX -> GMX)
         {
             const seedAmount = ethers.utils.parseEther("5000");
             await mine(contracts.gmx.mint(contracts.gmxManager.address, seedAmount));

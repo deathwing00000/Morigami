@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiSuperSavingsUsdsVault__factory } from '../../../../../typechain';
+import { MorigamiSuperSavingsUsdsVault__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -13,7 +13,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = await getDeployedContracts1(__dirname);
 
-  const factory = new OrigamiSuperSavingsUsdsVault__factory(owner);
+  const factory = new MorigamiSuperSavingsUsdsVault__factory(owner);
   await deployAndMine(
     'VAULTS.SUSDSpS.TOKEN',
     factory,

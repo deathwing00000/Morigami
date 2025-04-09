@@ -2,7 +2,7 @@
 // yarn hardhat verify --network mainnet 0xFbd65E8c1C191F697598307d4E907CDA3CffE33f --constructor-args scripts/deploys/mainnet/deploymentArgs/0xFbd65E8c1C191F697598307d4E907CDA3CffE33f.js
 module.exports = [
   "0xb20AaE0Fe007519b7cE6f090a2aB8353B3Da5d80",
-  "Origami lov-ezETH-a",
+  "Morigami lov-ezETH-a",
   "lov-ezETH-a",
   1000,
   "0x781B4c57100738095222bd92D37B07ed034AB696",

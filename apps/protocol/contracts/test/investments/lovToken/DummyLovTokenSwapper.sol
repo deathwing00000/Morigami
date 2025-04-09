@@ -4,9 +4,9 @@ pragma solidity 0.8.19;
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-contract DummyLovTokenSwapper is IOrigamiSwapper {
+contract DummyLovTokenSwapper is IMorigamiSwapper {
     using SafeERC20 for IERC20;
 
     /// @dev for dummy swapper, caller decides the rate :-)

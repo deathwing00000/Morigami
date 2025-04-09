@@ -18,10 +18,10 @@ import {
     setExplicitAccess
 } from "../../helpers";
 import { 
-    OrigamiGmxEarnAccount, OrigamiGmxEarnAccount__factory,
-    OrigamiGmxManager, OrigamiGmxManager__factory, 
+    MorigamiGmxEarnAccount, MorigamiGmxEarnAccount__factory,
+    MorigamiGmxManager, MorigamiGmxManager__factory, 
     MintableToken, DummyMintableToken__factory,
-    IOrigamiGmxManager,
+    IMorigamiGmxManager,
     CommonEventsAndErrors__factory,
 } from "../../../../typechain";
 import { 
@@ -35,7 +35,7 @@ import { getSigners } from "../../signers";
 const MAX_REL_DELTA = tolerance(0.001);
 const MIN_USDG = 1;
 
-describe("Origami GMX Manager", async () => {
+describe("Morigami GMX Manager", async () => {
     let owner: Signer;
     let feeCollector: Signer;
     let alan: Signer;
@@ -44,11 +44,11 @@ describe("Origami GMX Manager", async () => {
     let gov: Signer;
     let govAddr: string;
 
-    let origamiGmxManager: OrigamiGmxManager;
-    let origamiGlpManager: OrigamiGmxManager;
-    let gmxEarnAccount: OrigamiGmxEarnAccount;
-    let glpPrimaryEarnAccount: OrigamiGmxEarnAccount;
-    let glpSecondaryEarnAccount: OrigamiGmxEarnAccount;
+    let origamiGmxManager: MorigamiGmxManager;
+    let origamiGlpManager: MorigamiGmxManager;
+    let gmxEarnAccount: MorigamiGmxEarnAccount;
+    let glpPrimaryEarnAccount: MorigamiGmxEarnAccount;
+    let glpSecondaryEarnAccount: MorigamiGmxEarnAccount;
     let oGmxToken: MintableToken;
     let oGlpToken: MintableToken;
 
@@ -69,7 +69,7 @@ describe("Origami GMX Manager", async () => {
 
     describe("Local setup", async () => {
 
-        async function setupOrigamiGmxManager() {
+        async function setupMorigamiGmxManager() {
             gmxContracts = await deployGmx(owner, esGmxPerSecond, esGmxPerSecond, ethPerSecond, ethPerSecond);
 
             oGmxToken = await new DummyMintableToken__factory(gov).deploy(govAddr, "oGMX", "oGMX", 18);
@@ -78,7 +78,7 @@ describe("Origami GMX Manager", async () => {
             // Setup the GMX Manager/Earn Account
             {
                 gmxEarnAccount = await deployUupsProxy(
-                    new OrigamiGmxEarnAccount__factory(gov), 
+                    new MorigamiGmxEarnAccount__factory(gov), 
                     [gmxContracts.gmxRewardRouter.address],
                     govAddr,
                     gmxContracts.gmxRewardRouter.address,
@@ -86,7 +86,7 @@ describe("Origami GMX Manager", async () => {
                     await gmxContracts.gmxRewardRouter.gmxVester(),
                     gmxContracts.stakedGlp.address,
                 );
-                origamiGmxManager = await new OrigamiGmxManager__factory(gov).deploy(
+                origamiGmxManager = await new MorigamiGmxManager__factory(gov).deploy(
                     govAddr,
                     gmxContracts.gmxRewardRouter.address,
                     gmxContracts.glpRewardRouter.address,
@@ -116,7 +116,7 @@ describe("Origami GMX Manager", async () => {
             // Setup the GLP Manager/Earn Account
             {
                 glpPrimaryEarnAccount = await deployUupsProxy(
-                    new OrigamiGmxEarnAccount__factory(gov), 
+                    new MorigamiGmxEarnAccount__factory(gov), 
                     [gmxContracts.gmxRewardRouter.address],
                     govAddr,
                     gmxContracts.gmxRewardRouter.address,
@@ -125,7 +125,7 @@ describe("Origami GMX Manager", async () => {
                     gmxContracts.stakedGlp.address,
                 );
                 glpSecondaryEarnAccount = await deployUupsProxy(
-                    new OrigamiGmxEarnAccount__factory(gov), 
+                    new MorigamiGmxEarnAccount__factory(gov), 
                     [gmxContracts.gmxRewardRouter.address],
                     govAddr,
                     gmxContracts.gmxRewardRouter.address,
@@ -133,7 +133,7 @@ describe("Origami GMX Manager", async () => {
                     await gmxContracts.glpRewardRouter.glpVester(),
                     gmxContracts.stakedGlp.address,
                 );
-                origamiGlpManager = await new OrigamiGmxManager__factory(gov).deploy(
+                origamiGlpManager = await new MorigamiGmxManager__factory(gov).deploy(
                     govAddr,
                     gmxContracts.gmxRewardRouter.address,
                     gmxContracts.glpRewardRouter.address,
@@ -198,7 +198,7 @@ describe("Origami GMX Manager", async () => {
                 glpPrimaryEarnAccount,
                 glpSecondaryEarnAccount,
                 origamiGlpManager
-            } = await loadFixture(setupOrigamiGmxManager));
+            } = await loadFixture(setupMorigamiGmxManager));
         });
 
         describe("Admin", async () => {
@@ -318,7 +318,7 @@ describe("Origami GMX Manager", async () => {
             });
 
             it("gov can set pauser", async () => {
-                const paused: IOrigamiGmxManager.PausedStruct = {
+                const paused: IMorigamiGmxManager.PausedStruct = {
                     glpInvestmentsPaused: true,
                     gmxInvestmentsPaused: true,
                     glpExitsPaused: true,
@@ -349,7 +349,7 @@ describe("Origami GMX Manager", async () => {
                 await origamiGmxManager.setPauser(govAddr, true);
                 await origamiGlpManager.setPauser(govAddr, true);
 
-                const paused: IOrigamiGmxManager.PausedStruct = {
+                const paused: IMorigamiGmxManager.PausedStruct = {
                     glpInvestmentsPaused: true,
                     gmxInvestmentsPaused: true,
                     glpExitsPaused: true,
@@ -362,7 +362,7 @@ describe("Origami GMX Manager", async () => {
                     .to.emit(origamiGlpManager, "PausedSet")
                     .withArgs([true,true,true,true]);
 
-                const checkPaused = (actual: IOrigamiGmxManager.PausedStructOutput, expected: IOrigamiGmxManager.PausedStruct) => {
+                const checkPaused = (actual: IMorigamiGmxManager.PausedStructOutput, expected: IMorigamiGmxManager.PausedStruct) => {
                     expect(actual.glpInvestmentsPaused).eq(expected.glpInvestmentsPaused);
                     expect(actual.gmxInvestmentsPaused).eq(expected.gmxInvestmentsPaused);
                     expect(actual.glpExitsPaused).eq(expected.glpExitsPaused);
@@ -385,7 +385,7 @@ describe("Origami GMX Manager", async () => {
                 await expect(origamiGlpManager.connect(operator).exitOGlp(gmxContracts.bnbToken.address, exitGlpQuote.quoteData, ZERO_ADDRESS))
                     .to.revertedWithCustomError(origamiGmxManager, "IsPaused");
 
-                const unpaused: IOrigamiGmxManager.PausedStruct = {
+                const unpaused: IMorigamiGmxManager.PausedStruct = {
                     glpInvestmentsPaused: false,
                     gmxInvestmentsPaused: false,
                     glpExitsPaused: false,
@@ -528,12 +528,12 @@ describe("Origami GMX Manager", async () => {
                 expect(rewardRatesGlp).deep.eq([0, 0, 0]);
                 expect(rewardRatesGmx).deep.eq([0, 0, 0]);
 
-                // Origami applies some GMX, it has 100% so gets the full reward rate
+                // Morigami applies some GMX, it has 100% so gets the full reward rate
                 const amount = ethers.utils.parseEther("250");
                 await gmxContracts.gmxToken.mint(origamiGmxManager.address, amount);
                 await origamiGmxManager.connect(operator).applyGmx(amount);
 
-                // Origami gets 100% of the rewards for the day
+                // Morigami gets 100% of the rewards for the day
                 await mineForwardSeconds(86400);
                 rewardRatesGlp = await origamiGmxManager.harvestableRewards(GmxVaultType.GLP);
                 rewardRatesGmx = await origamiGmxManager.harvestableRewards(GmxVaultType.GMX);
@@ -558,7 +558,7 @@ describe("Origami GMX Manager", async () => {
                     .to.emit(gmxEarnAccount, "RewardsHarvested")
                     .withArgs(0, 0, 0, 0, 0, 0);
                 
-                // Origami applies some GMX, it has 100% so gets the full reward rate
+                // Morigami applies some GMX, it has 100% so gets the full reward rate
                 const amount = ethers.utils.parseEther("250");
                 await gmxContracts.gmxToken.mint(origamiGmxManager.address, amount);
                 await updateDistributionTime(gmxContracts);
@@ -572,7 +572,7 @@ describe("Origami GMX Manager", async () => {
                 let ethFees;
                 let ethRewards;
                 {
-                    // Origami gets 100% of the rewards for the day, and matches harvestableRewards()
+                    // Morigami gets 100% of the rewards for the day, and matches harvestableRewards()
                     await mineForwardSeconds(86400);
                     let rewardRates = await origamiGmxManager.harvestableRewards(GmxVaultType.GMX);
                     expectedEth = ethPerSecond.mul(86401);
@@ -608,7 +608,7 @@ describe("Origami GMX Manager", async () => {
                 {
                     await origamiGmxManager.setOGmxRewardsFeeRate(3_000);
 
-                    // Origami gets 100% of the rewards for the day, and matches harvestableRewards()
+                    // Morigami gets 100% of the rewards for the day, and matches harvestableRewards()
                     await mineForwardSeconds(86400);
                     let rewardRates = await origamiGmxManager.harvestableRewards(GmxVaultType.GMX);
 
@@ -651,7 +651,7 @@ describe("Origami GMX Manager", async () => {
                 
                 await origamiGmxManager.setOGmxRewardsFeeRate(10_000);
 
-                // Origami applies some GMX, it has 100% so gets the full reward rate
+                // Morigami applies some GMX, it has 100% so gets the full reward rate
                 const amount = ethers.utils.parseEther("250");
                 await gmxContracts.gmxToken.mint(origamiGmxManager.address, amount);
                 await updateDistributionTime(gmxContracts);
@@ -691,7 +691,7 @@ describe("Origami GMX Manager", async () => {
             it("harvestRewards - GMX - with vesting", async () => {
                 await origamiGmxManager.setEsGmxVestingRate(3_000);
                             
-                // Origami applies some GMX, it has 100% so gets the full reward rate
+                // Morigami applies some GMX, it has 100% so gets the full reward rate
                 const amount = ethers.utils.parseEther("250");
                 await gmxContracts.gmxToken.mint(origamiGmxManager.address, amount);
                 await updateDistributionTime(gmxContracts);
@@ -705,7 +705,7 @@ describe("Origami GMX Manager", async () => {
                 let ethFees;
                 let ethRewards;
                 {
-                    // Origami gets 100% of the rewards for the day, and matches harvestableRewards()
+                    // Morigami gets 100% of the rewards for the day, and matches harvestableRewards()
                     await mineForwardSeconds(86400);
                     let rewardRates = await origamiGmxManager.harvestableRewards(GmxVaultType.GMX);
                     expectedEth = ethPerSecond.mul(86401);
@@ -739,7 +739,7 @@ describe("Origami GMX Manager", async () => {
 
                 // Second time - now the vested GMX is ready to be applied too
                 {
-                    // Origami gets 100% of the rewards for the day, and matches harvestableRewards()
+                    // Morigami gets 100% of the rewards for the day, and matches harvestableRewards()
                     await mineForwardSeconds(86400);
                     let rewardRates = await origamiGmxManager.harvestableRewards(GmxVaultType.GMX);
 
@@ -803,7 +803,7 @@ describe("Origami GMX Manager", async () => {
                 let ethRewardsGlp;
                 let ethRewardsGmx;
                 {
-                    // Origami gets 100% of the rewards for the day, and matches harvestableRewards()
+                    // Morigami gets 100% of the rewards for the day, and matches harvestableRewards()
                     await mineForwardSeconds(86400);
                     let rewardRatesGlp = await origamiGmxManager.harvestableRewards(GmxVaultType.GLP);
                     let rewardRatesGmx = await origamiGmxManager.harvestableRewards(GmxVaultType.GMX);
@@ -843,7 +843,7 @@ describe("Origami GMX Manager", async () => {
 
                 // And again - now has earnt a small amount of mult points from the staked esGMX
                 // but also 2x the eth/esgmx rewards, only because the GMX & GLP reward pools are separate
-                // but Origami has 100% of both.
+                // but Morigami has 100% of both.
                 {
                     await mineForwardSeconds(86400);
                     let rewardRatesGlp = await origamiGmxManager.harvestableRewards(GmxVaultType.GLP);
@@ -974,20 +974,20 @@ describe("Origami GMX Manager", async () => {
             });
 
             it("Should get projectedRewardRates()", async () => {
-                // The native token (ETH) and the esGmx amount that Origami is eligable for, minus fees
+                // The native token (ETH) and the esGmx amount that Morigami is eligable for, minus fees
 
-                // Origami has nothing staked -> 0
+                // Morigami has nothing staked -> 0
                 let rewardRatesGlp = await origamiGmxManager.projectedRewardRates(GmxVaultType.GLP);
                 let rewardRatesGmx = await origamiGmxManager.projectedRewardRates(GmxVaultType.GMX);
                 expect(rewardRatesGlp).deep.eq([0, 0, 0]);
                 expect(rewardRatesGmx).deep.eq([0, 0, 0]);
 
-                // Origami applies some GMX, it has 100% so gets the full reward rate
+                // Morigami applies some GMX, it has 100% so gets the full reward rate
                 const amount = ethers.utils.parseEther("250");
                 await gmxContracts.gmxToken.mint(origamiGmxManager.address, amount);
                 await origamiGmxManager.connect(operator).applyGmx(amount);
 
-                // No fees - get 100% (may get diluted by other non-Origami gmx's)
+                // No fees - get 100% (may get diluted by other non-Morigami gmx's)
                 rewardRatesGlp = await origamiGmxManager.projectedRewardRates(GmxVaultType.GLP);
                 rewardRatesGmx = await origamiGmxManager.projectedRewardRates(GmxVaultType.GMX);
                 expect(rewardRatesGlp).deep.eq([0, 0, 0]);
@@ -1151,7 +1151,7 @@ describe("Origami GMX Manager", async () => {
             oGlpToken = await new DummyMintableToken__factory(gov).deploy(govAddr, "oGLP", "oGLP", 18);
 
             const gmxEarnAccount = await deployUupsProxy(
-                new OrigamiGmxEarnAccount__factory(gov), 
+                new MorigamiGmxEarnAccount__factory(gov), 
                 [gmxContracts.gmxRewardRouter.address],
                 gmxContracts.gmxRewardRouter.address,
                 gmxContracts.glpRewardRouter.address,
@@ -1159,7 +1159,7 @@ describe("Origami GMX Manager", async () => {
                 gmxContracts.stakedGlp.address,
             );
 
-            origamiGmxManager = await new OrigamiGmxManager__factory(gov).deploy(
+            origamiGmxManager = await new MorigamiGmxManager__factory(gov).deploy(
                 govAddr, 
                 gmxContracts.gmxRewardRouter.address,
                 gmxContracts.glpRewardRouter.address,

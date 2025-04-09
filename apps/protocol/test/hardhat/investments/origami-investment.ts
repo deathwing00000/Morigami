@@ -1,7 +1,7 @@
 import { Signer } from "ethers";
 import { expect } from "chai";
 import { 
-    DummyOrigamiInvestment, DummyOrigamiInvestment__factory, 
+    DummyMorigamiInvestment, DummyMorigamiInvestment__factory, 
     DummyMintableToken__factory,
     DummyMintableToken, 
 } from "../../../typechain";
@@ -11,9 +11,9 @@ import {
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { getSigners } from "../signers";
 
-describe("Origami Investment Base Class", async () => {
+describe("Morigami Investment Base Class", async () => {
     let alan: Signer;
-    let oToken: DummyOrigamiInvestment;
+    let oToken: DummyMorigamiInvestment;
     let gov: Signer;
     let govAddr: string;
     let underlyingInvestToken: DummyMintableToken;
@@ -26,7 +26,7 @@ describe("Origami Investment Base Class", async () => {
     async function setup() {
         underlyingInvestToken = await new DummyMintableToken__factory(gov).deploy(govAddr, "investToken", "investToken", 18);
 
-        oToken = await new DummyOrigamiInvestment__factory(gov).deploy(
+        oToken = await new DummyMorigamiInvestment__factory(gov).deploy(
             govAddr,
             "oX", "oX", 
             underlyingInvestToken.address, 

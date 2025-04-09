@@ -1,20 +1,20 @@
 // pragma solidity 0.8.19;
 // // SPDX-License-Identifier: AGPL-3.0-or-later
 
-// import { OrigamiTest } from "test/foundry/OrigamiTest.sol";
-// import { ExternalContracts, OUsdcContracts, LovTokenContracts, OrigamiLovTokenTestDeployer } from "test/foundry/deploys/lovDsr/OrigamiLovTokenTestDeployer.t.sol";
+// import { MorigamiTest } from "test/foundry/MorigamiTest.sol";
+// import { ExternalContracts, OUsdcContracts, LovTokenContracts, MorigamiLovTokenTestDeployer } from "test/foundry/deploys/lovDsr/MorigamiLovTokenTestDeployer.t.sol";
 // import { OvUsdcHandler } from "test/foundry/invariant/handlers/lovDsr/OvUsdcHandler.sol";
 // import { LovDsrHandler } from "test/foundry/invariant/handlers/lovDsr/LovDsrHandler.sol";
-// import { OrigamiLovTokenTestConstants as Constants } from "test/foundry/deploys/lovDsr/OrigamiLovTokenTestConstants.t.sol";
+// import { MorigamiLovTokenTestConstants as Constants } from "test/foundry/deploys/lovDsr/MorigamiLovTokenTestConstants.t.sol";
 // import { TimestampStore } from "test/foundry/invariant/stores/TimestampStore.sol";
 // import { StateStore } from "test/foundry/invariant/stores/StateStore.sol";
-// import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+// import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-// contract ReplicateTest is OrigamiTest {
+// contract ReplicateTest is MorigamiTest {
 //     OvUsdcHandler internal ovUsdcHandler;
 //     LovDsrHandler internal lovDsrHandler;
 
-//     OrigamiLovTokenTestDeployer private deployer;
+//     MorigamiLovTokenTestDeployer private deployer;
 //     ExternalContracts public externalContracts;
 //     OUsdcContracts public oUsdcContracts;
 //     LovTokenContracts public lovTokenContracts;
@@ -38,7 +38,7 @@
 //         excludeSender(address(stateStore));
 
 //         {
-//             deployer = new OrigamiLovTokenTestDeployer(); 
+//             deployer = new MorigamiLovTokenTestDeployer(); 
 //             (externalContracts, oUsdcContracts, lovTokenContracts) = deployer.deployNonForked(address(deployer), feeCollector, overlord);
 //             doMint(externalContracts.daiToken, address(externalContracts.sDaiToken), 100_000_000e18);
 
@@ -538,7 +538,7 @@
 //             uint256 assets,
 //             uint256 liabilities,
 //             uint256 alRatio
-//         ) = lovTokenContracts.lovDsrManager.assetsAndLiabilities(IOrigamiOracle.PriceType.SPOT_PRICE);
+//         ) = lovTokenContracts.lovDsrManager.assetsAndLiabilities(IMorigamiOracle.PriceType.SPOT_PRICE);
 
 //         (address handler, bytes4 sig, bool finishedEarly) = stateStore.pop();
 

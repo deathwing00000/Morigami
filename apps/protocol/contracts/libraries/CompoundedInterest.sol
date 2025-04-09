@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (libraries/CompoundedInterest.sol)
+// Morigami (libraries/CompoundedInterest.sol)
 
 import { ud } from "@prb/math/src/UD60x18.sol";
 

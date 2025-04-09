@@ -1,11 +1,11 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
 import { 
-    OrigamiGmxEarnAccount__factory,
-    OrigamiGmxInvestment__factory,
-    OrigamiGmxManager__factory,
-    OrigamiGmxRewardsAggregator__factory,
-    OrigamiInvestmentVault__factory,
+    MorigamiGmxEarnAccount__factory,
+    MorigamiGmxInvestment__factory,
+    MorigamiGmxManager__factory,
+    MorigamiGmxRewardsAggregator__factory,
+    MorigamiInvestmentVault__factory,
     TokenPrices__factory,
  } from '../../../../typechain';
 import {
@@ -21,17 +21,17 @@ async function main() {
     const GMX_DEPLOYED = gmxDeployedContracts();
     const GOV_DEPLOYED = govDeployedContracts();
 
-    const gmxEarnAccount = OrigamiGmxEarnAccount__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GMX_EARN_ACCOUNT, owner);
-    const glpPrimaryEarnAccount = OrigamiGmxEarnAccount__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_PRIMARY_EARN_ACCOUNT, owner);
-    const glpSecondaryEarnAccount = OrigamiGmxEarnAccount__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_SECONDARY_EARN_ACCOUNT, owner);
-    const gmxManager = OrigamiGmxManager__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GMX_MANAGER, owner);
-    const glpManager = OrigamiGmxManager__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_MANAGER, owner);
-    const gmxRewardsAggr = OrigamiGmxRewardsAggregator__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GMX_REWARDS_AGGREGATOR, owner);
-    const glpRewardsAggr = OrigamiGmxRewardsAggregator__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_REWARDS_AGGREGATOR, owner);
-    const oGMX = OrigamiGmxInvestment__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.oGMX, owner);
-    const oGLP = OrigamiGmxInvestment__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.oGLP, owner);
-    const ovGMX = OrigamiInvestmentVault__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.ovGMX, owner);
-    const ovGLP = OrigamiInvestmentVault__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.ovGLP, owner);
+    const gmxEarnAccount = MorigamiGmxEarnAccount__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GMX_EARN_ACCOUNT, owner);
+    const glpPrimaryEarnAccount = MorigamiGmxEarnAccount__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_PRIMARY_EARN_ACCOUNT, owner);
+    const glpSecondaryEarnAccount = MorigamiGmxEarnAccount__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_SECONDARY_EARN_ACCOUNT, owner);
+    const gmxManager = MorigamiGmxManager__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GMX_MANAGER, owner);
+    const glpManager = MorigamiGmxManager__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_MANAGER, owner);
+    const gmxRewardsAggr = MorigamiGmxRewardsAggregator__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GMX_REWARDS_AGGREGATOR, owner);
+    const glpRewardsAggr = MorigamiGmxRewardsAggregator__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_REWARDS_AGGREGATOR, owner);
+    const oGMX = MorigamiGmxInvestment__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.oGMX, owner);
+    const oGLP = MorigamiGmxInvestment__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.oGLP, owner);
+    const ovGMX = MorigamiInvestmentVault__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.ovGMX, owner);
+    const ovGLP = MorigamiInvestmentVault__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.ovGLP, owner);
     const tokenPrices = TokenPrices__factory.connect(GMX_DEPLOYED.ORIGAMI.TOKEN_PRICES, owner);
 
     // Propose governance change to the timelock

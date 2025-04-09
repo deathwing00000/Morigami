@@ -1,17 +1,17 @@
 import { network } from "hardhat";
 import { 
   RelayedOracle, RelayedOracle__factory,
-  OrigamiDexAggregatorSwapper, OrigamiDexAggregatorSwapper__factory, 
+  MorigamiDexAggregatorSwapper, MorigamiDexAggregatorSwapper__factory, 
   TokenPrices, TokenPrices__factory,
-  OrigamiStableChainlinkOracle,
-  OrigamiStableChainlinkOracle__factory,
-  OrigamiLovToken,
-  OrigamiLovToken__factory,
+  MorigamiStableChainlinkOracle,
+  MorigamiStableChainlinkOracle__factory,
+  MorigamiLovToken,
+  MorigamiLovToken__factory,
   DummyMintableToken,
-  OrigamiLovTokenMorphoManager,
-  OrigamiMorphoBorrowAndLend,
-  OrigamiMorphoBorrowAndLend__factory,
-  OrigamiLovTokenMorphoManager__factory,
+  MorigamiLovTokenMorphoManager,
+  MorigamiMorphoBorrowAndLend,
+  MorigamiMorphoBorrowAndLend__factory,
+  MorigamiLovTokenMorphoManager__factory,
   DummyMintableToken__factory,
   Morpho,
   AdaptiveCurveIrm,
@@ -40,13 +40,13 @@ export interface ContractInstances {
     TOKEN_PRICES: TokenPrices;
   },
   ORACLES: {
-    USDE_DAI: OrigamiStableChainlinkOracle;
+    USDE_DAI: MorigamiStableChainlinkOracle;
   },
   LOV_USDE: {
-    SWAPPER_1INCH: OrigamiDexAggregatorSwapper;
-    TOKEN: OrigamiLovToken;
-    MORPHO_BORROW_LEND: OrigamiMorphoBorrowAndLend;
-    MANAGER: OrigamiLovTokenMorphoManager;
+    SWAPPER_1INCH: MorigamiDexAggregatorSwapper;
+    TOKEN: MorigamiLovToken;
+    MORPHO_BORROW_LEND: MorigamiMorphoBorrowAndLend;
+    MANAGER: MorigamiLovTokenMorphoManager;
   },
   EXTERNAL: {
     MAKER_DAO: {
@@ -74,13 +74,13 @@ export function connectToContracts(owner: Signer): ContractInstances {
         TOKEN_PRICES: TokenPrices__factory.connect(ADDRS.CORE.TOKEN_PRICES, owner),
       },
       ORACLES: {
-        USDE_DAI: OrigamiStableChainlinkOracle__factory.connect(ADDRS.ORACLES.USDE_DAI, owner),
+        USDE_DAI: MorigamiStableChainlinkOracle__factory.connect(ADDRS.ORACLES.USDE_DAI, owner),
       },
       LOV_USDE: {
-        SWAPPER_1INCH: OrigamiDexAggregatorSwapper__factory.connect(ADDRS.LOV_USDE.SWAPPER_1INCH, owner),
-        TOKEN: OrigamiLovToken__factory.connect(ADDRS.LOV_USDE.TOKEN, owner),
-        MORPHO_BORROW_LEND: OrigamiMorphoBorrowAndLend__factory.connect(ADDRS.LOV_USDE.MORPHO_BORROW_LEND, owner),
-        MANAGER: OrigamiLovTokenMorphoManager__factory.connect(ADDRS.LOV_USDE.MANAGER, owner),
+        SWAPPER_1INCH: MorigamiDexAggregatorSwapper__factory.connect(ADDRS.LOV_USDE.SWAPPER_1INCH, owner),
+        TOKEN: MorigamiLovToken__factory.connect(ADDRS.LOV_USDE.TOKEN, owner),
+        MORPHO_BORROW_LEND: MorigamiMorphoBorrowAndLend__factory.connect(ADDRS.LOV_USDE.MORPHO_BORROW_LEND, owner),
+        MANAGER: MorigamiLovTokenMorphoManager__factory.connect(ADDRS.LOV_USDE.MANAGER, owner),
       },
       EXTERNAL: {
         MAKER_DAO: {

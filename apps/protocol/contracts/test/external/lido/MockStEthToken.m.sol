@@ -7,14 +7,14 @@ import { Address } from "@openzeppelin/contracts/utils/Address.sol";
 
 import { IStETH } from "contracts/interfaces/external/lido/IStETH.sol";
 import { MintableToken } from "contracts/common/MintableToken.sol";
-import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 import { CompoundedInterest } from "contracts/libraries/CompoundedInterest.sol";
 
 // A very basic stETH implementation where the pooled assets per share (stETH/ETH)
 // rate increases by a compound interest every second
 // NB: Might be slightly off with rounding in this approach
 contract MockStEthToken is IStETH, MintableToken {
-    using OrigamiMath for uint256;
+    using MorigamiMath for uint256;
     using Address for address payable;
 
     struct AccumulatorData {
@@ -82,7 +82,7 @@ contract MockStEthToken is IStETH, MintableToken {
     ) internal pure returns (uint256) {
         return cache.checkpoint == 0
             ? _ethAmount
-            : _ethAmount.mulDiv(cache.totalSubmitted, cache.checkpoint, OrigamiMath.Rounding.ROUND_DOWN);
+            : _ethAmount.mulDiv(cache.totalSubmitted, cache.checkpoint, MorigamiMath.Rounding.ROUND_DOWN);
     }
 
     function _getPooledEthByShares(
@@ -91,7 +91,7 @@ contract MockStEthToken is IStETH, MintableToken {
     ) internal pure returns (uint256) {
     return cache.totalSubmitted == 0
         ? _sharesAmount
-        : _sharesAmount.mulDiv(cache.checkpoint, cache.totalSubmitted, OrigamiMath.Rounding.ROUND_DOWN);
+        : _sharesAmount.mulDiv(cache.checkpoint, cache.totalSubmitted, MorigamiMath.Rounding.ROUND_DOWN);
     }
 
     function _getCache(AccumulatorData storage data) internal view returns (AccumulatorData memory cache, bool dirty) {
@@ -120,7 +120,7 @@ contract MockStEthToken is IStETH, MintableToken {
             cache.checkpoint = newAccumulator.mulDiv(
                 cache.checkpoint,
                 cache.accumulator,
-                OrigamiMath.Rounding.ROUND_UP
+                MorigamiMath.Rounding.ROUND_UP
             );
 
             cache.accumulator = newAccumulator;

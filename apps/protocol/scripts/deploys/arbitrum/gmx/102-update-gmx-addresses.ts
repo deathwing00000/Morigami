@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiGmxEarnAccount, OrigamiGmxEarnAccount__factory, OrigamiGmxManager, OrigamiGmxManager__factory, TimelockController, TimelockController__factory } from '../../../../typechain';
+import { MorigamiGmxEarnAccount, MorigamiGmxEarnAccount__factory, MorigamiGmxManager, MorigamiGmxManager__factory, TimelockController, TimelockController__factory } from '../../../../typechain';
 import {
   ensureExpectedEnvvars,
 } from '../../helpers';
@@ -75,7 +75,7 @@ async function logExecuteBatch(
   console.log(schedulePtx.data);
 }
 
-async function updateEarnAccount(ea: OrigamiGmxEarnAccount): Promise<PopulatedTransaction> {
+async function updateEarnAccount(ea: MorigamiGmxEarnAccount): Promise<PopulatedTransaction> {
   const esGmxVester = await ea.esGmxVester();
   const stakedGlp = await ea.stakedGlp();
   return ea.populateTransaction.initGmxContracts(
@@ -86,7 +86,7 @@ async function updateEarnAccount(ea: OrigamiGmxEarnAccount): Promise<PopulatedTr
   );
 }
 
-async function updateManager(manager: OrigamiGmxManager): Promise<PopulatedTransaction> {
+async function updateManager(manager: MorigamiGmxManager): Promise<PopulatedTransaction> {
   return manager.populateTransaction.initGmxContracts(
     GMX_DEPLOYED_CONTRACTS.GMX.STAKING.GMX_REWARD_ROUTER,
     GMX_DEPLOYED_CONTRACTS.GMX.STAKING.GLP_REWARD_ROUTER
@@ -100,19 +100,19 @@ async function main() {
   const timelock = TimelockController__factory.connect(GOV_DEPLOYED_CONTRACTS.ORIGAMI.GOV_TIMELOCK, owner);
   const minDelay = await timelock.getMinDelay();
 
-  const GMX_EARN_ACCOUNT = OrigamiGmxEarnAccount__factory.connect(
+  const GMX_EARN_ACCOUNT = MorigamiGmxEarnAccount__factory.connect(
     GMX_DEPLOYED_CONTRACTS.ORIGAMI.GMX.GMX_EARN_ACCOUNT, owner
   );
-  const GLP_PRIMARY_EARN_ACCOUNT = OrigamiGmxEarnAccount__factory.connect(
+  const GLP_PRIMARY_EARN_ACCOUNT = MorigamiGmxEarnAccount__factory.connect(
     GMX_DEPLOYED_CONTRACTS.ORIGAMI.GMX.GLP_PRIMARY_EARN_ACCOUNT, owner
   );
-  const GLP_SECONDARY_EARN_ACCOUNT = OrigamiGmxEarnAccount__factory.connect(
+  const GLP_SECONDARY_EARN_ACCOUNT = MorigamiGmxEarnAccount__factory.connect(
     GMX_DEPLOYED_CONTRACTS.ORIGAMI.GMX.GLP_SECONDARY_EARN_ACCOUNT, owner
   );
-  const GMX_MANAGER = OrigamiGmxManager__factory.connect(
+  const GMX_MANAGER = MorigamiGmxManager__factory.connect(
     GMX_DEPLOYED_CONTRACTS.ORIGAMI.GMX.GMX_MANAGER, owner
   );
-  const GLP_MANAGER = OrigamiGmxManager__factory.connect(
+  const GLP_MANAGER = MorigamiGmxManager__factory.connect(
     GMX_DEPLOYED_CONTRACTS.ORIGAMI.GMX.GLP_MANAGER, owner
   );
 

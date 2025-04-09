@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiAaveV3BorrowAndLend__factory } from '../../../../../typechain';
+import { MorigamiAaveV3BorrowAndLend__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -14,7 +14,7 @@ async function main() {
   const ADDRS = getDeployedContracts();
   const INSTANCES = connectToContracts(owner);
 
-  const factory = new OrigamiAaveV3BorrowAndLend__factory(owner);
+  const factory = new MorigamiAaveV3BorrowAndLend__factory(owner);
   await deployAndMine(
     'LOV_WBTC_SDAI_SHORT_A.SPARK_BORROW_LEND',
     factory,

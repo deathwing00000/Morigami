@@ -5,12 +5,12 @@ import { ERC4626 } from "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
-import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
 // Removed the OZ ERC-4626 offset for testing purposes
 // as it changes the formulas ever so slightly
 // Also limits redeem and withdraw to elevated access
-contract MockSUsdEToken is ERC4626, OrigamiElevatedAccess {
+contract MockSUsdEToken is ERC4626, MorigamiElevatedAccess {
     using Math for uint256;
 
     uint96 public interestRate;
@@ -23,7 +23,7 @@ contract MockSUsdEToken is ERC4626, OrigamiElevatedAccess {
     constructor(address _initialOwner, IERC20 _asset) 
         ERC4626(_asset)
         ERC20("Staked USDe", "sUSDe") 
-        OrigamiElevatedAccess(_initialOwner)
+        MorigamiElevatedAccess(_initialOwner)
     {}
 
     function setInterestRate(uint96 rate) external {

@@ -1,0 +1,119 @@
+pragma solidity 0.8.19;
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Morigami (interfaces/investments/lovToken/managers/MorigamiLovTokenErc4626Manager.sol)
+
+import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+
+import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
+import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
+import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
+import { IMorigamiLendingBorrower } from "contracts/interfaces/investments/lending/IMorigamiLendingBorrower.sol";
+import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
+
+/**
+ * @title Morigami lovToken Manager for ERC-4626
+ * @notice A lovToken which has reserves as ERC-4626 tokens.
+ * This will rebalance by borrowing funds from the Morigami Lending Clerk, 
+ * and swapping to the Morigami deposit tokens using a DEX Aggregator.
+ * @dev `depositAsset` and `reserveToken` are required to be exactly 18 decimal places (if this changes, a new version will be created)
+ * `debtAsset` can be any decimal places <= 18
+ */
+interface IMorigamiLovTokenErc4626Manager is IMorigamiLovTokenManager, IMorigamiLendingBorrower {
+    event SwapperSet(address indexed swapper);
+    event LendingClerkSet(address indexed lendingClerk);
+    event OracleSet(address indexed oracle);
+
+    /**
+     * @notice Set the clerk responsible for managing borrows, repays and debt of borrowers
+     */
+    function setLendingClerk(address _lendingClerk) external;
+
+    /**
+     * @notice Set the swapper responsible for `depositAsset` <--> `debtAsset` swaps
+     */
+    function setSwapper(address _swapper) external;
+
+    /**
+     * @notice Set the `depositAsset` <--> `debtAsset` oracle configuration 
+     */
+    function setOracle(address _oracle) external;
+
+    struct RebalanceUpParams {
+        // The amount of `depositAsset` to withdraw from reserves
+        uint256 depositAssetsToWithdraw;
+
+        // The min amount of `reserveToken` ERC-4626 shares expected to be removed when withdrawing from reserves
+        uint256 minReserveAssetShares;
+
+        // The swap quote data to swap from `depositAsset` -> `debtAsset`
+        bytes swapData;
+
+        // The minimum amount of `debtAsset` expected to be repaid -- how much we expect from the `depositAsset` -> `debtAsset` swap
+        uint256 minDebtAmountToRepay;
+
+        // The minimum acceptable A/L, will revert if below this
+        uint128 minNewAL;
+
+        // The maximum acceptable A/L, will revert if above this
+        uint128 maxNewAL;
+    }
+
+    /**
+     * @notice Increase the A/L by reducing liabilities. Exit some of the reserves and repay the debt
+     */
+    function rebalanceUp(RebalanceUpParams calldata params) external returns (uint128 alRatioAfter);
+
+    /**
+     * @notice Force a rebalanceUp ignoring A/L ceiling/floor
+     * @dev Separate function to above to have stricter control on who can force
+     */
+    function forceRebalanceUp(RebalanceUpParams calldata params) external returns (uint128 alRatioAfter);
+
+    struct RebalanceDownParams {
+        // The amount of new `debtAsset` to borrow
+        uint256 borrowAmount;
+
+        // The swap quote data to swap from `debtAsset` -> `depositAsset`
+        bytes swapData;
+
+        // The minimum amount of ERC-4626 `reserveAsset` shares expected when depositing `depositAsset`
+        uint256 minReservesOut;
+
+        // The minimum acceptable A/L, will revert if below this
+        uint128 minNewAL;
+
+        // The maximum acceptable A/L, will revert if above this
+        uint128 maxNewAL;
+    }
+
+    /**
+     * @notice Decrease the A/L by increasing liabilities. Borrow new `debtAsset` and deposit into the reserves
+     */
+    function rebalanceDown(RebalanceDownParams calldata params) external returns (uint128 alRatioAfter);
+
+    /**
+     * @notice Force a rebalanceDown ignoring A/L ceiling/floor
+     * @dev Separate function to above to have stricter control on who can force
+     */
+    function forceRebalanceDown(RebalanceDownParams calldata params) external returns (uint128 alRatioAfter);
+
+    /**
+     * @notice The asset which users deposit/exit with into the lovToken
+     */
+    function depositAsset() external view returns (IERC20Metadata);
+
+    /**
+     * @notice The Morigami Lending Clerk responsible for managing borrows, repays and debt of borrowers
+     */
+    function lendingClerk() external view returns (IMorigamiLendingClerk);
+
+    /**
+     * @notice The swapper for `debtAsset` <--> `depositAsset`
+     */
+    function swapper() external view returns (IMorigamiSwapper);
+
+    /**
+     * @notice The oracle to convert `debtAsset` <--> `depositAsset`
+     */
+    function debtAssetToDepositAssetOracle() external view returns (IMorigamiOracle);
+}

@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiMorphoBorrowAndLend__factory } from '../../../../../typechain';
+import { MorigamiMorphoBorrowAndLend__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -13,7 +13,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = getDeployedContracts();
 
-  const factory = new OrigamiMorphoBorrowAndLend__factory(owner);
+  const factory = new MorigamiMorphoBorrowAndLend__factory(owner);
   await deployAndMine(
     'LOV_EZETH_A.MORPHO_BORROW_LEND',
     factory,

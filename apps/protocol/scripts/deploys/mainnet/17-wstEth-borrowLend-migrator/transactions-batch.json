@@ -26,7 +26,7 @@
                 "type": "bool"
               }
             ],
-            "internalType": "struct IOrigamiElevatedAccess.ExplicitAccess[]",
+            "internalType": "struct IMorigamiElevatedAccess.ExplicitAccess[]",
             "name": "access",
             "type": "tuple[]"
           }
@@ -63,7 +63,7 @@
                 "type": "bool"
               }
             ],
-            "internalType": "struct IOrigamiElevatedAccess.ExplicitAccess[]",
+            "internalType": "struct IMorigamiElevatedAccess.ExplicitAccess[]",
             "name": "access",
             "type": "tuple[]"
           }
@@ -130,7 +130,7 @@
                 "type": "bool"
               }
             ],
-            "internalType": "struct IOrigamiElevatedAccess.ExplicitAccess[]",
+            "internalType": "struct IMorigamiElevatedAccess.ExplicitAccess[]",
             "name": "access",
             "type": "tuple[]"
           }
@@ -167,7 +167,7 @@
                 "type": "bool"
               }
             ],
-            "internalType": "struct IOrigamiElevatedAccess.ExplicitAccess[]",
+            "internalType": "struct IMorigamiElevatedAccess.ExplicitAccess[]",
             "name": "access",
             "type": "tuple[]"
           }

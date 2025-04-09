@@ -1,6 +1,6 @@
 import "@nomiclabs/hardhat-ethers";
 import { ethers, network } from "hardhat";
-import { OrigamiLovToken__factory } from "../../../../../typechain";
+import { MorigamiLovToken__factory } from "../../../../../typechain";
 import { deployAndMine, ensureExpectedEnvvars } from "../../../helpers";
 import { getDeployedContracts1 } from "../../contract-addresses";
 import { DEFAULT_SETTINGS } from "../../default-settings";
@@ -10,7 +10,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = await getDeployedContracts1(__dirname);
 
-  const factory = new OrigamiLovToken__factory(owner);
+  const factory = new MorigamiLovToken__factory(owner);
   await deployAndMine(
     "LOV_TEST_ANKRFLOW_FLOW.TOKEN",
     factory,

@@ -23,7 +23,7 @@ File: contracts/common/MintableToken.sol
 ```
 
 ```solidity
-File: contracts/common/access/OrigamiElevatedAccessBase.sol
+File: contracts/common/access/MorigamiElevatedAccessBase.sol
 
 21:     mapping(address => mapping(bytes4 => bool)) public override explicitFunctionAccess;
 
@@ -39,21 +39,21 @@ File: contracts/common/access/Whitelisted.sol
 ```
 
 ```solidity
-File: contracts/common/oracle/OrigamiStableChainlinkOracle.sol
+File: contracts/common/oracle/MorigamiStableChainlinkOracle.sol
 
 35:     bool public immutable spotPricePrecisionScaleDown;
 
 ```
 
 ```solidity
-File: contracts/investments/lending/OrigamiDebtToken.sol
+File: contracts/investments/lending/MorigamiDebtToken.sol
 
 38:     mapping(address account => bool canMint) public override minters;
 
 ```
 
 ```solidity
-File: contracts/investments/lending/OrigamiLendingClerk.sol
+File: contracts/investments/lending/MorigamiLendingClerk.sol
 
 74:     bool public override globalBorrowPaused;
 
@@ -62,14 +62,14 @@ File: contracts/investments/lending/OrigamiLendingClerk.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/idleStrategy/OrigamiIdleStrategyManager.sol
+File: contracts/investments/lending/idleStrategy/MorigamiIdleStrategyManager.sol
 
 39:     bool public override depositsEnabled;
 
 ```
 
 ```solidity
-File: contracts/investments/util/OrigamiManagerPausable.sol
+File: contracts/investments/util/MorigamiManagerPausable.sol
 
 17:     mapping(address account => bool canPause) public pausers;
 
@@ -137,11 +137,11 @@ File: contracts/common/MintableToken.sol
 
 12: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-13: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+13: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-13: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+13: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-13: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+13: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
 ```
 
@@ -204,15 +204,15 @@ File: contracts/common/RepricingToken.sol
 
 12: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-13: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+13: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-13: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+13: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-13: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+13: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-14: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+14: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-14: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+14: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 87:             if (_amount > (bal - (vestedReserves + pendingReserves))) revert CommonEventsAndErrors.InvalidAmount(_token, _amount);
 
@@ -263,26 +263,26 @@ File: contracts/common/RepricingToken.sol
 ```
 
 ```solidity
-File: contracts/common/access/OrigamiElevatedAccess.sol
+File: contracts/common/access/MorigamiElevatedAccess.sol
 
-5: import { OrigamiElevatedAccessBase } from "contracts/common/access/OrigamiElevatedAccessBase.sol";
+5: import { MorigamiElevatedAccessBase } from "contracts/common/access/MorigamiElevatedAccessBase.sol";
 
-5: import { OrigamiElevatedAccessBase } from "contracts/common/access/OrigamiElevatedAccessBase.sol";
+5: import { MorigamiElevatedAccessBase } from "contracts/common/access/MorigamiElevatedAccessBase.sol";
 
-5: import { OrigamiElevatedAccessBase } from "contracts/common/access/OrigamiElevatedAccessBase.sol";
+5: import { MorigamiElevatedAccessBase } from "contracts/common/access/MorigamiElevatedAccessBase.sol";
 
 ```
 
 ```solidity
-File: contracts/common/access/OrigamiElevatedAccessBase.sol
+File: contracts/common/access/MorigamiElevatedAccessBase.sol
 
-5: import { IOrigamiElevatedAccess } from "contracts/interfaces/common/access/IOrigamiElevatedAccess.sol";
+5: import { IMorigamiElevatedAccess } from "contracts/interfaces/common/access/IMorigamiElevatedAccess.sol";
 
-5: import { IOrigamiElevatedAccess } from "contracts/interfaces/common/access/IOrigamiElevatedAccess.sol";
+5: import { IMorigamiElevatedAccess } from "contracts/interfaces/common/access/IMorigamiElevatedAccess.sol";
 
-5: import { IOrigamiElevatedAccess } from "contracts/interfaces/common/access/IOrigamiElevatedAccess.sol";
+5: import { IMorigamiElevatedAccess } from "contracts/interfaces/common/access/IMorigamiElevatedAccess.sol";
 
-5: import { IOrigamiElevatedAccess } from "contracts/interfaces/common/access/IOrigamiElevatedAccess.sol";
+5: import { IMorigamiElevatedAccess } from "contracts/interfaces/common/access/IMorigamiElevatedAccess.sol";
 
 6: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
@@ -305,11 +305,11 @@ File: contracts/common/access/Whitelisted.sol
 
 5: import { IWhitelisted } from "contracts/interfaces/common/access/IWhitelisted.sol";
 
-6: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+6: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-6: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+6: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-6: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+6: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
 7: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
@@ -318,7 +318,7 @@ File: contracts/common/access/Whitelisted.sol
 ```
 
 ```solidity
-File: contracts/common/borrowAndLend/OrigamiAaveV3BorrowAndLend.sol
+File: contracts/common/borrowAndLend/MorigamiAaveV3BorrowAndLend.sol
 
 5: import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -410,23 +410,23 @@ File: contracts/common/borrowAndLend/OrigamiAaveV3BorrowAndLend.sol
 
 13: import { IAToken as IAaveAToken } from "@aave/core-v3/contracts/interfaces/IAToken.sol";
 
-15: import { IOrigamiAaveV3BorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IOrigamiAaveV3BorrowAndLend.sol";
+15: import { IMorigamiAaveV3BorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IMorigamiAaveV3BorrowAndLend.sol";
 
-15: import { IOrigamiAaveV3BorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IOrigamiAaveV3BorrowAndLend.sol";
+15: import { IMorigamiAaveV3BorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IMorigamiAaveV3BorrowAndLend.sol";
 
-15: import { IOrigamiAaveV3BorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IOrigamiAaveV3BorrowAndLend.sol";
+15: import { IMorigamiAaveV3BorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IMorigamiAaveV3BorrowAndLend.sol";
 
-15: import { IOrigamiAaveV3BorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IOrigamiAaveV3BorrowAndLend.sol";
+15: import { IMorigamiAaveV3BorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IMorigamiAaveV3BorrowAndLend.sol";
 
 16: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 16: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-17: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+17: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-17: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+17: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-17: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+17: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
 226:             if (amount > (bal - suppliedBalance())) revert CommonEventsAndErrors.InvalidAmount(token, amount);
 
@@ -453,25 +453,25 @@ File: contracts/common/borrowAndLend/OrigamiAaveV3BorrowAndLend.sol
 ```
 
 ```solidity
-File: contracts/common/circuitBreaker/OrigamiCircuitBreakerAllUsersPerPeriod.sol
+File: contracts/common/circuitBreaker/MorigamiCircuitBreakerAllUsersPerPeriod.sol
 
 5: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 5: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-6: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+6: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-6: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+6: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-6: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+6: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-7: import { IOrigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreaker.sol";
+7: import { IMorigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreaker.sol";
 
-7: import { IOrigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreaker.sol";
+7: import { IMorigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreaker.sol";
 
-7: import { IOrigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreaker.sol";
+7: import { IMorigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreaker.sol";
 
-7: import { IOrigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreaker.sol";
+7: import { IMorigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreaker.sol";
 
 98:     function preCheck(address /*onBehalfOf*/, uint256 amount) external override onlyProxy {
 
@@ -524,7 +524,7 @@ File: contracts/common/circuitBreaker/OrigamiCircuitBreakerAllUsersPerPeriod.sol
 ```
 
 ```solidity
-File: contracts/common/circuitBreaker/OrigamiCircuitBreakerProxy.sol
+File: contracts/common/circuitBreaker/MorigamiCircuitBreakerProxy.sol
 
 5: import { EnumerableSet } from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
@@ -538,32 +538,32 @@ File: contracts/common/circuitBreaker/OrigamiCircuitBreakerProxy.sol
 
 6: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-7: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+7: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-7: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+7: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-7: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+7: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-8: import { IOrigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreaker.sol";
+8: import { IMorigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreaker.sol";
 
-8: import { IOrigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreaker.sol";
+8: import { IMorigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreaker.sol";
 
-8: import { IOrigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreaker.sol";
+8: import { IMorigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreaker.sol";
 
-8: import { IOrigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreaker.sol";
+8: import { IMorigamiCircuitBreaker } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreaker.sol";
 
-9: import { IOrigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreakerProxy.sol";
+9: import { IMorigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreakerProxy.sol";
 
-9: import { IOrigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreakerProxy.sol";
+9: import { IMorigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreakerProxy.sol";
 
-9: import { IOrigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreakerProxy.sol";
+9: import { IMorigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreakerProxy.sol";
 
-9: import { IOrigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreakerProxy.sol";
+9: import { IMorigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreakerProxy.sol";
 
 ```
 
 ```solidity
-File: contracts/common/flashLoan/OrigamiAaveV3FlashLoanProvider.sol
+File: contracts/common/flashLoan/MorigamiAaveV3FlashLoanProvider.sol
 
 5: import { IPoolAddressesProvider } from "@aave/core-v3/contracts/interfaces/IPoolAddressesProvider.sol";
 
@@ -611,21 +611,21 @@ File: contracts/common/flashLoan/OrigamiAaveV3FlashLoanProvider.sol
 
 8: import { DataTypes } from "@aave/core-v3/contracts/protocol/libraries/types/DataTypes.sol";
 
-10: import { IOrigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IOrigamiFlashLoanProvider.sol";
+10: import { IMorigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IMorigamiFlashLoanProvider.sol";
 
-10: import { IOrigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IOrigamiFlashLoanProvider.sol";
+10: import { IMorigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IMorigamiFlashLoanProvider.sol";
 
-10: import { IOrigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IOrigamiFlashLoanProvider.sol";
+10: import { IMorigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IMorigamiFlashLoanProvider.sol";
 
-10: import { IOrigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IOrigamiFlashLoanProvider.sol";
+10: import { IMorigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IMorigamiFlashLoanProvider.sol";
 
-11: import { IOrigamiFlashLoanReceiver } from "contracts/interfaces/common/flashLoan/IOrigamiFlashLoanReceiver.sol";
+11: import { IMorigamiFlashLoanReceiver } from "contracts/interfaces/common/flashLoan/IMorigamiFlashLoanReceiver.sol";
 
-11: import { IOrigamiFlashLoanReceiver } from "contracts/interfaces/common/flashLoan/IOrigamiFlashLoanReceiver.sol";
+11: import { IMorigamiFlashLoanReceiver } from "contracts/interfaces/common/flashLoan/IMorigamiFlashLoanReceiver.sol";
 
-11: import { IOrigamiFlashLoanReceiver } from "contracts/interfaces/common/flashLoan/IOrigamiFlashLoanReceiver.sol";
+11: import { IMorigamiFlashLoanReceiver } from "contracts/interfaces/common/flashLoan/IMorigamiFlashLoanReceiver.sol";
 
-11: import { IOrigamiFlashLoanReceiver } from "contracts/interfaces/common/flashLoan/IOrigamiFlashLoanReceiver.sol";
+11: import { IMorigamiFlashLoanReceiver } from "contracts/interfaces/common/flashLoan/IMorigamiFlashLoanReceiver.sol";
 
 12: import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -679,19 +679,19 @@ File: contracts/common/interestRate/LinearWithKinkInterestRateModel.sol
 
 5: import { BaseInterestRateModel } from "contracts/common/interestRate/BaseInterestRateModel.sol";
 
-6: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+6: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-6: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+6: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-6: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
-
-7: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
+6: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
 7: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-8: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+7: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-8: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+8: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
+
+8: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 118:                 utilizationRatio - _rateParams.kinkUtilizationRatio,
 
@@ -708,46 +708,46 @@ File: contracts/common/interestRate/LinearWithKinkInterestRateModel.sol
 ```
 
 ```solidity
-File: contracts/common/oracle/OrigamiCrossRateOracle.sol
+File: contracts/common/oracle/MorigamiCrossRateOracle.sol
 
-5: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+5: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-5: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+5: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-5: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+5: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-5: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+5: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-6: import { OrigamiOracleBase } from "contracts/common/oracle/OrigamiOracleBase.sol";
+6: import { MorigamiOracleBase } from "contracts/common/oracle/MorigamiOracleBase.sol";
 
-6: import { OrigamiOracleBase } from "contracts/common/oracle/OrigamiOracleBase.sol";
+6: import { MorigamiOracleBase } from "contracts/common/oracle/MorigamiOracleBase.sol";
 
-6: import { OrigamiOracleBase } from "contracts/common/oracle/OrigamiOracleBase.sol";
+6: import { MorigamiOracleBase } from "contracts/common/oracle/MorigamiOracleBase.sol";
 
-7: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+7: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-7: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+7: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 ```
 
 ```solidity
-File: contracts/common/oracle/OrigamiOracleBase.sol
+File: contracts/common/oracle/MorigamiOracleBase.sol
 
-5: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+5: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-5: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+5: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-5: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+5: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-5: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
-
-6: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
+5: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
 6: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-7: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+6: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-7: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+7: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
+
+7: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 57:         if (_quoteAssetDecimals > decimals + _baseAssetDecimals) revert CommonEventsAndErrors.InvalidParam();
 
@@ -794,7 +794,7 @@ File: contracts/common/oracle/OrigamiOracleBase.sol
 ```
 
 ```solidity
-File: contracts/common/oracle/OrigamiStableChainlinkOracle.sol
+File: contracts/common/oracle/MorigamiStableChainlinkOracle.sol
 
 5: import { IAggregatorV3Interface } from "contracts/interfaces/external/chainlink/IAggregatorV3Interface.sol";
 
@@ -804,25 +804,25 @@ File: contracts/common/oracle/OrigamiStableChainlinkOracle.sol
 
 5: import { IAggregatorV3Interface } from "contracts/interfaces/external/chainlink/IAggregatorV3Interface.sol";
 
-6: import { OrigamiOracleBase } from "contracts/common/oracle/OrigamiOracleBase.sol";
+6: import { MorigamiOracleBase } from "contracts/common/oracle/MorigamiOracleBase.sol";
 
-6: import { OrigamiOracleBase } from "contracts/common/oracle/OrigamiOracleBase.sol";
+6: import { MorigamiOracleBase } from "contracts/common/oracle/MorigamiOracleBase.sol";
 
-6: import { OrigamiOracleBase } from "contracts/common/oracle/OrigamiOracleBase.sol";
+6: import { MorigamiOracleBase } from "contracts/common/oracle/MorigamiOracleBase.sol";
 
-7: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+7: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-7: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+7: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-7: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+7: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
 8: import { Range } from "contracts/libraries/Range.sol";
 
 8: import { Range } from "contracts/libraries/Range.sol";
 
-9: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+9: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-9: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+9: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 10: import { Chainlink } from "contracts/libraries/Chainlink.sol";
 
@@ -831,7 +831,7 @@ File: contracts/common/oracle/OrigamiStableChainlinkOracle.sol
 ```
 
 ```solidity
-File: contracts/common/oracle/OrigamiWstEthToEthOracle.sol
+File: contracts/common/oracle/MorigamiWstEthToEthOracle.sol
 
 5: import { IStETH } from "contracts/interfaces/external/lido/IStETH.sol";
 
@@ -841,28 +841,28 @@ File: contracts/common/oracle/OrigamiWstEthToEthOracle.sol
 
 5: import { IStETH } from "contracts/interfaces/external/lido/IStETH.sol";
 
-6: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+6: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-6: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+6: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-6: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+6: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-6: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+6: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-7: import { OrigamiOracleBase } from "contracts/common/oracle/OrigamiOracleBase.sol";
+7: import { MorigamiOracleBase } from "contracts/common/oracle/MorigamiOracleBase.sol";
 
-7: import { OrigamiOracleBase } from "contracts/common/oracle/OrigamiOracleBase.sol";
+7: import { MorigamiOracleBase } from "contracts/common/oracle/MorigamiOracleBase.sol";
 
-7: import { OrigamiOracleBase } from "contracts/common/oracle/OrigamiOracleBase.sol";
+7: import { MorigamiOracleBase } from "contracts/common/oracle/MorigamiOracleBase.sol";
 
-8: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+8: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-8: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+8: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 ```
 
 ```solidity
-File: contracts/common/swappers/OrigamiDexAggregatorSwapper.sol
+File: contracts/common/swappers/MorigamiDexAggregatorSwapper.sol
 
 5: import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -882,19 +882,19 @@ File: contracts/common/swappers/OrigamiDexAggregatorSwapper.sol
 
 6: import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-8: import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+8: import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-8: import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+8: import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-8: import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+8: import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-8: import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+8: import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-9: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+9: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-9: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+9: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-9: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+9: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
 10: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
@@ -905,13 +905,13 @@ File: contracts/common/swappers/OrigamiDexAggregatorSwapper.sol
 ```
 
 ```solidity
-File: contracts/investments/OrigamiInvestment.sol
+File: contracts/investments/MorigamiInvestment.sol
 
-5: import { IOrigamiInvestment } from "contracts/interfaces/investments/IOrigamiInvestment.sol";
+5: import { IMorigamiInvestment } from "contracts/interfaces/investments/IMorigamiInvestment.sol";
 
-5: import { IOrigamiInvestment } from "contracts/interfaces/investments/IOrigamiInvestment.sol";
+5: import { IMorigamiInvestment } from "contracts/interfaces/investments/IMorigamiInvestment.sol";
 
-5: import { IOrigamiInvestment } from "contracts/interfaces/investments/IOrigamiInvestment.sol";
+5: import { IMorigamiInvestment } from "contracts/interfaces/investments/IMorigamiInvestment.sol";
 
 6: import { MintableToken } from "contracts/common/MintableToken.sol";
 
@@ -926,7 +926,7 @@ File: contracts/investments/OrigamiInvestment.sol
 ```
 
 ```solidity
-File: contracts/investments/OrigamiInvestmentVault.sol
+File: contracts/investments/MorigamiInvestmentVault.sol
 
 5: import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
@@ -952,17 +952,17 @@ File: contracts/investments/OrigamiInvestmentVault.sol
 
 7: import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-9: import { IOrigamiInvestmentVault } from "contracts/interfaces/investments/IOrigamiInvestmentVault.sol";
+9: import { IMorigamiInvestmentVault } from "contracts/interfaces/investments/IMorigamiInvestmentVault.sol";
 
-9: import { IOrigamiInvestmentVault } from "contracts/interfaces/investments/IOrigamiInvestmentVault.sol";
+9: import { IMorigamiInvestmentVault } from "contracts/interfaces/investments/IMorigamiInvestmentVault.sol";
 
-9: import { IOrigamiInvestmentVault } from "contracts/interfaces/investments/IOrigamiInvestmentVault.sol";
+9: import { IMorigamiInvestmentVault } from "contracts/interfaces/investments/IMorigamiInvestmentVault.sol";
 
-10: import { IOrigamiInvestment } from "contracts/interfaces/investments/IOrigamiInvestment.sol";
+10: import { IMorigamiInvestment } from "contracts/interfaces/investments/IMorigamiInvestment.sol";
 
-10: import { IOrigamiInvestment } from "contracts/interfaces/investments/IOrigamiInvestment.sol";
+10: import { IMorigamiInvestment } from "contracts/interfaces/investments/IMorigamiInvestment.sol";
 
-10: import { IOrigamiInvestment } from "contracts/interfaces/investments/IOrigamiInvestment.sol";
+10: import { IMorigamiInvestment } from "contracts/interfaces/investments/IMorigamiInvestment.sol";
 
 11: import { ITokenPrices } from "contracts/interfaces/common/ITokenPrices.sol";
 
@@ -978,9 +978,9 @@ File: contracts/investments/OrigamiInvestmentVault.sol
 
 13: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-14: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+14: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-14: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+14: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 15: import { Whitelisted } from "contracts/common/access/Whitelisted.sol";
 
@@ -997,7 +997,7 @@ File: contracts/investments/OrigamiInvestmentVault.sol
 ```
 
 ```solidity
-File: contracts/investments/OrigamiOToken.sol
+File: contracts/investments/MorigamiOToken.sol
 
 5: import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
@@ -1017,21 +1017,21 @@ File: contracts/investments/OrigamiOToken.sol
 
 6: import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-8: import { IOrigamiOToken } from "contracts/interfaces/investments/IOrigamiOToken.sol";
+8: import { IMorigamiOToken } from "contracts/interfaces/investments/IMorigamiOToken.sol";
 
-8: import { IOrigamiOToken } from "contracts/interfaces/investments/IOrigamiOToken.sol";
+8: import { IMorigamiOToken } from "contracts/interfaces/investments/IMorigamiOToken.sol";
 
-8: import { IOrigamiOToken } from "contracts/interfaces/investments/IOrigamiOToken.sol";
+8: import { IMorigamiOToken } from "contracts/interfaces/investments/IMorigamiOToken.sol";
 
-9: import { IOrigamiOTokenManager } from "contracts/interfaces/investments/IOrigamiOTokenManager.sol";
+9: import { IMorigamiOTokenManager } from "contracts/interfaces/investments/IMorigamiOTokenManager.sol";
 
-9: import { IOrigamiOTokenManager } from "contracts/interfaces/investments/IOrigamiOTokenManager.sol";
+9: import { IMorigamiOTokenManager } from "contracts/interfaces/investments/IMorigamiOTokenManager.sol";
 
-9: import { IOrigamiOTokenManager } from "contracts/interfaces/investments/IOrigamiOTokenManager.sol";
+9: import { IMorigamiOTokenManager } from "contracts/interfaces/investments/IMorigamiOTokenManager.sol";
 
-10: import { OrigamiInvestment } from "contracts/investments/OrigamiInvestment.sol";
+10: import { MorigamiInvestment } from "contracts/investments/MorigamiInvestment.sol";
 
-10: import { OrigamiInvestment } from "contracts/investments/OrigamiInvestment.sol";
+10: import { MorigamiInvestment } from "contracts/investments/MorigamiInvestment.sol";
 
 11: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
@@ -1078,7 +1078,7 @@ File: contracts/investments/OrigamiOToken.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/OrigamiDebtToken.sol
+File: contracts/investments/lending/MorigamiDebtToken.sol
 
 5: import { IERC20 } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
@@ -1100,13 +1100,13 @@ File: contracts/investments/lending/OrigamiDebtToken.sol
 
 6: import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-8: import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
+8: import { IMorigamiDebtToken } from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
 
-8: import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
+8: import { IMorigamiDebtToken } from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
 
-8: import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
+8: import { IMorigamiDebtToken } from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
 
-8: import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
+8: import { IMorigamiDebtToken } from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
 
 9: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
@@ -1116,11 +1116,11 @@ File: contracts/investments/lending/OrigamiDebtToken.sol
 
 10: import { CompoundedInterest } from "contracts/libraries/CompoundedInterest.sol";
 
-11: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+11: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-11: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+11: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-11: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+11: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
 12: import { SafeCast } from "contracts/libraries/SafeCast.sol";
 
@@ -1223,7 +1223,7 @@ File: contracts/investments/lending/OrigamiDebtToken.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/OrigamiLendingClerk.sol
+File: contracts/investments/lending/MorigamiLendingClerk.sol
 
 5: import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
@@ -1253,15 +1253,13 @@ File: contracts/investments/lending/OrigamiLendingClerk.sol
 
 7: import { EnumerableSet } from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
-9: import { IOrigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreakerProxy.sol";
+9: import { IMorigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreakerProxy.sol";
 
-9: import { IOrigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreakerProxy.sol";
+9: import { IMorigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreakerProxy.sol";
 
-9: import { IOrigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreakerProxy.sol";
+9: import { IMorigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreakerProxy.sol";
 
-9: import { IOrigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreakerProxy.sol";
-
-10: import { IInterestRateModel } from "contracts/interfaces/common/interestRate/IInterestRateModel.sol";
+9: import { IMorigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreakerProxy.sol";
 
 10: import { IInterestRateModel } from "contracts/interfaces/common/interestRate/IInterestRateModel.sol";
 
@@ -1269,59 +1267,61 @@ File: contracts/investments/lending/OrigamiLendingClerk.sol
 
 10: import { IInterestRateModel } from "contracts/interfaces/common/interestRate/IInterestRateModel.sol";
 
-11: import { IOrigamiOToken } from "contracts/interfaces/investments/IOrigamiOToken.sol";
+10: import { IInterestRateModel } from "contracts/interfaces/common/interestRate/IInterestRateModel.sol";
 
-11: import { IOrigamiOToken } from "contracts/interfaces/investments/IOrigamiOToken.sol";
+11: import { IMorigamiOToken } from "contracts/interfaces/investments/IMorigamiOToken.sol";
 
-11: import { IOrigamiOToken } from "contracts/interfaces/investments/IOrigamiOToken.sol";
+11: import { IMorigamiOToken } from "contracts/interfaces/investments/IMorigamiOToken.sol";
 
-12: import { IOrigamiLendingClerk } from "contracts/interfaces/investments/lending/IOrigamiLendingClerk.sol";
+11: import { IMorigamiOToken } from "contracts/interfaces/investments/IMorigamiOToken.sol";
 
-12: import { IOrigamiLendingClerk } from "contracts/interfaces/investments/lending/IOrigamiLendingClerk.sol";
+12: import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
 
-12: import { IOrigamiLendingClerk } from "contracts/interfaces/investments/lending/IOrigamiLendingClerk.sol";
+12: import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
 
-12: import { IOrigamiLendingClerk } from "contracts/interfaces/investments/lending/IOrigamiLendingClerk.sol";
+12: import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
 
-13: import { IOrigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategyManager.sol";
+12: import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
 
-13: import { IOrigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategyManager.sol";
+13: import { IMorigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategyManager.sol";
 
-13: import { IOrigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategyManager.sol";
+13: import { IMorigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategyManager.sol";
 
-13: import { IOrigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategyManager.sol";
+13: import { IMorigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategyManager.sol";
 
-13: import { IOrigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategyManager.sol";
+13: import { IMorigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategyManager.sol";
 
-14: import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
+13: import { IMorigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategyManager.sol";
 
-14: import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
+14: import { IMorigamiDebtToken } from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
 
-14: import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
+14: import { IMorigamiDebtToken } from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
 
-14: import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
+14: import { IMorigamiDebtToken } from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
 
-15: import { IOrigamiLendingBorrower } from "contracts/interfaces/investments/lending/IOrigamiLendingBorrower.sol";
+14: import { IMorigamiDebtToken } from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
 
-15: import { IOrigamiLendingBorrower } from "contracts/interfaces/investments/lending/IOrigamiLendingBorrower.sol";
+15: import { IMorigamiLendingBorrower } from "contracts/interfaces/investments/lending/IMorigamiLendingBorrower.sol";
 
-15: import { IOrigamiLendingBorrower } from "contracts/interfaces/investments/lending/IOrigamiLendingBorrower.sol";
+15: import { IMorigamiLendingBorrower } from "contracts/interfaces/investments/lending/IMorigamiLendingBorrower.sol";
 
-15: import { IOrigamiLendingBorrower } from "contracts/interfaces/investments/lending/IOrigamiLendingBorrower.sol";
+15: import { IMorigamiLendingBorrower } from "contracts/interfaces/investments/lending/IMorigamiLendingBorrower.sol";
+
+15: import { IMorigamiLendingBorrower } from "contracts/interfaces/investments/lending/IMorigamiLendingBorrower.sol";
 
 16: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 16: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-17: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+17: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-17: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+17: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-17: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+17: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-18: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+18: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-18: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+18: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 124:             _assetScalar = 10 ** (_origamiDecimals - _assetDecimals);
 
@@ -1351,9 +1351,9 @@ File: contracts/investments/lending/OrigamiLendingClerk.sol
 
 410:         uint256 _debtBalance = debtToken.balanceOf(borrower);     // 18 dp
 
-411:         uint256 _maxRepayAmount = _debtBalance.scaleDown(_assetScalar, OrigamiMath.Rounding.ROUND_UP);   // asset's dp
+411:         uint256 _maxRepayAmount = _debtBalance.scaleDown(_assetScalar, MorigamiMath.Rounding.ROUND_UP);   // asset's dp
 
-411:         uint256 _maxRepayAmount = _debtBalance.scaleDown(_assetScalar, OrigamiMath.Rounding.ROUND_UP);   // asset's dp
+411:         uint256 _maxRepayAmount = _debtBalance.scaleDown(_assetScalar, MorigamiMath.Rounding.ROUND_UP);   // asset's dp
 
 414:         uint256 _debtToTransfer;  // 18 dp
 
@@ -1383,7 +1383,7 @@ File: contracts/investments/lending/OrigamiLendingClerk.sol
 
 682:         uint256 _totalBorrowerCeiling = oToken.circulatingSupply(); // oToken in 18dp
 
-686:             ? (_totalBorrowerCeiling - _totalBorrowerDebt).scaleDown(_assetScalar, OrigamiMath.Rounding.ROUND_DOWN)
+686:             ? (_totalBorrowerCeiling - _totalBorrowerDebt).scaleDown(_assetScalar, MorigamiMath.Rounding.ROUND_DOWN)
 
 701:         uint256 _borrowerAmount;   // asset's dp
 
@@ -1397,7 +1397,7 @@ File: contracts/investments/lending/OrigamiLendingClerk.sol
 
 705:             uint256 _borrowerDebtCeiling = borrowerConfig.debtCeiling;      // 18 dp
 
-709:                     ? (_borrowerDebtCeiling - _borrowerDebtBalance).scaleDown(_assetScalar, OrigamiMath.Rounding.ROUND_DOWN)
+709:                     ? (_borrowerDebtCeiling - _borrowerDebtBalance).scaleDown(_assetScalar, MorigamiMath.Rounding.ROUND_DOWN)
 
 714:         uint256 _globalAmount = totalAvailableToWithdraw(); // asset's dp
 
@@ -1414,7 +1414,7 @@ File: contracts/investments/lending/OrigamiLendingClerk.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/OrigamiLendingRewardsMinter.sol
+File: contracts/investments/lending/MorigamiLendingRewardsMinter.sol
 
 5: import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -1440,41 +1440,41 @@ File: contracts/investments/lending/OrigamiLendingRewardsMinter.sol
 
 8: import { IMintableToken } from "contracts/interfaces/common/IMintableToken.sol";
 
-9: import { IOrigamiInvestmentVault } from "contracts/interfaces/investments/IOrigamiInvestmentVault.sol";
+9: import { IMorigamiInvestmentVault } from "contracts/interfaces/investments/IMorigamiInvestmentVault.sol";
 
-9: import { IOrigamiInvestmentVault } from "contracts/interfaces/investments/IOrigamiInvestmentVault.sol";
+9: import { IMorigamiInvestmentVault } from "contracts/interfaces/investments/IMorigamiInvestmentVault.sol";
 
-9: import { IOrigamiInvestmentVault } from "contracts/interfaces/investments/IOrigamiInvestmentVault.sol";
+9: import { IMorigamiInvestmentVault } from "contracts/interfaces/investments/IMorigamiInvestmentVault.sol";
 
-10: import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
+10: import { IMorigamiDebtToken } from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
 
-10: import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
+10: import { IMorigamiDebtToken } from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
 
-10: import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
+10: import { IMorigamiDebtToken } from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
 
-10: import { IOrigamiDebtToken } from "contracts/interfaces/investments/lending/IOrigamiDebtToken.sol";
+10: import { IMorigamiDebtToken } from "contracts/interfaces/investments/lending/IMorigamiDebtToken.sol";
 
-11: import { IOrigamiLendingRewardsMinter } from "contracts/interfaces/investments/lending/IOrigamiLendingRewardsMinter.sol";
+11: import { IMorigamiLendingRewardsMinter } from "contracts/interfaces/investments/lending/IMorigamiLendingRewardsMinter.sol";
 
-11: import { IOrigamiLendingRewardsMinter } from "contracts/interfaces/investments/lending/IOrigamiLendingRewardsMinter.sol";
+11: import { IMorigamiLendingRewardsMinter } from "contracts/interfaces/investments/lending/IMorigamiLendingRewardsMinter.sol";
 
-11: import { IOrigamiLendingRewardsMinter } from "contracts/interfaces/investments/lending/IOrigamiLendingRewardsMinter.sol";
+11: import { IMorigamiLendingRewardsMinter } from "contracts/interfaces/investments/lending/IMorigamiLendingRewardsMinter.sol";
 
-11: import { IOrigamiLendingRewardsMinter } from "contracts/interfaces/investments/lending/IOrigamiLendingRewardsMinter.sol";
+11: import { IMorigamiLendingRewardsMinter } from "contracts/interfaces/investments/lending/IMorigamiLendingRewardsMinter.sol";
 
 12: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 12: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-13: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+13: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-13: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+13: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-14: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+14: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-14: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+14: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-14: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+14: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
 122:         uint256 mintAmount = (debtToken.estimatedCumulativeInterest() - _cumulativeInterestCheckpoint).subtractBps(carryOverRate);
 
@@ -1483,7 +1483,7 @@ File: contracts/investments/lending/OrigamiLendingRewardsMinter.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/OrigamiLendingSupplyManager.sol
+File: contracts/investments/lending/MorigamiLendingSupplyManager.sol
 
 5: import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
@@ -1513,35 +1513,35 @@ File: contracts/investments/lending/OrigamiLendingSupplyManager.sol
 
 7: import { EnumerableSet } from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
-9: import { IOrigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreakerProxy.sol";
+9: import { IMorigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreakerProxy.sol";
 
-9: import { IOrigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreakerProxy.sol";
+9: import { IMorigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreakerProxy.sol";
 
-9: import { IOrigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreakerProxy.sol";
+9: import { IMorigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreakerProxy.sol";
 
-9: import { IOrigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IOrigamiCircuitBreakerProxy.sol";
+9: import { IMorigamiCircuitBreakerProxy } from "contracts/interfaces/common/circuitBreaker/IMorigamiCircuitBreakerProxy.sol";
 
-10: import { IOrigamiInvestment } from "contracts/interfaces/investments/IOrigamiInvestment.sol";
+10: import { IMorigamiInvestment } from "contracts/interfaces/investments/IMorigamiInvestment.sol";
 
-10: import { IOrigamiInvestment } from "contracts/interfaces/investments/IOrigamiInvestment.sol";
+10: import { IMorigamiInvestment } from "contracts/interfaces/investments/IMorigamiInvestment.sol";
 
-10: import { IOrigamiInvestment } from "contracts/interfaces/investments/IOrigamiInvestment.sol";
+10: import { IMorigamiInvestment } from "contracts/interfaces/investments/IMorigamiInvestment.sol";
 
-11: import { IOrigamiLendingSupplyManager } from "contracts/interfaces/investments/lending/IOrigamiLendingSupplyManager.sol";
+11: import { IMorigamiLendingSupplyManager } from "contracts/interfaces/investments/lending/IMorigamiLendingSupplyManager.sol";
 
-11: import { IOrigamiLendingSupplyManager } from "contracts/interfaces/investments/lending/IOrigamiLendingSupplyManager.sol";
+11: import { IMorigamiLendingSupplyManager } from "contracts/interfaces/investments/lending/IMorigamiLendingSupplyManager.sol";
 
-11: import { IOrigamiLendingSupplyManager } from "contracts/interfaces/investments/lending/IOrigamiLendingSupplyManager.sol";
+11: import { IMorigamiLendingSupplyManager } from "contracts/interfaces/investments/lending/IMorigamiLendingSupplyManager.sol";
 
-11: import { IOrigamiLendingSupplyManager } from "contracts/interfaces/investments/lending/IOrigamiLendingSupplyManager.sol";
+11: import { IMorigamiLendingSupplyManager } from "contracts/interfaces/investments/lending/IMorigamiLendingSupplyManager.sol";
 
-12: import { IOrigamiLendingClerk } from "contracts/interfaces/investments/lending/IOrigamiLendingClerk.sol";
+12: import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
 
-12: import { IOrigamiLendingClerk } from "contracts/interfaces/investments/lending/IOrigamiLendingClerk.sol";
+12: import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
 
-12: import { IOrigamiLendingClerk } from "contracts/interfaces/investments/lending/IOrigamiLendingClerk.sol";
+12: import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
 
-12: import { IOrigamiLendingClerk } from "contracts/interfaces/investments/lending/IOrigamiLendingClerk.sol";
+12: import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
 
 13: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
@@ -1553,21 +1553,21 @@ File: contracts/investments/lending/OrigamiLendingSupplyManager.sol
 
 14: import { Whitelisted } from "contracts/common/access/Whitelisted.sol";
 
-15: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+15: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-15: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+15: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-15: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+15: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-16: import { OrigamiManagerPausable } from "contracts/investments/util/OrigamiManagerPausable.sol";
+16: import { MorigamiManagerPausable } from "contracts/investments/util/MorigamiManagerPausable.sol";
 
-16: import { OrigamiManagerPausable } from "contracts/investments/util/OrigamiManagerPausable.sol";
+16: import { MorigamiManagerPausable } from "contracts/investments/util/MorigamiManagerPausable.sol";
 
-16: import { OrigamiManagerPausable } from "contracts/investments/util/OrigamiManagerPausable.sol";
+16: import { MorigamiManagerPausable } from "contracts/investments/util/MorigamiManagerPausable.sol";
 
-17: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+17: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-17: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+17: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 78:             _assetScalar = 10 ** (_origamiDecimals - _assetDecimals);
 
@@ -1582,7 +1582,7 @@ File: contracts/investments/lending/OrigamiLendingSupplyManager.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/idleStrategy/OrigamiAaveV3IdleStrategy.sol
+File: contracts/investments/lending/idleStrategy/MorigamiAaveV3IdleStrategy.sol
 
 5: import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -1626,13 +1626,13 @@ File: contracts/investments/lending/idleStrategy/OrigamiAaveV3IdleStrategy.sol
 
 10: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-11: import { OrigamiAbstractIdleStrategy } from "contracts/investments/lending/idleStrategy/OrigamiAbstractIdleStrategy.sol";
+11: import { MorigamiAbstractIdleStrategy } from "contracts/investments/lending/idleStrategy/MorigamiAbstractIdleStrategy.sol";
 
-11: import { OrigamiAbstractIdleStrategy } from "contracts/investments/lending/idleStrategy/OrigamiAbstractIdleStrategy.sol";
+11: import { MorigamiAbstractIdleStrategy } from "contracts/investments/lending/idleStrategy/MorigamiAbstractIdleStrategy.sol";
 
-11: import { OrigamiAbstractIdleStrategy } from "contracts/investments/lending/idleStrategy/OrigamiAbstractIdleStrategy.sol";
+11: import { MorigamiAbstractIdleStrategy } from "contracts/investments/lending/idleStrategy/MorigamiAbstractIdleStrategy.sol";
 
-11: import { OrigamiAbstractIdleStrategy } from "contracts/investments/lending/idleStrategy/OrigamiAbstractIdleStrategy.sol";
+11: import { MorigamiAbstractIdleStrategy } from "contracts/investments/lending/idleStrategy/MorigamiAbstractIdleStrategy.sol";
 
 50:         lendingPool.supply(address(asset), amount, address(this), 0 /* no referralCode */);
 
@@ -1645,7 +1645,7 @@ File: contracts/investments/lending/idleStrategy/OrigamiAaveV3IdleStrategy.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/idleStrategy/OrigamiAbstractIdleStrategy.sol
+File: contracts/investments/lending/idleStrategy/MorigamiAbstractIdleStrategy.sol
 
 5: import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -1655,26 +1655,26 @@ File: contracts/investments/lending/idleStrategy/OrigamiAbstractIdleStrategy.sol
 
 5: import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-7: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+7: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-7: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+7: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-7: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+7: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-8: import { IOrigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategy.sol";
+8: import { IMorigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategy.sol";
 
-8: import { IOrigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategy.sol";
+8: import { IMorigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategy.sol";
 
-8: import { IOrigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategy.sol";
+8: import { IMorigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategy.sol";
 
-8: import { IOrigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategy.sol";
+8: import { IMorigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategy.sol";
 
-8: import { IOrigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategy.sol";
+8: import { IMorigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategy.sol";
 
 ```
 
 ```solidity
-File: contracts/investments/lending/idleStrategy/OrigamiIdleStrategyManager.sol
+File: contracts/investments/lending/idleStrategy/MorigamiIdleStrategyManager.sol
 
 5: import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -1698,31 +1698,31 @@ File: contracts/investments/lending/idleStrategy/OrigamiIdleStrategyManager.sol
 
 8: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-9: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+9: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-9: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+9: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-9: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+9: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-10: import { IOrigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategyManager.sol";
+10: import { IMorigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategyManager.sol";
 
-10: import { IOrigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategyManager.sol";
+10: import { IMorigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategyManager.sol";
 
-10: import { IOrigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategyManager.sol";
+10: import { IMorigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategyManager.sol";
 
-10: import { IOrigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategyManager.sol";
+10: import { IMorigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategyManager.sol";
 
-10: import { IOrigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategyManager.sol";
+10: import { IMorigamiIdleStrategyManager } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategyManager.sol";
 
-11: import { IOrigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategy.sol";
+11: import { IMorigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategy.sol";
 
-11: import { IOrigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategy.sol";
+11: import { IMorigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategy.sol";
 
-11: import { IOrigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategy.sol";
+11: import { IMorigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategy.sol";
 
-11: import { IOrigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategy.sol";
+11: import { IMorigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategy.sol";
 
-11: import { IOrigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IOrigamiIdleStrategy.sol";
+11: import { IMorigamiIdleStrategy } from "contracts/interfaces/investments/lending/idleStrategy/IMorigamiIdleStrategy.sol";
 
 129:                     underlyingAllocation = _balance - _threshold;
 
@@ -1741,7 +1741,7 @@ File: contracts/investments/lending/idleStrategy/OrigamiIdleStrategyManager.sol
 ```
 
 ```solidity
-File: contracts/investments/lovToken/OrigamiLovToken.sol
+File: contracts/investments/lovToken/MorigamiLovToken.sol
 
 5: import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
@@ -1761,29 +1761,29 @@ File: contracts/investments/lovToken/OrigamiLovToken.sol
 
 6: import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-8: import { IOrigamiOTokenManager } from "contracts/interfaces/investments/IOrigamiOTokenManager.sol";
+8: import { IMorigamiOTokenManager } from "contracts/interfaces/investments/IMorigamiOTokenManager.sol";
 
-8: import { IOrigamiOTokenManager } from "contracts/interfaces/investments/IOrigamiOTokenManager.sol";
+8: import { IMorigamiOTokenManager } from "contracts/interfaces/investments/IMorigamiOTokenManager.sol";
 
-8: import { IOrigamiOTokenManager } from "contracts/interfaces/investments/IOrigamiOTokenManager.sol";
+8: import { IMorigamiOTokenManager } from "contracts/interfaces/investments/IMorigamiOTokenManager.sol";
 
-9: import { IOrigamiLovToken } from "contracts/interfaces/investments/lovToken/IOrigamiLovToken.sol";
+9: import { IMorigamiLovToken } from "contracts/interfaces/investments/lovToken/IMorigamiLovToken.sol";
 
-9: import { IOrigamiLovToken } from "contracts/interfaces/investments/lovToken/IOrigamiLovToken.sol";
+9: import { IMorigamiLovToken } from "contracts/interfaces/investments/lovToken/IMorigamiLovToken.sol";
 
-9: import { IOrigamiLovToken } from "contracts/interfaces/investments/lovToken/IOrigamiLovToken.sol";
+9: import { IMorigamiLovToken } from "contracts/interfaces/investments/lovToken/IMorigamiLovToken.sol";
 
-9: import { IOrigamiLovToken } from "contracts/interfaces/investments/lovToken/IOrigamiLovToken.sol";
+9: import { IMorigamiLovToken } from "contracts/interfaces/investments/lovToken/IMorigamiLovToken.sol";
 
-10: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+10: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-10: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+10: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-10: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+10: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-10: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+10: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-10: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+10: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
 11: import { ITokenPrices } from "contracts/interfaces/common/ITokenPrices.sol";
 
@@ -1791,25 +1791,25 @@ File: contracts/investments/lovToken/OrigamiLovToken.sol
 
 11: import { ITokenPrices } from "contracts/interfaces/common/ITokenPrices.sol";
 
-12: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+12: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-12: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+12: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-12: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+12: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-12: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+12: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
 14: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 14: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-15: import { OrigamiInvestment } from "contracts/investments/OrigamiInvestment.sol";
+15: import { MorigamiInvestment } from "contracts/investments/MorigamiInvestment.sol";
 
-15: import { OrigamiInvestment } from "contracts/investments/OrigamiInvestment.sol";
+15: import { MorigamiInvestment } from "contracts/investments/MorigamiInvestment.sol";
 
-16: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+16: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-16: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+16: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 173:         InvestQuoteData calldata /*quoteData*/
 
@@ -1845,9 +1845,9 @@ File: contracts/investments/lovToken/OrigamiLovToken.sol
 
 192:         if (block.timestamp < (lastPerformanceFeeTime + PERFORMANCE_FEE_FREQUENCY)) revert TooSoon();
 
-317:         return lovManager.sharesToReserves(10 ** decimals(), IOrigamiOracle.PriceType.HISTORIC_PRICE);
+317:         return lovManager.sharesToReserves(10 ** decimals(), IMorigamiOracle.PriceType.HISTORIC_PRICE);
 
-317:         return lovManager.sharesToReserves(10 ** decimals(), IOrigamiOracle.PriceType.HISTORIC_PRICE);
+317:         return lovManager.sharesToReserves(10 ** decimals(), IMorigamiOracle.PriceType.HISTORIC_PRICE);
 
 333:         uint256 /*assets*/,
 
@@ -1899,12 +1899,12 @@ File: contracts/investments/lovToken/OrigamiLovToken.sol
 
 392:             performanceFee * PERFORMANCE_FEE_FREQUENCY, 
 
-393:             OrigamiMath.BASIS_POINTS_DIVISOR * 365 days, 
+393:             MorigamiMath.BASIS_POINTS_DIVISOR * 365 days, 
 
 ```
 
 ```solidity
-File: contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol
+File: contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol
 
 5: import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -1924,45 +1924,45 @@ File: contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol
 
 6: import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
-8: import { IOrigamiInvestment } from "contracts/interfaces/investments/IOrigamiInvestment.sol";
+8: import { IMorigamiInvestment } from "contracts/interfaces/investments/IMorigamiInvestment.sol";
 
-8: import { IOrigamiInvestment } from "contracts/interfaces/investments/IOrigamiInvestment.sol";
+8: import { IMorigamiInvestment } from "contracts/interfaces/investments/IMorigamiInvestment.sol";
 
-8: import { IOrigamiInvestment } from "contracts/interfaces/investments/IOrigamiInvestment.sol";
+8: import { IMorigamiInvestment } from "contracts/interfaces/investments/IMorigamiInvestment.sol";
 
-9: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+9: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-9: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+9: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-9: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+9: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-9: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+9: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-9: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+9: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-10: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+10: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-10: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+10: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-10: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+10: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-10: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+10: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-12: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+12: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-12: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+12: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-12: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+12: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
 13: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 13: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-14: import { OrigamiManagerPausable } from "contracts/investments/util/OrigamiManagerPausable.sol";
+14: import { MorigamiManagerPausable } from "contracts/investments/util/MorigamiManagerPausable.sol";
 
-14: import { OrigamiManagerPausable } from "contracts/investments/util/OrigamiManagerPausable.sol";
+14: import { MorigamiManagerPausable } from "contracts/investments/util/MorigamiManagerPausable.sol";
 
-14: import { OrigamiManagerPausable } from "contracts/investments/util/OrigamiManagerPausable.sol";
+14: import { MorigamiManagerPausable } from "contracts/investments/util/MorigamiManagerPausable.sol";
 
 15: import { Range } from "contracts/libraries/Range.sol";
 
@@ -1974,11 +1974,11 @@ File: contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol
 
 16: import { Whitelisted } from "contracts/common/access/Whitelisted.sol";
 
-17: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+17: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-17: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+17: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-139:         buffer += uint16(OrigamiMath.BASIS_POINTS_DIVISOR);
+139:         buffer += uint16(MorigamiMath.BASIS_POINTS_DIVISOR);
 
 234:         address /*account*/,
 
@@ -2029,7 +2029,7 @@ File: contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol
 ```
 
 ```solidity
-File: contracts/investments/lovToken/managers/OrigamiLovTokenErc4626Manager.sol
+File: contracts/investments/lovToken/managers/MorigamiLovTokenErc4626Manager.sol
 
 5: import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
@@ -2057,73 +2057,73 @@ File: contracts/investments/lovToken/managers/OrigamiLovTokenErc4626Manager.sol
 
 7: import { IERC4626 } from "@openzeppelin/contracts/interfaces/IERC4626.sol";
 
-9: import { IOrigamiLovTokenErc4626Manager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenErc4626Manager.sol";
+9: import { IMorigamiLovTokenErc4626Manager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenErc4626Manager.sol";
 
-9: import { IOrigamiLovTokenErc4626Manager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenErc4626Manager.sol";
+9: import { IMorigamiLovTokenErc4626Manager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenErc4626Manager.sol";
 
-9: import { IOrigamiLovTokenErc4626Manager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenErc4626Manager.sol";
+9: import { IMorigamiLovTokenErc4626Manager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenErc4626Manager.sol";
 
-9: import { IOrigamiLovTokenErc4626Manager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenErc4626Manager.sol";
+9: import { IMorigamiLovTokenErc4626Manager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenErc4626Manager.sol";
 
-9: import { IOrigamiLovTokenErc4626Manager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenErc4626Manager.sol";
+9: import { IMorigamiLovTokenErc4626Manager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenErc4626Manager.sol";
 
-10: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+10: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-10: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+10: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-10: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+10: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-10: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+10: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-11: import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+11: import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-11: import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+11: import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-11: import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+11: import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-11: import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+11: import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-12: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+12: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-12: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+12: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-12: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+12: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-12: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+12: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-12: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+12: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-13: import { IOrigamiLendingClerk } from "contracts/interfaces/investments/lending/IOrigamiLendingClerk.sol";
+13: import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
 
-13: import { IOrigamiLendingClerk } from "contracts/interfaces/investments/lending/IOrigamiLendingClerk.sol";
+13: import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
 
-13: import { IOrigamiLendingClerk } from "contracts/interfaces/investments/lending/IOrigamiLendingClerk.sol";
+13: import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
 
-13: import { IOrigamiLendingClerk } from "contracts/interfaces/investments/lending/IOrigamiLendingClerk.sol";
+13: import { IMorigamiLendingClerk } from "contracts/interfaces/investments/lending/IMorigamiLendingClerk.sol";
 
-14: import { IOrigamiLendingBorrower } from "contracts/interfaces/investments/lending/IOrigamiLendingBorrower.sol";
+14: import { IMorigamiLendingBorrower } from "contracts/interfaces/investments/lending/IMorigamiLendingBorrower.sol";
 
-14: import { IOrigamiLendingBorrower } from "contracts/interfaces/investments/lending/IOrigamiLendingBorrower.sol";
+14: import { IMorigamiLendingBorrower } from "contracts/interfaces/investments/lending/IMorigamiLendingBorrower.sol";
 
-14: import { IOrigamiLendingBorrower } from "contracts/interfaces/investments/lending/IOrigamiLendingBorrower.sol";
+14: import { IMorigamiLendingBorrower } from "contracts/interfaces/investments/lending/IMorigamiLendingBorrower.sol";
 
-14: import { IOrigamiLendingBorrower } from "contracts/interfaces/investments/lending/IOrigamiLendingBorrower.sol";
+14: import { IMorigamiLendingBorrower } from "contracts/interfaces/investments/lending/IMorigamiLendingBorrower.sol";
 
 16: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 16: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-17: import { OrigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol";
+17: import { MorigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol";
 
-17: import { OrigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol";
+17: import { MorigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol";
 
-17: import { OrigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol";
+17: import { MorigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol";
 
-17: import { OrigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol";
+17: import { MorigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol";
 
-18: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+18: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-18: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+18: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 19: import { DynamicFees } from "contracts/libraries/DynamicFees.sol";
 
@@ -2142,7 +2142,7 @@ File: contracts/investments/lovToken/managers/OrigamiLovTokenErc4626Manager.sol
 ```
 
 ```solidity
-File: contracts/investments/lovToken/managers/OrigamiLovTokenFlashAndBorrowManager.sol
+File: contracts/investments/lovToken/managers/MorigamiLovTokenFlashAndBorrowManager.sol
 
 5: import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
@@ -2172,65 +2172,65 @@ File: contracts/investments/lovToken/managers/OrigamiLovTokenFlashAndBorrowManag
 
 7: import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
-9: import { IOrigamiLovTokenFlashAndBorrowManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenFlashAndBorrowManager.sol";
+9: import { IMorigamiLovTokenFlashAndBorrowManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenFlashAndBorrowManager.sol";
 
-9: import { IOrigamiLovTokenFlashAndBorrowManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenFlashAndBorrowManager.sol";
+9: import { IMorigamiLovTokenFlashAndBorrowManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenFlashAndBorrowManager.sol";
 
-9: import { IOrigamiLovTokenFlashAndBorrowManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenFlashAndBorrowManager.sol";
+9: import { IMorigamiLovTokenFlashAndBorrowManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenFlashAndBorrowManager.sol";
 
-9: import { IOrigamiLovTokenFlashAndBorrowManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenFlashAndBorrowManager.sol";
+9: import { IMorigamiLovTokenFlashAndBorrowManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenFlashAndBorrowManager.sol";
 
-9: import { IOrigamiLovTokenFlashAndBorrowManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenFlashAndBorrowManager.sol";
+9: import { IMorigamiLovTokenFlashAndBorrowManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenFlashAndBorrowManager.sol";
 
-10: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+10: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-10: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+10: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-10: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+10: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-10: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+10: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-11: import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+11: import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-11: import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+11: import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-11: import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+11: import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-11: import { IOrigamiSwapper } from "contracts/interfaces/common/swappers/IOrigamiSwapper.sol";
+11: import { IMorigamiSwapper } from "contracts/interfaces/common/swappers/IMorigamiSwapper.sol";
 
-12: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+12: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-12: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+12: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-12: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+12: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-12: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+12: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-12: import { IOrigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IOrigamiLovTokenManager.sol";
+12: import { IMorigamiLovTokenManager } from "contracts/interfaces/investments/lovToken/managers/IMorigamiLovTokenManager.sol";
 
-13: import { IOrigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IOrigamiFlashLoanProvider.sol";
+13: import { IMorigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IMorigamiFlashLoanProvider.sol";
 
-13: import { IOrigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IOrigamiFlashLoanProvider.sol";
+13: import { IMorigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IMorigamiFlashLoanProvider.sol";
 
-13: import { IOrigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IOrigamiFlashLoanProvider.sol";
+13: import { IMorigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IMorigamiFlashLoanProvider.sol";
 
-13: import { IOrigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IOrigamiFlashLoanProvider.sol";
+13: import { IMorigamiFlashLoanProvider } from "contracts/interfaces/common/flashLoan/IMorigamiFlashLoanProvider.sol";
 
 15: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 15: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-16: import { OrigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol";
+16: import { MorigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol";
 
-16: import { OrigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol";
+16: import { MorigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol";
 
-16: import { OrigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol";
+16: import { MorigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol";
 
-16: import { OrigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol";
+16: import { MorigamiAbstractLovTokenManager } from "contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol";
 
-17: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+17: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-17: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+17: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 18: import { Range } from "contracts/libraries/Range.sol";
 
@@ -2240,13 +2240,13 @@ File: contracts/investments/lovToken/managers/OrigamiLovTokenFlashAndBorrowManag
 
 19: import { DynamicFees } from "contracts/libraries/DynamicFees.sol";
 
-20: import { IOrigamiBorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IOrigamiBorrowAndLend.sol";
+20: import { IMorigamiBorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IMorigamiBorrowAndLend.sol";
 
-20: import { IOrigamiBorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IOrigamiBorrowAndLend.sol";
+20: import { IMorigamiBorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IMorigamiBorrowAndLend.sol";
 
-20: import { IOrigamiBorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IOrigamiBorrowAndLend.sol";
+20: import { IMorigamiBorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IMorigamiBorrowAndLend.sol";
 
-20: import { IOrigamiBorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IOrigamiBorrowAndLend.sol";
+20: import { IMorigamiBorrowAndLend } from "contracts/interfaces/common/borrowAndLend/IMorigamiBorrowAndLend.sol";
 
 323:         _debtToken.safeTransfer(msg.sender, amount+fee);
 
@@ -2271,25 +2271,25 @@ File: contracts/investments/lovToken/managers/OrigamiLovTokenFlashAndBorrowManag
 ```
 
 ```solidity
-File: contracts/investments/util/OrigamiManagerPausable.sol
+File: contracts/investments/util/MorigamiManagerPausable.sol
 
 5: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 5: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
-6: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+6: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-6: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+6: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-6: import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+6: import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 
-7: import { IOrigamiManagerPausable } from "contracts/interfaces/investments/util/IOrigamiManagerPausable.sol";
+7: import { IMorigamiManagerPausable } from "contracts/interfaces/investments/util/IMorigamiManagerPausable.sol";
 
-7: import { IOrigamiManagerPausable } from "contracts/interfaces/investments/util/IOrigamiManagerPausable.sol";
+7: import { IMorigamiManagerPausable } from "contracts/interfaces/investments/util/IMorigamiManagerPausable.sol";
 
-7: import { IOrigamiManagerPausable } from "contracts/interfaces/investments/util/IOrigamiManagerPausable.sol";
+7: import { IMorigamiManagerPausable } from "contracts/interfaces/investments/util/IMorigamiManagerPausable.sol";
 
-7: import { IOrigamiManagerPausable } from "contracts/interfaces/investments/util/IOrigamiManagerPausable.sol";
+7: import { IMorigamiManagerPausable } from "contracts/interfaces/investments/util/IMorigamiManagerPausable.sol";
 
 ```
 
@@ -2304,17 +2304,17 @@ File: contracts/libraries/Chainlink.sol
 
 5: import { IAggregatorV3Interface } from "contracts/interfaces/external/chainlink/IAggregatorV3Interface.sol";
 
-6: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+6: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-6: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+6: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-6: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+6: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-6: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+6: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-7: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+7: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-7: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+7: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 35:             block.timestamp - lastUpdatedAt > stalenessThreshold
 
@@ -2350,17 +2350,17 @@ File: contracts/libraries/CompoundedInterest.sol
 ```solidity
 File: contracts/libraries/DynamicFees.sol
 
-5: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+5: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-5: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+5: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-5: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+5: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-5: import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+5: import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-6: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+6: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
-6: import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+6: import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 7: import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
@@ -2374,12 +2374,12 @@ File: contracts/libraries/DynamicFees.sol
 
 71:                     _delta = _histPrice - _spotPrice;
 
-84:             feeLeverageFactor * OrigamiMath.BASIS_POINTS_DIVISOR,
+84:             feeLeverageFactor * MorigamiMath.BASIS_POINTS_DIVISOR,
 
 ```
 
 ```solidity
-File: contracts/libraries/OrigamiMath.sol
+File: contracts/libraries/MorigamiMath.sol
 
 5: import { mulDiv as prbMulDiv } from "@prb/math/src/Common.sol";
 
@@ -2421,21 +2421,21 @@ File: contracts/libraries/OrigamiMath.sol
 
 *Instances (3)*:
 ```solidity
-File: contracts/common/borrowAndLend/OrigamiAaveV3BorrowAndLend.sol
+File: contracts/common/borrowAndLend/MorigamiAaveV3BorrowAndLend.sol
 
 66:     uint16 public override referralCode = 0;
 
 ```
 
 ```solidity
-File: contracts/common/circuitBreaker/OrigamiCircuitBreakerAllUsersPerPeriod.sol
+File: contracts/common/circuitBreaker/MorigamiCircuitBreakerAllUsersPerPeriod.sol
 
 206:             for (uint256 i = 0; i < _nBuckets; ++i) {
 
 ```
 
 ```solidity
-File: contracts/common/flashLoan/OrigamiAaveV3FlashLoanProvider.sol
+File: contracts/common/flashLoan/MorigamiAaveV3FlashLoanProvider.sol
 
 38:     uint16 public constant REFERRAL_CODE = 0;
 
@@ -2468,7 +2468,7 @@ File: contracts/common/RepricingToken.sol
 ```
 
 ```solidity
-File: contracts/common/access/OrigamiElevatedAccessBase.sol
+File: contracts/common/access/MorigamiElevatedAccessBase.sol
 
 36:     function proposeNewOwner(address account) external override onlyElevatedAccess {
 
@@ -2486,7 +2486,7 @@ File: contracts/common/access/Whitelisted.sol
 ```
 
 ```solidity
-File: contracts/common/borrowAndLend/OrigamiAaveV3BorrowAndLend.sol
+File: contracts/common/borrowAndLend/MorigamiAaveV3BorrowAndLend.sol
 
 110:     function setPositionOwner(address account) external override onlyElevatedAccess {
 
@@ -2503,7 +2503,7 @@ File: contracts/common/borrowAndLend/OrigamiAaveV3BorrowAndLend.sol
 ```
 
 ```solidity
-File: contracts/common/circuitBreaker/OrigamiCircuitBreakerAllUsersPerPeriod.sol
+File: contracts/common/circuitBreaker/MorigamiCircuitBreakerAllUsersPerPeriod.sol
 
 98:     function preCheck(address /*onBehalfOf*/, uint256 amount) external override onlyProxy {
 
@@ -2514,14 +2514,14 @@ File: contracts/common/circuitBreaker/OrigamiCircuitBreakerAllUsersPerPeriod.sol
 ```
 
 ```solidity
-File: contracts/common/swappers/OrigamiDexAggregatorSwapper.sol
+File: contracts/common/swappers/MorigamiDexAggregatorSwapper.sol
 
 44:     function recoverToken(address token, address to, uint256 amount) external onlyElevatedAccess {
 
 ```
 
 ```solidity
-File: contracts/investments/OrigamiInvestmentVault.sol
+File: contracts/investments/MorigamiInvestmentVault.sol
 
 88:     function setTokenPrices(address _tokenPrices) external onlyElevatedAccess {
 
@@ -2530,7 +2530,7 @@ File: contracts/investments/OrigamiInvestmentVault.sol
 ```
 
 ```solidity
-File: contracts/investments/OrigamiOToken.sol
+File: contracts/investments/MorigamiOToken.sol
 
 45:     function setManager(address _manager) external override onlyElevatedAccess {
 
@@ -2541,7 +2541,7 @@ File: contracts/investments/OrigamiOToken.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/OrigamiDebtToken.sol
+File: contracts/investments/lending/MorigamiDebtToken.sol
 
 93:     function setMinter(address account, bool value) external override onlyElevatedAccess {
 
@@ -2554,7 +2554,7 @@ File: contracts/investments/lending/OrigamiDebtToken.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/OrigamiLendingClerk.sol
+File: contracts/investments/lending/MorigamiLendingClerk.sol
 
 141:     function setSupplyManager(address _supplyManager) external override onlyElevatedAccess {
 
@@ -2579,7 +2579,7 @@ File: contracts/investments/lending/OrigamiLendingClerk.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/OrigamiLendingRewardsMinter.sol
+File: contracts/investments/lending/MorigamiLendingRewardsMinter.sol
 
 79:     function setCarryOverRate(uint256 _carryOverRate) external override onlyElevatedAccess {
 
@@ -2592,7 +2592,7 @@ File: contracts/investments/lending/OrigamiLendingRewardsMinter.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/OrigamiLendingSupplyManager.sol
+File: contracts/investments/lending/MorigamiLendingSupplyManager.sol
 
 89:     function setLendingClerk(address _lendingClerk) external override onlyElevatedAccess {
 
@@ -2601,7 +2601,7 @@ File: contracts/investments/lending/OrigamiLendingSupplyManager.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/idleStrategy/OrigamiAaveV3IdleStrategy.sol
+File: contracts/investments/lending/idleStrategy/MorigamiAaveV3IdleStrategy.sol
 
 45:     function allocate(uint256 amount) external override onlyElevatedAccess {
 
@@ -2612,7 +2612,7 @@ File: contracts/investments/lending/idleStrategy/OrigamiAaveV3IdleStrategy.sol
 ```
 
 ```solidity
-File: contracts/investments/lending/idleStrategy/OrigamiIdleStrategyManager.sol
+File: contracts/investments/lending/idleStrategy/MorigamiIdleStrategyManager.sol
 
 77:     function setIdleStrategy(address _idleStrategy) external override onlyElevatedAccess {
 
@@ -2631,7 +2631,7 @@ File: contracts/investments/lending/idleStrategy/OrigamiIdleStrategyManager.sol
 ```
 
 ```solidity
-File: contracts/investments/lovToken/OrigamiLovToken.sol
+File: contracts/investments/lovToken/MorigamiLovToken.sol
 
 81:     function setManager(address _manager) external override onlyElevatedAccess {
 
@@ -2646,7 +2646,7 @@ File: contracts/investments/lovToken/OrigamiLovToken.sol
 ```
 
 ```solidity
-File: contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol
+File: contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol
 
 135:     function setRedeemableReservesBufferBps(uint16 buffer) external override onlyElevatedAccess {
 
@@ -2657,7 +2657,7 @@ File: contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol
 ```
 
 ```solidity
-File: contracts/investments/lovToken/managers/OrigamiLovTokenErc4626Manager.sol
+File: contracts/investments/lovToken/managers/MorigamiLovTokenErc4626Manager.sol
 
 98:     function setLendingClerk(address _lendingClerk) external override onlyElevatedAccess {
 
@@ -2678,7 +2678,7 @@ File: contracts/investments/lovToken/managers/OrigamiLovTokenErc4626Manager.sol
 ```
 
 ```solidity
-File: contracts/investments/lovToken/managers/OrigamiLovTokenFlashAndBorrowManager.sol
+File: contracts/investments/lovToken/managers/MorigamiLovTokenFlashAndBorrowManager.sol
 
 97:     function setSwapper(address _swapper) external override onlyElevatedAccess {
 
@@ -2701,7 +2701,7 @@ File: contracts/investments/lovToken/managers/OrigamiLovTokenFlashAndBorrowManag
 ```
 
 ```solidity
-File: contracts/investments/util/OrigamiManagerPausable.sol
+File: contracts/investments/util/MorigamiManagerPausable.sol
 
 37:     function setPauser(address account, bool canPause) external onlyElevatedAccess {
 
@@ -2712,21 +2712,21 @@ If needed, the values can be read from the verified contract source code, or if 
 
 *Instances (13)*:
 ```solidity
-File: contracts/common/circuitBreaker/OrigamiCircuitBreakerAllUsersPerPeriod.sol
+File: contracts/common/circuitBreaker/MorigamiCircuitBreakerAllUsersPerPeriod.sol
 
 73:     uint32 public constant MAX_BUCKETS = 4000;
 
 ```
 
 ```solidity
-File: contracts/common/flashLoan/OrigamiAaveV3FlashLoanProvider.sol
+File: contracts/common/flashLoan/MorigamiAaveV3FlashLoanProvider.sol
 
 38:     uint16 public constant REFERRAL_CODE = 0;
 
 ```
 
 ```solidity
-File: contracts/common/oracle/OrigamiOracleBase.sol
+File: contracts/common/oracle/MorigamiOracleBase.sol
 
 29:     uint8 public constant override decimals = 18;
 
@@ -2735,28 +2735,28 @@ File: contracts/common/oracle/OrigamiOracleBase.sol
 ```
 
 ```solidity
-File: contracts/investments/OrigamiInvestment.sol
+File: contracts/investments/MorigamiInvestment.sol
 
 15:     string public constant API_VERSION = "0.2.0";
 
 ```
 
 ```solidity
-File: contracts/investments/OrigamiInvestmentVault.sol
+File: contracts/investments/MorigamiInvestmentVault.sol
 
 34:     string public constant API_VERSION = "0.2.0";
 
 ```
 
 ```solidity
-File: contracts/investments/lending/OrigamiDebtToken.sol
+File: contracts/investments/lending/MorigamiDebtToken.sol
 
 63:     uint8 public constant override decimals = 18;
 
 ```
 
 ```solidity
-File: contracts/investments/lending/idleStrategy/OrigamiIdleStrategyManager.sol
+File: contracts/investments/lending/idleStrategy/MorigamiIdleStrategyManager.sol
 
 60:     string public constant override version = "1.0.0";
 
@@ -2765,14 +2765,14 @@ File: contracts/investments/lending/idleStrategy/OrigamiIdleStrategyManager.sol
 ```
 
 ```solidity
-File: contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol
+File: contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol
 
 75:     uint256 public constant override PRECISION = 1e18;
 
 ```
 
 ```solidity
-File: contracts/investments/lovToken/managers/OrigamiLovTokenErc4626Manager.sol
+File: contracts/investments/lovToken/managers/MorigamiLovTokenErc4626Manager.sol
 
 80:     string public constant override version = "1.0.0";
 
@@ -2786,7 +2786,7 @@ File: contracts/libraries/CompoundedInterest.sol
 ```
 
 ```solidity
-File: contracts/libraries/OrigamiMath.sol
+File: contracts/libraries/MorigamiMath.sol
 
 18:     uint256 public constant BASIS_POINTS_DIVISOR = 10_000;
 
@@ -2803,7 +2803,7 @@ File: contracts/libraries/OrigamiMath.sol
 
 *Instances (2)*:
 ```solidity
-File: contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol
+File: contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol
 
 528:             if (ee < MAX_EFECTIVE_EXPOSURE) {
 
@@ -2830,21 +2830,21 @@ File: contracts/common/MintableToken.sol
 ```
 
 ```solidity
-File: contracts/common/circuitBreaker/OrigamiCircuitBreakerProxy.sol
+File: contracts/common/circuitBreaker/MorigamiCircuitBreakerProxy.sol
 
 42:     {}
 
 ```
 
 ```solidity
-File: contracts/investments/OrigamiOToken.sol
+File: contracts/investments/MorigamiOToken.sol
 
-40:     ) OrigamiInvestment(_name, _symbol, _initialOwner) {}
+40:     ) MorigamiInvestment(_name, _symbol, _initialOwner) {}
 
 ```
 
 ```solidity
-File: contracts/investments/lovToken/managers/OrigamiAbstractLovTokenManager.sol
+File: contracts/investments/lovToken/managers/MorigamiAbstractLovTokenManager.sol
 
 601:     function _validateAlRange(Range.Data storage range) internal virtual view {}
 
@@ -2855,14 +2855,14 @@ Initializers could be front-run, allowing an attacker to either set their own va
 
 *Instances (2)*:
 ```solidity
-File: contracts/common/access/OrigamiElevatedAccess.sol
+File: contracts/common/access/MorigamiElevatedAccess.sol
 
 12:         _init(initialOwner);
 
 ```
 
 ```solidity
-File: contracts/common/access/OrigamiElevatedAccessBase.sol
+File: contracts/common/access/MorigamiElevatedAccessBase.sol
 
 26:     function _init(address initialOwner) internal {
 

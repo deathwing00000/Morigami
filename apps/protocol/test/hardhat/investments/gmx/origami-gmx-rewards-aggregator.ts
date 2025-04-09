@@ -14,14 +14,14 @@ import {
     setExplicitAccess
 } from "../../helpers";
 import { 
-    OrigamiGmxEarnAccount, OrigamiGmxEarnAccount__factory,
-    OrigamiGmxManager, OrigamiGmxManager__factory, 
-    OrigamiGmxRewardsAggregator, OrigamiGmxRewardsAggregator__factory, 
-    OrigamiInvestmentVault, OrigamiInvestmentVault__factory,
+    MorigamiGmxEarnAccount, MorigamiGmxEarnAccount__factory,
+    MorigamiGmxManager, MorigamiGmxManager__factory, 
+    MorigamiGmxRewardsAggregator, MorigamiGmxRewardsAggregator__factory, 
+    MorigamiInvestmentVault, MorigamiInvestmentVault__factory,
     TokenPrices, TokenPrices__factory, 
     DummyDex, DummyDex__factory, 
-    OrigamiGmxInvestment, OrigamiGmxInvestment__factory, 
-    OrigamiGlpInvestment, OrigamiGlpInvestment__factory, 
+    MorigamiGmxInvestment, MorigamiGmxInvestment__factory, 
+    MorigamiGlpInvestment, MorigamiGlpInvestment__factory, 
 } from "../../../../typechain";
 import {
     deployGmx, GmxContracts, updateDistributionTime } from "./gmx-helpers";
@@ -34,7 +34,7 @@ import { getSigners } from "../../signers";
 const MAX_REL_DELTA = tolerance(0.001);
 const MIN_USDG = 1;
 
-describe("Origami GMX Rewards Aggregator", async () => {
+describe("Morigami GMX Rewards Aggregator", async () => {
     let owner: Signer;
     let feeCollector: Signer;
     let alan: Signer;
@@ -46,20 +46,20 @@ describe("Origami GMX Rewards Aggregator", async () => {
 
     let dex: DummyDex;
     
-    let origamiGmxManager: OrigamiGmxManager;
-    let origamiGlpManager: OrigamiGmxManager;
-    let gmxEarnAccount: OrigamiGmxEarnAccount;
-    let primaryGlpEarnAccount: OrigamiGmxEarnAccount;
-    let secondaryGlpEarnAccount: OrigamiGmxEarnAccount;
-    let oGmxToken: OrigamiGmxInvestment;
-    let oGlpToken: OrigamiGlpInvestment;
+    let origamiGmxManager: MorigamiGmxManager;
+    let origamiGlpManager: MorigamiGmxManager;
+    let gmxEarnAccount: MorigamiGmxEarnAccount;
+    let primaryGlpEarnAccount: MorigamiGmxEarnAccount;
+    let secondaryGlpEarnAccount: MorigamiGmxEarnAccount;
+    let oGmxToken: MorigamiGmxInvestment;
+    let oGlpToken: MorigamiGlpInvestment;
 
-    let ovGmxToken: OrigamiInvestmentVault;
-    let ovGlpToken: OrigamiInvestmentVault;
+    let ovGmxToken: MorigamiInvestmentVault;
+    let ovGlpToken: MorigamiInvestmentVault;
     let tokenPrices: TokenPrices;
 
-    let origamiGmxRewardsAggr: OrigamiGmxRewardsAggregator;
-    let origamiGlpRewardsAggr: OrigamiGmxRewardsAggregator;
+    let origamiGmxRewardsAggr: MorigamiGmxRewardsAggregator;
+    let origamiGlpRewardsAggr: MorigamiGmxRewardsAggregator;
 
     let gmxContracts: GmxContracts;
 
@@ -76,8 +76,8 @@ describe("Origami GMX Rewards Aggregator", async () => {
     async function setup() {
         gmxContracts = await deployGmx(owner, esGmxPerSecond, esGmxPerSecond, ethPerSecond, ethPerSecond);
 
-        oGmxToken =  await new OrigamiGmxInvestment__factory(gov).deploy(govAddr);
-        oGlpToken = await new OrigamiGlpInvestment__factory(gov).deploy(
+        oGmxToken =  await new MorigamiGmxInvestment__factory(gov).deploy(govAddr);
+        oGlpToken = await new MorigamiGlpInvestment__factory(gov).deploy(
             govAddr,
             gmxContracts.wrappedNativeToken.address,
         );
@@ -97,14 +97,14 @@ describe("Origami GMX Rewards Aggregator", async () => {
         // Setup ovTokens
         {
             tokenPrices = await new TokenPrices__factory(gov).deploy(30);
-            ovGmxToken = await new OrigamiInvestmentVault__factory(gov).deploy(govAddr, "ovGmxToken", "ovGmxToken", oGmxToken.address, tokenPrices.address, 500, vestingDuration);
-            ovGlpToken = await new OrigamiInvestmentVault__factory(gov).deploy(govAddr, "ovGlpToken", "ovGlpToken", oGlpToken.address, tokenPrices.address, 500, vestingDuration);
+            ovGmxToken = await new MorigamiInvestmentVault__factory(gov).deploy(govAddr, "ovGmxToken", "ovGmxToken", oGmxToken.address, tokenPrices.address, 500, vestingDuration);
+            ovGlpToken = await new MorigamiInvestmentVault__factory(gov).deploy(govAddr, "ovGlpToken", "ovGlpToken", oGlpToken.address, tokenPrices.address, 500, vestingDuration);
         }
         
         // Setup the GMX Manager/Earn Account
         {
             gmxEarnAccount = await deployUupsProxy(
-                new OrigamiGmxEarnAccount__factory(gov), 
+                new MorigamiGmxEarnAccount__factory(gov), 
                 [gmxContracts.gmxRewardRouter.address],
                 govAddr,
                 gmxContracts.gmxRewardRouter.address,
@@ -112,7 +112,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
                 await gmxContracts.gmxRewardRouter.gmxVester(),
                 gmxContracts.stakedGlp.address,
             );
-            origamiGmxManager = await new OrigamiGmxManager__factory(gov).deploy(
+            origamiGmxManager = await new MorigamiGmxManager__factory(gov).deploy(
                 govAddr,
                 gmxContracts.gmxRewardRouter.address,
                 gmxContracts.glpRewardRouter.address,
@@ -122,7 +122,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
                 gmxEarnAccount.address,
                 ZERO_ADDRESS,
             );
-            await oGmxToken.setOrigamiGmxManager(origamiGmxManager.address)
+            await oGmxToken.setMorigamiGmxManager(origamiGmxManager.address)
 
             await setExplicitAccess(
                 gmxEarnAccount,
@@ -149,7 +149,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
         // Setup the GLP Manager/Earn Account
         {
             primaryGlpEarnAccount = await deployUupsProxy(
-                new OrigamiGmxEarnAccount__factory(gov), 
+                new MorigamiGmxEarnAccount__factory(gov), 
                 [gmxContracts.gmxRewardRouter.address],
                 govAddr,
                 gmxContracts.gmxRewardRouter.address,
@@ -158,7 +158,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
                 gmxContracts.stakedGlp.address,
             );
             secondaryGlpEarnAccount = await deployUupsProxy(
-                new OrigamiGmxEarnAccount__factory(gov), 
+                new MorigamiGmxEarnAccount__factory(gov), 
                 [gmxContracts.gmxRewardRouter.address],
                 govAddr,
                 gmxContracts.gmxRewardRouter.address,
@@ -166,7 +166,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
                 await gmxContracts.glpRewardRouter.glpVester(),
                 gmxContracts.stakedGlp.address,
             );
-            origamiGlpManager = await new OrigamiGmxManager__factory(gov).deploy(
+            origamiGlpManager = await new MorigamiGmxManager__factory(gov).deploy(
                 govAddr,
                 gmxContracts.gmxRewardRouter.address,
                 gmxContracts.glpRewardRouter.address,
@@ -176,7 +176,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
                 primaryGlpEarnAccount.address,
                 secondaryGlpEarnAccount.address
             );
-            await oGlpToken.setOrigamiGlpManager(origamiGlpManager.address);
+            await oGlpToken.setMorigamiGlpManager(origamiGlpManager.address);
 
             await setExplicitAccess(
                 primaryGlpEarnAccount,
@@ -211,7 +211,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
 
         // Setup the rewards aggregators
         {
-            origamiGmxRewardsAggr = await new OrigamiGmxRewardsAggregator__factory(gov).deploy(
+            origamiGmxRewardsAggr = await new MorigamiGmxRewardsAggregator__factory(gov).deploy(
                 govAddr,
                 GmxVaultType.GMX,
                 origamiGmxManager.address,
@@ -235,7 +235,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
                 true
             );
 
-            origamiGlpRewardsAggr = await new OrigamiGmxRewardsAggregator__factory(gov).deploy(
+            origamiGlpRewardsAggr = await new MorigamiGmxRewardsAggregator__factory(gov).deploy(
                 govAddr,
                 GmxVaultType.GLP,
                 origamiGmxManager.address,
@@ -345,7 +345,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
         const dummyHarvestParams = async (): Promise<string> => {
             const amount = 1000000;
             const quote = await oGmxToken.investQuote(amount, gmxContracts.gmxToken.address, 100, ZERO_DEADLINE);
-            const params: OrigamiGmxRewardsAggregator.HarvestGmxParamsStruct = {
+            const params: MorigamiGmxRewardsAggregator.HarvestGmxParamsStruct = {
                 nativeToGmxSwapData: dex.interface.encodeFunctionData("swapToGMX", [amount]),
                 oGmxInvestQuoteData: quote.quoteData,
                 addToReserveAmountPct: 10_000, // 100%
@@ -354,7 +354,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
         }
 
         it("admin", async () => {
-            await shouldRevertInvalidAccess(origamiGmxRewardsAggr, origamiGmxRewardsAggr.connect(owner).setOrigamiGmxManagers(
+            await shouldRevertInvalidAccess(origamiGmxRewardsAggr, origamiGmxRewardsAggr.connect(owner).setMorigamiGmxManagers(
                 GmxVaultType.GMX,
                 origamiGmxManager.address, 
                 origamiGlpManager.address
@@ -369,7 +369,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
             await expect(origamiGmxRewardsAggr.connect(operator).harvestRewards(harvestParams))
                 .to.revertedWith("ERC20: transfer amount exceeds balance");
 
-            await origamiGmxRewardsAggr.connect(gov).setOrigamiGmxManagers(
+            await origamiGmxRewardsAggr.connect(gov).setMorigamiGmxManagers(
                 GmxVaultType.GMX,
                 origamiGmxManager.address, 
                 origamiGlpManager.address
@@ -379,15 +379,15 @@ describe("Origami GMX Rewards Aggregator", async () => {
                 .to.revertedWith("ERC20: transfer amount exceeds balance");
         });
 
-        it("Should setOrigamiGmxManagers()", async () => {
+        it("Should setMorigamiGmxManagers()", async () => {
             const bobAddr = await bob.getAddress();
             const alanAddr = await alan.getAddress();
-            await expect(origamiGmxRewardsAggr.setOrigamiGmxManagers(
+            await expect(origamiGmxRewardsAggr.setMorigamiGmxManagers(
                 GmxVaultType.GMX,
                 bobAddr, 
                 alanAddr
             ))
-                .to.emit(origamiGmxRewardsAggr, "OrigamiGmxManagersSet")
+                .to.emit(origamiGmxRewardsAggr, "MorigamiGmxManagersSet")
                 .withArgs(GmxVaultType.GMX, bobAddr, alanAddr);
 
             expect(await origamiGmxRewardsAggr.vaultType()).eq(GmxVaultType.GMX);
@@ -424,7 +424,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
 
     });
     
-    async function getOrigamiStakedGmxRatios(precision: BigNumber) {
+    async function getMorigamiStakedGmxRatios(precision: BigNumber) {
         const stakedGmxFromGmxEarnAccount = await gmxContracts.stakedGmxTracker.depositBalances(gmxEarnAccount.address, gmxContracts.gmxToken.address);
         const stakedGmxFromGlpEarnAccount = await gmxContracts.stakedGmxTracker.depositBalances(primaryGlpEarnAccount.address, gmxContracts.gmxToken.address);
         const stakedGmxTotal = await gmxContracts.stakedGmxTracker.totalDepositSupply(gmxContracts.gmxToken.address);
@@ -450,7 +450,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
         return {expectedEsGmxRatio, expectedEthRatio};
     }
 
-    async function getOrigamiStakedGlpRatios(precision: BigNumber) {
+    async function getMorigamiStakedGlpRatios(precision: BigNumber) {
         const totalDepositSupply = await gmxContracts.feeGlpTracker.totalDepositSupply(gmxContracts.glpToken.address);
         const primaryGlpRatio = (await gmxContracts.feeGlpTracker.depositBalances(primaryGlpEarnAccount.address, gmxContracts.glpToken.address))
             .mul(precision).div(totalDepositSupply);
@@ -459,7 +459,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
         return {primaryGlpRatio, secondaryGlpRatio};
     }
 
-    async function getAggregatorRewardBalances(aggregator: OrigamiGmxRewardsAggregator) {
+    async function getAggregatorRewardBalances(aggregator: MorigamiGmxRewardsAggregator) {
         return {
             weth: await gmxContracts.wrappedNativeToken.balanceOf(aggregator.address),
             oGmx: await oGmxToken.balanceOf(aggregator.address),
@@ -475,7 +475,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
         const oGmxExitQuote = await oGmxToken.exitQuote(harvestableRewards[1], gmxContracts.gmxToken.address, 100, ZERO_DEADLINE);
         const totalOGlpAvailable = oGlpInvestQuote.quoteData.expectedInvestmentAmount.add(balancesBefore.oGlp);
         const addToReserveAmountPct = 9_000;
-        const glpHarvestParams: OrigamiGmxRewardsAggregator.HarvestGlpParamsStruct = {
+        const glpHarvestParams: MorigamiGmxRewardsAggregator.HarvestGlpParamsStruct = {
             oGmxExitQuoteData: oGmxExitQuote.quoteData,
             gmxToNativeSwapData: dex.interface.encodeFunctionData("swapToWrappedNative", [harvestableRewards[1]]), // GMX -> wETH
             oGlpInvestQuoteData: oGlpInvestQuote.quoteData,
@@ -504,7 +504,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
         const totalOGmxAvailable = newGmx.add(harvestableRewards[1]);
         const addToReserveAmountPct = 9_000;
         const oGmxInvestQuote = await oGmxToken.investQuote(newGmx, gmxContracts.gmxToken.address, 100, ZERO_DEADLINE);
-        const gmxHarvestParams: OrigamiGmxRewardsAggregator.HarvestGmxParamsStruct = {
+        const gmxHarvestParams: MorigamiGmxRewardsAggregator.HarvestGmxParamsStruct = {
             nativeToGmxSwapData: dex.interface.encodeFunctionData("swapToGMX", [harvestableRewards[0]]), // wETH -> GMX,
             oGmxInvestQuoteData: oGmxInvestQuote.quoteData,
             addToReserveAmountPct: addToReserveAmountPct,
@@ -535,12 +535,12 @@ describe("Origami GMX Rewards Aggregator", async () => {
 
             const amount = ethers.utils.parseEther("250");
 
-            // Origami applies some GLP
+            // Morigami applies some GLP
             const precision = ethers.utils.parseEther("1");
             {
                 await updateDistributionTime(gmxContracts);
 
-                // Bob buys the same amount GLP directly (not via Origami)
+                // Bob buys the same amount GLP directly (not via Morigami)
                 await gmxContracts.bnbToken.mint(bob.getAddress(), amount);
                 await gmxContracts.bnbToken.connect(bob).approve(await gmxContracts.glpRewardRouter.glpManager(), amount);
                 const bobQuote = await origamiGmxManager.investOGlpQuote(amount, gmxContracts.bnbToken.address, ZERO_ADDRESS, ZERO_DEADLINE);
@@ -554,7 +554,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
                 const origamiQuote = await origamiGlpManager.investOGlpQuote(amount, tokenAddr, ZERO_ADDRESS, ZERO_DEADLINE);
                 await primaryGlpEarnAccount.connect(operator).mintAndStakeGlp(amount, tokenAddr, MIN_USDG, origamiQuote.quoteData.minInvestmentAmount);
 
-                // Botstrap Origami with some GMX so it can harvest (need to convert oGMX -> GMX)
+                // Botstrap Morigami with some GMX so it can harvest (need to convert oGMX -> GMX)
                 const seedAmount = ethers.utils.parseEther("5000");
                 await gmxContracts.gmxToken.mint(origamiGmxManager.address, seedAmount);
                 await origamiGmxManager.connect(operator).applyGmx(seedAmount);
@@ -564,7 +564,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
             
             // GLP aggregator gets ~50% of staked GLP rewards
             harvestableRewardsGlp = await origamiGlpRewardsAggr.harvestableRewards();
-            const {primaryGlpRatio, } = await getOrigamiStakedGlpRatios(precision);
+            const {primaryGlpRatio, } = await getMorigamiStakedGlpRatios(precision);
             expectApproxEqRel(harvestableRewardsGlp[0], ethPerSecond.mul(86402).mul(primaryGlpRatio).div(precision), MAX_REL_DELTA);
             expectApproxEqRel(harvestableRewardsGlp[1], esGmxPerSecond.mul(86402).mul(primaryGlpRatio).div(precision), MAX_REL_DELTA);
             expect(harvestableRewardsGlp[2]).eq(0); // No carry over oGlp yet
@@ -575,7 +575,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
 
             // GLP aggregator still only gets ~50% of staked GLP rewards (no extras from the staked esGMX)
             harvestableRewardsGlp = await origamiGlpRewardsAggr.harvestableRewards();
-            const {primaryGlpRatio: primaryGlpRatio2, } = await getOrigamiStakedGlpRatios(precision);
+            const {primaryGlpRatio: primaryGlpRatio2, } = await getMorigamiStakedGlpRatios(precision);
 
             const existingBalances = await getAggregatorRewardBalances(origamiGlpRewardsAggr);
             expectApproxEqRel(harvestableRewardsGlp[0].sub(existingBalances.weth), ethPerSecond.mul(86400).mul(primaryGlpRatio2).div(precision), MAX_REL_DELTA);
@@ -595,11 +595,11 @@ describe("Origami GMX Rewards Aggregator", async () => {
             const amount = ethers.utils.parseEther("250");
             const precision = ethers.utils.parseEther("1");
 
-            // Origami applies some GMX
+            // Morigami applies some GMX
             {
                 await updateDistributionTime(gmxContracts);
 
-                // Bob buys GMX directly (outside of origami)
+                // Bob buys GMX directly (outside of Morigami)
                 await gmxContracts.gmxToken.mint(bob.getAddress(), amount);
                 await gmxContracts.gmxToken.connect(bob).approve(gmxContracts.stakedGmxTracker.address, amount);
                 await gmxContracts.gmxRewardRouter.connect(bob).stakeGmx(amount);
@@ -613,7 +613,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
             
             // GMX aggregator gets 50% of staked GMX rewards
             harvestableRewardsGmx = await origamiGmxRewardsAggr.harvestableRewards();
-            let {expectedEsGmxRatio, expectedEthRatio} = await getOrigamiStakedGmxRatios(precision);
+            let {expectedEsGmxRatio, expectedEthRatio} = await getMorigamiStakedGmxRatios(precision);
             expectApproxEqRel(harvestableRewardsGmx[0], ethPerSecond.mul(86400).mul(expectedEthRatio).div(precision), MAX_REL_DELTA);
             expectApproxEqRel(harvestableRewardsGmx[1], esGmxPerSecond.mul(86400).mul(expectedEsGmxRatio).div(precision), MAX_REL_DELTA);
             expect(harvestableRewardsGmx[2]).eq(0); // No oGLP
@@ -623,7 +623,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
 
             // The GMX aggregator now gets an extra chunk of rewards from the staked esGMX, mult points earnt from the staked GMX
             harvestableRewardsGmx = await origamiGmxRewardsAggr.harvestableRewards();
-            ({expectedEsGmxRatio, expectedEthRatio} = await getOrigamiStakedGmxRatios(precision));
+            ({expectedEsGmxRatio, expectedEthRatio} = await getMorigamiStakedGmxRatios(precision));
             const existingBalances = await getAggregatorRewardBalances(origamiGmxRewardsAggr);
             expectApproxEqRel(harvestableRewardsGmx[0].sub(existingBalances.weth), ethPerSecond.mul(86400).mul(expectedEthRatio).div(precision), MAX_REL_DELTA);
             expectApproxEqRel(harvestableRewardsGmx[1].sub(existingBalances.oGmx), esGmxPerSecond.mul(86400).mul(expectedEsGmxRatio).div(precision), MAX_REL_DELTA);
@@ -639,12 +639,12 @@ describe("Origami GMX Rewards Aggregator", async () => {
 
             const amount = ethers.utils.parseEther("250000");
 
-            // Origami applies some GMX and GLP
+            // Morigami applies some GMX and GLP
             const precision = ethers.utils.parseEther("1");
             {
                 await updateDistributionTime(gmxContracts);
 
-                // Bob buys the same amount GLP directly (not via Origami)
+                // Bob buys the same amount GLP directly (not via Morigami)
                 await gmxContracts.bnbToken.mint(bob.getAddress(), amount);
                 await gmxContracts.bnbToken.connect(bob).approve(await gmxContracts.glpRewardRouter.glpManager(), amount);
                 const bobQuote = await origamiGmxManager.investOGlpQuote(amount, gmxContracts.bnbToken.address, ZERO_SLIPPAGE, ZERO_DEADLINE);
@@ -658,7 +658,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
                 const origamiQuote = await origamiGlpManager.investOGlpQuote(amount, tokenAddr, ZERO_SLIPPAGE, ZERO_DEADLINE);
                 await primaryGlpEarnAccount.connect(operator).mintAndStakeGlp(amount, tokenAddr, MIN_USDG, origamiQuote.quoteData.minInvestmentAmount);
 
-                // Bob buys GMX directly (outside of origami)
+                // Bob buys GMX directly (outside of Morigami)
                 await gmxContracts.gmxToken.mint(bob.getAddress(), amount);
                 await gmxContracts.gmxToken.connect(bob).approve(gmxContracts.stakedGmxTracker.address, amount);
                 await gmxContracts.gmxRewardRouter.connect(bob).stakeGmx(amount);
@@ -675,7 +675,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
                 harvestableRewardsGlp = await origamiGlpRewardsAggr.harvestableRewards();
                 
                 // GLP aggregator gets 50% of staked GLP rewards\
-                const {primaryGlpRatio, } = await getOrigamiStakedGlpRatios(precision);
+                const {primaryGlpRatio, } = await getMorigamiStakedGlpRatios(precision);
                 expectApproxEqRel(harvestableRewardsGlp[0], ethPerSecond.mul(86405).mul(primaryGlpRatio).div(precision), MAX_REL_DELTA);
                 expectApproxEqRel(harvestableRewardsGlp[1], esGmxPerSecond.mul(86405).mul(primaryGlpRatio).div(precision), MAX_REL_DELTA);
                 expect(harvestableRewardsGlp[2]).eq(0);
@@ -685,7 +685,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
             {
                 harvestableRewardsGmx = await origamiGmxRewardsAggr.harvestableRewards();
 
-                const { expectedEsGmxRatio, expectedEthRatio} = await getOrigamiStakedGmxRatios(precision);
+                const { expectedEsGmxRatio, expectedEthRatio} = await getMorigamiStakedGmxRatios(precision);
                 expectApproxEqRel(harvestableRewardsGmx[0], ethPerSecond.mul(86400).mul(expectedEthRatio).div(precision), MAX_REL_DELTA);
                 expectApproxEqRel(harvestableRewardsGmx[1], esGmxPerSecond.mul(86400).mul(expectedEsGmxRatio).div(precision), MAX_REL_DELTA);
                 expect(harvestableRewardsGlp[2]).eq(0);
@@ -699,7 +699,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
             {
                 harvestableRewardsGlp = await origamiGlpRewardsAggr.harvestableRewards();
                 const existingGlpBalances = await getAggregatorRewardBalances(origamiGlpRewardsAggr);
-                const {primaryGlpRatio, } = await getOrigamiStakedGlpRatios(precision);
+                const {primaryGlpRatio, } = await getMorigamiStakedGlpRatios(precision);
 
                 expectApproxEqRel(harvestableRewardsGlp[0].sub(existingGlpBalances.weth), ethPerSecond.mul(86400).mul(primaryGlpRatio).div(precision), MAX_REL_DELTA);
                 expectApproxEqRel(harvestableRewardsGlp[1].sub(existingGlpBalances.oGmx), esGmxPerSecond.mul(86400).mul(primaryGlpRatio).div(precision), MAX_REL_DELTA);
@@ -709,7 +709,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
             // But the GMX aggregator gets rewards based off it's total GMX+esGMX 
             // from both the GMX and GLP manager vs the rest of the pool (bob had 50% originally)
             {
-                const { expectedEsGmxRatio, expectedEthRatio } = await getOrigamiStakedGmxRatios(precision);
+                const { expectedEsGmxRatio, expectedEthRatio } = await getMorigamiStakedGmxRatios(precision);
 
                 //   ~50% of staked GMX rewards
                 //   staked esGMX+mult point rewards (from staked GMX rewards)
@@ -733,12 +733,12 @@ describe("Origami GMX Rewards Aggregator", async () => {
 
             const amount = ethers.utils.parseEther("25000");
 
-            // Origami applies some GMX and GLP
+            // Morigami applies some GMX and GLP
             const precision = ethers.utils.parseEther("1");
             {
                 await updateDistributionTime(gmxContracts);
 
-                // Bob buys the same amount GLP directly (not via Origami)
+                // Bob buys the same amount GLP directly (not via Morigami)
                 await gmxContracts.bnbToken.mint(bob.getAddress(), amount);
                 await gmxContracts.bnbToken.connect(bob).approve(await gmxContracts.glpRewardRouter.glpManager(), amount);
                 const bobQuote = await origamiGmxManager.investOGlpQuote(amount, gmxContracts.bnbToken.address, ZERO_SLIPPAGE, ZERO_DEADLINE);
@@ -752,12 +752,12 @@ describe("Origami GMX Rewards Aggregator", async () => {
                 const origamiQuote = await origamiGlpManager.investOGlpQuote(amount, tokenAddr, ZERO_SLIPPAGE, ZERO_DEADLINE);
                 await primaryGlpEarnAccount.connect(operator).mintAndStakeGlp(amount, tokenAddr, MIN_USDG, origamiQuote.quoteData.minInvestmentAmount);
 
-                // Bob buys GMX directly (outside of origami)
+                // Bob buys GMX directly (outside of Morigami)
                 await gmxContracts.gmxToken.mint(bob.getAddress(), amount);
                 await gmxContracts.gmxToken.connect(bob).approve(gmxContracts.stakedGmxTracker.address, amount);
                 await gmxContracts.gmxRewardRouter.connect(bob).stakeGmx(amount);
 
-                // Botstrap Origami with some GMX so it can harvest (need to convert oGMX -> GMX)
+                // Botstrap Morigami with some GMX so it can harvest (need to convert oGMX -> GMX)
                 const seedAmount = ethers.utils.parseEther("5000");
                 await gmxContracts.gmxToken.mint(origamiGmxManager.address, seedAmount);
                 await origamiGmxManager.connect(operator).applyGmx(seedAmount);
@@ -770,7 +770,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
             // Check GLP
             {
                 rewardRatesGlp = await origamiGlpRewardsAggr.projectedRewardRates(true);
-                const {primaryGlpRatio, secondaryGlpRatio} = await getOrigamiStakedGlpRatios(precision);
+                const {primaryGlpRatio, secondaryGlpRatio} = await getMorigamiStakedGlpRatios(precision);
                 expectApproxEqRel(rewardRatesGlp[0], removePerfFee(ethPerSecond.mul(primaryGlpRatio.add(secondaryGlpRatio)).div(precision)), MAX_REL_DELTA);
                 expectApproxEqRel(rewardRatesGlp[1], removePerfFee(esGmxPerSecond.mul(primaryGlpRatio).div(precision)), MAX_REL_DELTA);
             }
@@ -778,7 +778,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
             // Check GMX
             {
                 rewardRatesGmx = await origamiGmxRewardsAggr.projectedRewardRates(true);
-                const { expectedEsGmxRatio, expectedEthRatio } = await getOrigamiStakedGmxRatios(precision);
+                const { expectedEsGmxRatio, expectedEthRatio } = await getMorigamiStakedGmxRatios(precision);
                 expectApproxEqRel(rewardRatesGmx[0], removePerfFee(ethPerSecond.mul(expectedEthRatio).div(precision)), MAX_REL_DELTA);
                 expectApproxEqRel(rewardRatesGmx[1], removePerfFee(esGmxPerSecond.mul(expectedEsGmxRatio).div(precision)), MAX_REL_DELTA);
             }
@@ -789,13 +789,13 @@ describe("Origami GMX Rewards Aggregator", async () => {
 
             // Now GLP aggregator still only gets 50% of staked GLP rewards
             rewardRatesGlp = await origamiGlpRewardsAggr.projectedRewardRates(true);
-            const {primaryGlpRatio, secondaryGlpRatio} = await getOrigamiStakedGlpRatios(precision);
+            const {primaryGlpRatio, secondaryGlpRatio} = await getMorigamiStakedGlpRatios(precision);
             expectApproxEqRel(rewardRatesGlp[0], removePerfFee(ethPerSecond.mul(primaryGlpRatio.add(secondaryGlpRatio)).div(precision)), MAX_REL_DELTA);
             expectApproxEqRel(rewardRatesGlp[1], removePerfFee(esGmxPerSecond.mul(primaryGlpRatio).div(precision)), MAX_REL_DELTA);
 
             // But the GMX aggregator gets rewards based off it's total GMX+esGMX 
             // from both the GMX and GLP manager vs the rest of the pool (bob had 50% originally)
-            const { expectedEsGmxRatio, expectedEthRatio } = await getOrigamiStakedGmxRatios(precision);
+            const { expectedEsGmxRatio, expectedEthRatio } = await getMorigamiStakedGmxRatios(precision);
 
             //   ~50% of staked GMX rewards
             //   staked esGMX+mult point rewards (from staked GMX rewards)
@@ -852,7 +852,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
 
         it("harvestRewards - GLP only", async () => {
             {
-                // Botstrap Origami with some GMX so it can harvest (need to convert oGMX -> GMX)
+                // Botstrap Morigami with some GMX so it can harvest (need to convert oGMX -> GMX)
                 const seedAmount = ethers.utils.parseEther("5000");
                 await gmxContracts.gmxToken.mint(origamiGmxManager.address, seedAmount);
                 await origamiGmxManager.connect(operator).applyGmx(seedAmount);
@@ -865,11 +865,11 @@ describe("Origami GMX Rewards Aggregator", async () => {
             }
             const amount = ethers.utils.parseEther("250");
 
-            // Origami applies some GLP
+            // Morigami applies some GLP
             {
                 await updateDistributionTime(gmxContracts);
 
-                // Bob buys the same amount GLP directly (not via Origami)
+                // Bob buys the same amount GLP directly (not via Morigami)
                 await gmxContracts.bnbToken.mint(bob.getAddress(), amount);
                 await gmxContracts.bnbToken.connect(bob).approve(await gmxContracts.glpRewardRouter.glpManager(), amount);
                 const bobQuote = await origamiGmxManager.investOGlpQuote(amount, gmxContracts.bnbToken.address, ZERO_SLIPPAGE, ZERO_DEADLINE);
@@ -898,11 +898,11 @@ describe("Origami GMX Rewards Aggregator", async () => {
             }
             const amount = ethers.utils.parseEther("250");
 
-            // Origami applies some GMX
+            // Morigami applies some GMX
             {
                 await updateDistributionTime(gmxContracts);
 
-                // Bob buys GMX directly (outside of origami)
+                // Bob buys GMX directly (outside of Morigami)
                 await gmxContracts.gmxToken.mint(bob.getAddress(), amount);
                 await gmxContracts.gmxToken.connect(bob).approve(gmxContracts.stakedGmxTracker.address, amount);
                 await gmxContracts.gmxRewardRouter.connect(bob).stakeGmx(amount);
@@ -921,7 +921,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
         it("harvestRewards - GMX 0%/100% fees", async () => {
             const amount = ethers.utils.parseEther("250");
 
-            // Origami applies some GMX
+            // Morigami applies some GMX
             {
                 await updateDistributionTime(gmxContracts);
 
@@ -944,11 +944,11 @@ describe("Origami GMX Rewards Aggregator", async () => {
         it("harvestRewards - GMX & GLP combined", async () => {
             const amount = ethers.utils.parseEther("250");
 
-            // Origami applies some GMX and GLP
+            // Morigami applies some GMX and GLP
             {
                 await updateDistributionTime(gmxContracts);
 
-                // Bob buys the same amount GLP directly (not via Origami)
+                // Bob buys the same amount GLP directly (not via Morigami)
                 await gmxContracts.bnbToken.mint(bob.getAddress(), amount);
                 await gmxContracts.bnbToken.connect(bob).approve(await gmxContracts.glpRewardRouter.glpManager(), amount);
                 const bobQuote = await origamiGmxManager.investOGlpQuote(amount, gmxContracts.bnbToken.address, ZERO_SLIPPAGE, ZERO_DEADLINE);
@@ -962,13 +962,13 @@ describe("Origami GMX Rewards Aggregator", async () => {
                 const origamiQuote = await origamiGlpManager.investOGlpQuote(amount, tokenAddr, ZERO_SLIPPAGE, ZERO_DEADLINE);
                 await primaryGlpEarnAccount.connect(operator).mintAndStakeGlp(amount, tokenAddr, MIN_USDG, origamiQuote.quoteData.minInvestmentAmount);
 
-                // Bob buys GMX directly (outside of origami)
+                // Bob buys GMX directly (outside of Morigami)
                 await gmxContracts.gmxToken.mint(bob.getAddress(), amount);
                 await gmxContracts.gmxToken.connect(bob).approve(gmxContracts.stakedGmxTracker.address, amount);
                 await gmxContracts.gmxRewardRouter.connect(bob).stakeGmx(amount);
 
 
-                // Botstrap Origami with some GMX so it can harvest (need to convert oGMX -> GMX)
+                // Botstrap Morigami with some GMX so it can harvest (need to convert oGMX -> GMX)
                 const seedAmount = ethers.utils.parseEther("2000");
                 await gmxContracts.gmxToken.mint(origamiGmxManager.address, seedAmount);
                 await origamiGmxManager.connect(operator).applyGmx(seedAmount);
@@ -985,7 +985,7 @@ describe("Origami GMX Rewards Aggregator", async () => {
 
     describe("ZeroEx Custom Error", async () => {
         it("A custom error thrown in the 0x proxy should be handled correctly", async () => {          
-            // Origami applies some GMX
+            // Morigami applies some GMX
             {
                 await updateDistributionTime(gmxContracts);
                 const amount = ethers.utils.parseEther("250");

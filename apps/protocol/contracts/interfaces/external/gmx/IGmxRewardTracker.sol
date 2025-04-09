@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (interfaces/external/gmx/IGmxRewardTracker.sol)
+// Morigami (interfaces/external/gmx/IGmxRewardTracker.sol)
 
 interface IGmxRewardTracker {
     function depositBalances(address _account, address _depositToken) external view returns (uint256);

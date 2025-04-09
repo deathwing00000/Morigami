@@ -4,13 +4,13 @@ import {
   runAsyncMain,
 } from '../../../helpers';
 import { DEFAULT_SETTINGS } from '../../default-settings';
-import { OrigamiMorphoBorrowAndLend__factory } from '../../../../../typechain';
+import { MorigamiMorphoBorrowAndLend__factory } from '../../../../../typechain';
 import { getDeployContext } from '../../deploy-context';
 
 async function main() {
   const { owner, ADDRS } = await getDeployContext(__dirname);
 
-  const factory = new OrigamiMorphoBorrowAndLend__factory(owner);
+  const factory = new MorigamiMorphoBorrowAndLend__factory(owner);
   await deployAndMine(
     'LOV_PT_SUSDE_MAR_2025_A.MORPHO_BORROW_LEND',
     factory,

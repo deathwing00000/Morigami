@@ -1,14 +1,14 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { OrigamiOracleBase } from "contracts/common/oracle/OrigamiOracleBase.sol";
-import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+import { MorigamiOracleBase } from "contracts/common/oracle/MorigamiOracleBase.sol";
+import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 /**
  * @title DummyFixedPriceOracle
  * @notice A fixed price oracle only for both SPOT_PRICE and HISTORIC_PRICE
  */
-contract DummyFixedPriceOracle is OrigamiOracleBase {
+contract DummyFixedPriceOracle is MorigamiOracleBase {
     /**
      * @notice The fixed price which this oracle returns.
      */
@@ -18,7 +18,7 @@ contract DummyFixedPriceOracle is OrigamiOracleBase {
         BaseOracleParams memory baseParams,
         uint256 _fixedPrice
     )
-        OrigamiOracleBase(baseParams)
+        MorigamiOracleBase(baseParams)
     {
         fixedPrice = _fixedPrice;
     }
@@ -32,7 +32,7 @@ contract DummyFixedPriceOracle is OrigamiOracleBase {
      */
     function latestPrice(
         PriceType /*priceType*/,
-        OrigamiMath.Rounding /*roundingMode*/
+        MorigamiMath.Rounding /*roundingMode*/
     ) public override view returns (uint256 price) {
         return fixedPrice;
     }

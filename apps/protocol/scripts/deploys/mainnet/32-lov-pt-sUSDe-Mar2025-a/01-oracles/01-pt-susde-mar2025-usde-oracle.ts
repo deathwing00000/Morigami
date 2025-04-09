@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { network } from 'hardhat';
-import { OrigamiPendlePtToAssetOracle__factory } from '../../../../../typechain';
+import { MorigamiPendlePtToAssetOracle__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   runAsyncMain,
@@ -22,7 +22,7 @@ async function main() {
   // Check the Pendle Oracle and increase the cardinality if required.
   await updatePendleOracleCardinality(pendleOracleAddress, pendleMarketAddress, owner, twapSecs);
 
-  const factory = new OrigamiPendlePtToAssetOracle__factory(owner);
+  const factory = new MorigamiPendlePtToAssetOracle__factory(owner);
   await deployAndMine(
     'ORACLES.PT_SUSDE_MAR_2025_USDE',
     factory,

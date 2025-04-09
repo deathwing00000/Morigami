@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (test/foundry/mocks/common/DummyWrappedNative.m.sol)
+// Morigami (test/foundry/mocks/common/DummyWrappedNative.m.sol)
 
 import { MintableToken } from "contracts/common/MintableToken.sol";
 

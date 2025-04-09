@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiLovTokenMorphoManagerMarketAL__factory } from '../../../../../typechain';
+import { MorigamiLovTokenMorphoManagerMarketAL__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -12,7 +12,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = getDeployedContracts();
 
-  const factory = new OrigamiLovTokenMorphoManagerMarketAL__factory(owner);
+  const factory = new MorigamiLovTokenMorphoManagerMarketAL__factory(owner);
   await deployAndMine(
     'LOV_PT_SUSDE_OCT24_A.MANAGER',
     factory,

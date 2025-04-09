@@ -4,7 +4,7 @@ import { getImplementationAddress, ProxyKindOption } from '@openzeppelin/upgrade
 import { isAddress } from "ethers/lib/utils";
 import axios from 'axios';
 import { stringify as qsStringify } from 'qs';
-import { OrigamiGmxRewardsAggregator, IOrigamiElevatedAccess, TokenPrices__factory, PendlePYLpOracle__factory, IPMarket__factory } from "../../typechain";
+import { MorigamiGmxRewardsAggregator, IMorigamiElevatedAccess, TokenPrices__factory, PendlePYLpOracle__factory, IPMarket__factory } from "../../typechain";
 import * as fs from 'fs';
 import * as path from 'path';
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
@@ -228,7 +228,7 @@ export function ensureExpectedEnvvars() {
   }
 }
 
-// Matches IOrigamiGmxEarnAccount.VaultType
+// Matches IMorigamiGmxEarnAccount.VaultType
 export enum GmxVaultType {
     GLP = 0,
     GMX,
@@ -276,7 +276,7 @@ const investQuoteTypes = 'tuple(address fromToken, uint256 fromTokenAmount, uint
 const exitQuoteTypes = 'tuple(uint256 investmentTokenAmount, address toToken, uint256 maxSlippageBps, ' + 
     'uint256 deadline, uint256 expectedToTokenAmount, uint256 minToTokenAmount, bytes underlyingInvestmentQuoteData)';
 
-export const encodeGlpHarvestParams = (params: OrigamiGmxRewardsAggregator.HarvestGlpParamsStruct): string => {
+export const encodeGlpHarvestParams = (params: MorigamiGmxRewardsAggregator.HarvestGlpParamsStruct): string => {
     const types = `tuple(${exitQuoteTypes} oGmxExitQuoteData, bytes gmxToNativeSwapData, ` +
         `${investQuoteTypes} oGlpInvestQuoteData, uint256 addToReserveAmountPct)`;
     return ethers.utils.defaultAbiCoder.encode(
@@ -285,7 +285,7 @@ export const encodeGlpHarvestParams = (params: OrigamiGmxRewardsAggregator.Harve
     );
 }
 
-export const encodeGmxHarvestParams = (params: OrigamiGmxRewardsAggregator.HarvestGmxParamsStruct): string => {
+export const encodeGmxHarvestParams = (params: MorigamiGmxRewardsAggregator.HarvestGmxParamsStruct): string => {
     const types = `tuple(bytes nativeToGmxSwapData, ${investQuoteTypes} oGmxInvestQuoteData, uint256 addToReserveAmountPct)`; 
     return ethers.utils.defaultAbiCoder.encode(
         [types], 
@@ -294,7 +294,7 @@ export const encodeGmxHarvestParams = (params: OrigamiGmxRewardsAggregator.Harve
 }
 
 export async function setExplicitAccess(contract: Contract, allowedCaller: string, fnNames: string[], value: boolean) {
-  const access: IOrigamiElevatedAccess.ExplicitAccessStruct[] = fnNames.map(fn => {
+  const access: IMorigamiElevatedAccess.ExplicitAccessStruct[] = fnNames.map(fn => {
       return {
           fnSelector: contract.interface.getSighash(contract.interface.getFunction(fn)),
           allowed: value
@@ -379,6 +379,6 @@ export const encodedAliasFor = (sourceToken: string): string => encodeFunction("
 export const encodedRepricingTokenPrice = (repricingToken: string): string => encodeFunction("repricingTokenPrice", repricingToken);
 export const encodedErc4626TokenPrice = (vault: string): string => encodeFunction("erc4626TokenPrice", vault);
 export const encodedWstEthRatio = (stEthToken: string): string => encodeFunction("wstEthRatio", stEthToken);
-export const encodedOrigamiOraclePrice = (oracleAddress: string, priceType: PriceType, roundingMode: RoundingMode): string => 
+export const encodedMorigamiOraclePrice = (oracleAddress: string, priceType: PriceType, roundingMode: RoundingMode): string => 
   encodeFunction("origamiOraclePrice", oracleAddress, priceType, roundingMode);
 export const encodedScalar = (amount: BigNumberish): string => encodeFunction("scalar", amount);

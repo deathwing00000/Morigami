@@ -2,11 +2,11 @@ import { BigNumber, BigNumberish, Contract, Signer } from 'ethers';
 import { ethers } from 'hardhat';
 import { applySlippage, impersonateSigner, mineForwardSeconds, ZERO_ADDRESS } from '../../../../test/hardhat/helpers';
 import { 
-    OrigamiGmxInvestment, OrigamiGmxInvestment__factory,
-    OrigamiGlpInvestment, OrigamiGlpInvestment__factory,
-    OrigamiGmxEarnAccount, OrigamiGmxEarnAccount__factory,
-    OrigamiGmxRewardsAggregator, OrigamiGmxRewardsAggregator__factory,
-    OrigamiGmxManager, OrigamiGmxManager__factory,
+    MorigamiGmxInvestment, MorigamiGmxInvestment__factory,
+    MorigamiGlpInvestment, MorigamiGlpInvestment__factory,
+    MorigamiGmxEarnAccount, MorigamiGmxEarnAccount__factory,
+    MorigamiGmxRewardsAggregator, MorigamiGmxRewardsAggregator__factory,
+    MorigamiGmxManager, MorigamiGmxManager__factory,
     GMX_GMX__factory, GMX_GMX, 
     GMX_GmxTimelock__factory, 
     GMX_TokenManager__factory, 
@@ -17,13 +17,13 @@ import {
     TokenPrices,
     TokenPrices__factory,
     GMX_RewardDistributor__factory,
-    OrigamiInvestmentVault,
-    OrigamiInvestmentVault__factory,
+    MorigamiInvestmentVault,
+    MorigamiInvestmentVault__factory,
     IERC20__factory,
     IERC20,
     GMX_EsGMX__factory,
     GMX_Timelock__factory,
-    IOrigamiElevatedAccess
+    IMorigamiElevatedAccess
 } from '../../../../typechain';
 import {
     ZeroExQuoteParams,
@@ -38,17 +38,17 @@ import { GmxDeployedContracts, getDeployedContracts as gmxDeployedContracts } fr
 import { getDeployedContracts as govDeployedContracts } from '../../arbitrum/governance/contract-addresses';
 
 interface ContractInstances {
-    gmxEarnAccount: OrigamiGmxEarnAccount,
-    glpPrimaryEarnAccount: OrigamiGmxEarnAccount,
-    glpSecondaryEarnAccount: OrigamiGmxEarnAccount,
-    gmxManager: OrigamiGmxManager,
-    glpManager: OrigamiGmxManager,
-    gmxRewardsAggregator: OrigamiGmxRewardsAggregator,
-    glpRewardsAggregator: OrigamiGmxRewardsAggregator,
-    oGMX: OrigamiGmxInvestment,
-    oGLP: OrigamiGlpInvestment,
-    ovGMX: OrigamiInvestmentVault,
-    ovGLP: OrigamiInvestmentVault,
+    gmxEarnAccount: MorigamiGmxEarnAccount,
+    glpPrimaryEarnAccount: MorigamiGmxEarnAccount,
+    glpSecondaryEarnAccount: MorigamiGmxEarnAccount,
+    gmxManager: MorigamiGmxManager,
+    glpManager: MorigamiGmxManager,
+    gmxRewardsAggregator: MorigamiGmxRewardsAggregator,
+    glpRewardsAggregator: MorigamiGmxRewardsAggregator,
+    oGMX: MorigamiGmxInvestment,
+    oGLP: MorigamiGlpInvestment,
+    ovGMX: MorigamiInvestmentVault,
+    ovGLP: MorigamiInvestmentVault,
 
     gmxToken: GMX_GMX,
     gmxRewardRouter: GMX_RewardRouterV2,
@@ -59,17 +59,17 @@ interface ContractInstances {
 
 function connectToContracts(GMX_DEPLOYED: GmxDeployedContracts, owner: Signer): ContractInstances {
     return {
-        gmxEarnAccount: OrigamiGmxEarnAccount__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GMX_EARN_ACCOUNT, owner),
-        glpPrimaryEarnAccount: OrigamiGmxEarnAccount__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_PRIMARY_EARN_ACCOUNT, owner),
-        glpSecondaryEarnAccount: OrigamiGmxEarnAccount__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_SECONDARY_EARN_ACCOUNT, owner),
-        gmxManager: OrigamiGmxManager__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GMX_MANAGER, owner),
-        glpManager: OrigamiGmxManager__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_MANAGER, owner),
-        gmxRewardsAggregator: OrigamiGmxRewardsAggregator__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GMX_REWARDS_AGGREGATOR, owner),
-        glpRewardsAggregator: OrigamiGmxRewardsAggregator__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_REWARDS_AGGREGATOR, owner),
-        oGMX: OrigamiGmxInvestment__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.oGMX, owner),
-        oGLP: OrigamiGlpInvestment__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.oGLP, owner),
-        ovGMX: OrigamiInvestmentVault__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.ovGMX, owner),
-        ovGLP: OrigamiInvestmentVault__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.ovGLP, owner),
+        gmxEarnAccount: MorigamiGmxEarnAccount__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GMX_EARN_ACCOUNT, owner),
+        glpPrimaryEarnAccount: MorigamiGmxEarnAccount__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_PRIMARY_EARN_ACCOUNT, owner),
+        glpSecondaryEarnAccount: MorigamiGmxEarnAccount__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_SECONDARY_EARN_ACCOUNT, owner),
+        gmxManager: MorigamiGmxManager__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GMX_MANAGER, owner),
+        glpManager: MorigamiGmxManager__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_MANAGER, owner),
+        gmxRewardsAggregator: MorigamiGmxRewardsAggregator__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GMX_REWARDS_AGGREGATOR, owner),
+        glpRewardsAggregator: MorigamiGmxRewardsAggregator__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.GLP_REWARDS_AGGREGATOR, owner),
+        oGMX: MorigamiGmxInvestment__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.oGMX, owner),
+        oGLP: MorigamiGlpInvestment__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.oGLP, owner),
+        ovGMX: MorigamiInvestmentVault__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.ovGMX, owner),
+        ovGLP: MorigamiInvestmentVault__factory.connect(GMX_DEPLOYED.ORIGAMI.GMX.ovGLP, owner),
 
         gmxToken: GMX_GMX__factory.connect(GMX_DEPLOYED.GMX.TOKENS.GMX_TOKEN, owner),
         gmxRewardRouter: GMX_RewardRouterV2__factory.connect(GMX_DEPLOYED.GMX.STAKING.GMX_REWARD_ROUTER, owner),
@@ -224,7 +224,7 @@ async function dumpPrices(contracts: ContractInstances) {
       console.log();
 }
 
-async function getAggregatorRewardBalances(contracts: ContractInstances, aggregator: OrigamiGmxRewardsAggregator) {
+async function getAggregatorRewardBalances(contracts: ContractInstances, aggregator: MorigamiGmxRewardsAggregator) {
     return {
         oGmx: await contracts.oGMX.balanceOf(aggregator.address),
         oGlp: await contracts.oGLP.balanceOf(aggregator.address),
@@ -315,7 +315,7 @@ enableSlippageProtection=true" | jq
     const addToReserveAmountPct = 1_000;
     console.log(`\taddToReserveAmountPct=[${addToReserveAmountPct}]`);
 
-    const harvestParams: OrigamiGmxRewardsAggregator.HarvestGlpParamsStruct = {
+    const harvestParams: MorigamiGmxRewardsAggregator.HarvestGlpParamsStruct = {
         oGmxExitQuoteData: oGmxToGmxExitQuote.quoteData,
         gmxToNativeSwapData: zeroExQuoteData,
         oGlpInvestQuoteData: wethToOglpInvestQuote.quoteData,
@@ -405,7 +405,7 @@ enableSlippageProtection=true" | jq
     const addToReserveAmountPct = 1_000;
     console.log(`\taddToReserveAmountPct=[${addToReserveAmountPct}]`);
 
-    const harvestParams: OrigamiGmxRewardsAggregator.HarvestGmxParamsStruct = {
+    const harvestParams: MorigamiGmxRewardsAggregator.HarvestGmxParamsStruct = {
         nativeToGmxSwapData: zeroExQuoteData,
         oGmxInvestQuoteData: gmxToOgmxInvestQuote.quoteData,
         addToReserveAmountPct: addToReserveAmountPct,
@@ -419,14 +419,14 @@ enableSlippageProtection=true" | jq
     console.log("\tovGMX Vested & Pending After:", (await contracts.ovGMX.vestedReserves()).add(await contracts.ovGMX.pendingReserves()));
 }
 
-async function acceptOwner(contractToSet: IOrigamiElevatedAccess) {
+async function acceptOwner(contractToSet: IMorigamiElevatedAccess) {
     await mine(contractToSet.acceptOwner());
     console.log("Gov for:", contractToSet.address, "=", await contractToSet.owner());
 }
 
 // Have the timelock accept governance, and then give it back to owner
 // as a test that the process works.
-async function claimOwner(owner: Signer, contractToSet: IOrigamiElevatedAccess) {
+async function claimOwner(owner: Signer, contractToSet: IMorigamiElevatedAccess) {
     await acceptOwner(contractToSet);
 
     await mine(contractToSet.proposeNewOwner(await owner.getAddress()));
@@ -441,18 +441,18 @@ async function main() {
     const GMX_DEPLOYED = gmxDeployedContracts();
     const GOV_DEPLOYED = govDeployedContracts();
     console.log("owner addr:", await owner.getAddress());
-    console.log("origami msig:", GOV_DEPLOYED.ORIGAMI.MULTISIG);
+    console.log("morigami msig:", GOV_DEPLOYED.ORIGAMI.MULTISIG);
     
-    const origamiMultisig = await impersonateAndFund(owner, GOV_DEPLOYED.ORIGAMI.MULTISIG, 10);
-    const contracts = connectToContracts(GMX_DEPLOYED, origamiMultisig);
+    const morigamiMultisig = await impersonateAndFund(owner, GOV_DEPLOYED.ORIGAMI.MULTISIG, 10);
+    const contracts = connectToContracts(GMX_DEPLOYED, morigamiMultisig);
 
-    await claimOwner(origamiMultisig, contracts.gmxRewardsAggregator as unknown as IOrigamiElevatedAccess);
-    await claimOwner(origamiMultisig, contracts.glpRewardsAggregator as unknown as IOrigamiElevatedAccess);
-    await claimOwner(origamiMultisig, contracts.oGMX as unknown as IOrigamiElevatedAccess);
-    await claimOwner(origamiMultisig, contracts.oGLP as unknown as IOrigamiElevatedAccess);
-    await claimOwner(origamiMultisig, contracts.ovGMX as unknown as IOrigamiElevatedAccess);
-    await claimOwner(origamiMultisig, contracts.ovGLP as unknown as IOrigamiElevatedAccess);
-    await claimOwner(origamiMultisig, contracts.gmxManager as unknown as IOrigamiElevatedAccess);
+    await claimOwner(origamiMultisig, contracts.gmxRewardsAggregator as unknown as IMorigamiElevatedAccess);
+    await claimOwner(origamiMultisig, contracts.glpRewardsAggregator as unknown as IMorigamiElevatedAccess);
+    await claimOwner(origamiMultisig, contracts.oGMX as unknown as IMorigamiElevatedAccess);
+    await claimOwner(origamiMultisig, contracts.oGLP as unknown as IMorigamiElevatedAccess);
+    await claimOwner(origamiMultisig, contracts.ovGMX as unknown as IMorigamiElevatedAccess);
+    await claimOwner(origamiMultisig, contracts.ovGLP as unknown as IMorigamiElevatedAccess);
+    await claimOwner(origamiMultisig, contracts.gmxManager as unknown as IMorigamiElevatedAccess);
     
     await setUpstreamRewardRates(contracts, owner);
     await updateOracleThreshold(GMX_DEPLOYED, contracts);
@@ -465,16 +465,16 @@ async function main() {
     // Normally GMX will top up the accounts as required by collecting fees and sending to the distributors.
     // So use Joe to deposit a tonne of ETH into wETH and transfer to the relevant GMX fee contracts
     {
-        const wethWrapped = IWrappedToken__factory.connect(await contracts.gmxRewardRouter.weth(), origamiMultisig);
+        const wethWrapped = IWrappedToken__factory.connect(await contracts.gmxRewardRouter.weth(), morigamiMultisig);
         await mine(wethWrapped.connect(joe).deposit({value: ethers.utils.parseEther("9999")}));
-        const feeGlpTracker = GMX_RewardTracker__factory.connect(await contracts.glpRewardRouter.feeGlpTracker(), origamiMultisig);
+        const feeGlpTracker = GMX_RewardTracker__factory.connect(await contracts.glpRewardRouter.feeGlpTracker(), morigamiMultisig);
         await mine(contracts.weth.connect(joe).transfer(feeGlpTracker.distributor(), ethers.utils.parseEther("4000")));
-        const feeGmxTracker = GMX_RewardTracker__factory.connect(await contracts.gmxRewardRouter.feeGmxTracker(), origamiMultisig);
+        const feeGmxTracker = GMX_RewardTracker__factory.connect(await contracts.gmxRewardRouter.feeGmxTracker(), morigamiMultisig);
         await mine(contracts.weth.connect(joe).transfer(feeGmxTracker.distributor(), ethers.utils.parseEther("5500")));
         console.log("**Sent GMX distributors weth**");
     }
     
-    await claimTokenOwnership(contracts, origamiMultisig);
+    await claimTokenOwnership(contracts, morigamiMultisig);
     console.log("**Claimed GMX Ownership**");
 
     console.log("\n**Mint Fred some GMX and buy ovGMX**");
@@ -545,7 +545,7 @@ async function main() {
         console.log("\tProjected Reward Rates (after perf fees)", await contracts.gmxRewardsAggregator.projectedRewardRates(true));
         console.log("\tMSIG oGMX before:", fromAtto(await contracts.oGMX.balanceOf(origamiMultisig.getAddress())));
         console.log("\tMSIG wETH before:", fromAtto(await contracts.weth.balanceOf(origamiMultisig.getAddress())));
-        await harvestGmx(contracts, origamiMultisig);
+        await harvestGmx(contracts, morigamiMultisig);
         console.log("\tMSIG oGMX after:", fromAtto(await contracts.oGMX.balanceOf(origamiMultisig.getAddress())));
         console.log("\tMSIG wETH after:", fromAtto(await contracts.weth.balanceOf(origamiMultisig.getAddress())));
         console.log("\tAPR:", await contracts.ovGMX.apr());
@@ -557,7 +557,7 @@ async function main() {
         console.log("\tProjected Reward Rates (after perf fees)", await contracts.gmxRewardsAggregator.projectedRewardRates(true));
         console.log("\tMSIG oGMX before:", fromAtto(await contracts.oGMX.balanceOf(origamiMultisig.getAddress())));
         console.log("\tMSIG wETH before:", fromAtto(await contracts.weth.balanceOf(origamiMultisig.getAddress())));
-        await harvestGlp(contracts, origamiMultisig);
+        await harvestGlp(contracts, morigamiMultisig);
         console.log("\tMSIG oGMX after:", fromAtto(await contracts.oGMX.balanceOf(origamiMultisig.getAddress())));
         console.log("\tMSIG wETH after:", fromAtto(await contracts.weth.balanceOf(origamiMultisig.getAddress())));
         console.log("\tAPR:", await contracts.ovGLP.apr());
@@ -613,7 +613,7 @@ async function main() {
       const buyQuote = await contracts.ovGLP.investQuote(buyAmount, ZERO_ADDRESS, 0, 0);
       console.log("Buy quote:", buyQuote);
 
-      const feeGlpTracker = GMX_RewardTracker__factory.connect(await contracts.glpRewardRouter.feeGlpTracker(), origamiMultisig);
+      const feeGlpTracker = GMX_RewardTracker__factory.connect(await contracts.glpRewardRouter.feeGlpTracker(), morigamiMultisig);
       const bobGlpBefore = await feeGlpTracker.depositBalances(bob.getAddress(), await contracts.gmxRewardRouter.glp());
       await mine(contracts.glpRewardRouter.connect(bob).mintAndStakeGlpETH(0, 0, {value:buyAmount}));
       const bobGlpAfter = await feeGlpTracker.depositBalances(bob.getAddress(), await contracts.gmxRewardRouter.glp());
@@ -622,7 +622,7 @@ async function main() {
       await mineForwardSeconds(86400);
 
       const dai = "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1";
-      const daiToken = IERC20__factory.connect(dai, origamiMultisig);
+      const daiToken = IERC20__factory.connect(dai, morigamiMultisig);
       const sellAmount = ethers.utils.parseEther("1000");
       const sellQuote = await contracts.ovGLP.exitQuote(sellAmount, daiToken.address, 0, 0);
       console.log("Sell quote:", sellQuote);
@@ -637,7 +637,7 @@ async function main() {
       const sellAmount = ethers.utils.parseEther("1000");
 
       const dai = "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1";
-      const daiToken = IERC20__factory.connect(dai, origamiMultisig);
+      const daiToken = IERC20__factory.connect(dai, morigamiMultisig);
 
       console.log("Bob ovGLP Bal:", fromAtto(await contracts.ovGLP.balanceOf(bob.getAddress())));
       console.log("Bob oGLP Bal:", fromAtto(await contracts.oGLP.balanceOf(bob.getAddress())));

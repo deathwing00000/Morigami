@@ -6,9 +6,9 @@ import { time as timeHelpers } from "@nomicfoundation/hardhat-network-helpers";
 // Except force the block timestamp to increment by exactly one on each send transaction.
 // Can't extend SignerWithAddress as the constructor is private.
 // https://github.com/NomicFoundation/hardhat/issues/3635
-export class OrigamiSignerWithAddress extends ethers.Signer {
+export class MorigamiSignerWithAddress extends ethers.Signer {
   public static async create(signer: ethers.providers.JsonRpcSigner) {
-    return new OrigamiSignerWithAddress(await signer.getAddress(), signer);
+    return new MorigamiSignerWithAddress(await signer.getAddress(), signer);
   }
 
   private constructor(
@@ -38,12 +38,17 @@ export class OrigamiSignerWithAddress extends ethers.Signer {
   ): Promise<ethers.providers.TransactionResponse> {
     // Ensure we increment the block by exactly 1
     const currentTime = await timeHelpers.latest();
-    await network.provider.send("evm_setNextBlockTimestamp", [currentTime+1]);
+    await network.provider.send("evm_setNextBlockTimestamp", [currentTime + 1]);
     return this._signer.sendTransaction(transaction);
   }
 
-  public connect(provider: ethers.providers.Provider): OrigamiSignerWithAddress {
-    return new OrigamiSignerWithAddress(this.address, this._signer.connect(provider));
+  public connect(
+    provider: ethers.providers.Provider
+  ): MorigamiSignerWithAddress {
+    return new MorigamiSignerWithAddress(
+      this.address,
+      this._signer.connect(provider)
+    );
   }
 
   public _signTypedData(
@@ -53,21 +58,18 @@ export class OrigamiSignerWithAddress extends ethers.Signer {
   }
 
   public toJSON() {
-    return `<OrigamiSignerWithAddress ${this.address}>`;
+    return `<MorigamiSignerWithAddress ${this.address}>`;
   }
 }
 
-export async function getSigners(
-  ): Promise<OrigamiSignerWithAddress[]> {
-    const accounts = await hre.ethers.provider.listAccounts();
-    return await Promise.all(
-      accounts.map((account) => getSigner(account))
-    );
-  }
-  
+export async function getSigners(): Promise<MorigamiSignerWithAddress[]> {
+  const accounts = await hre.ethers.provider.listAccounts();
+  return await Promise.all(accounts.map((account) => getSigner(account)));
+}
+
 export async function getSigner(
-    address: string
-  ): Promise<OrigamiSignerWithAddress> {
-    const signer = hre.ethers.provider.getSigner(address);  
-    return await OrigamiSignerWithAddress.create(signer);
-  }
+  address: string
+): Promise<MorigamiSignerWithAddress> {
+  const signer = hre.ethers.provider.getSigner(address);
+  return await MorigamiSignerWithAddress.create(signer);
+}

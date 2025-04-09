@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiGmxInvestment__factory } from '../../../../typechain';
+import { MorigamiGmxInvestment__factory } from '../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -10,7 +10,7 @@ async function main() {
   ensureExpectedEnvvars();
   const [owner] = await ethers.getSigners();
 
-  const factory = new OrigamiGmxInvestment__factory(owner);
+  const factory = new MorigamiGmxInvestment__factory(owner);
   await deployAndMine(
     'oGMX', factory, factory.deploy, await owner.getAddress(),
   );

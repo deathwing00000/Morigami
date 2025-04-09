@@ -1,6 +1,6 @@
 import "@nomiclabs/hardhat-ethers";
 import { ethers } from "hardhat";
-import { OrigamiAaveV3FlashLoanProvider__factory } from "../../../../../typechain";
+import { MorigamiAaveV3FlashLoanProvider__factory } from "../../../../../typechain";
 import { deployAndMine, ensureExpectedEnvvars } from "../../../helpers";
 import { getDeployedContracts1 } from "../../contract-addresses";
 
@@ -9,7 +9,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = await getDeployedContracts1(__dirname);
 
-  const factory = new OrigamiAaveV3FlashLoanProvider__factory(owner);
+  const factory = new MorigamiAaveV3FlashLoanProvider__factory(owner);
   // Intentionally borrow from the mainnet aave v3, as it has more ETH
   await deployAndMine(
     "FLASHLOAN_PROVIDERS.MORE",

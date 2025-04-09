@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiMorphoFlashLoanProvider__factory } from '../../../../typechain';
+import { MorigamiMorphoFlashLoanProvider__factory } from '../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -12,7 +12,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = await getDeployedContracts1(__dirname);
 
-  const factory = new OrigamiMorphoFlashLoanProvider__factory(owner);
+  const factory = new MorigamiMorphoFlashLoanProvider__factory(owner);
   await deployAndMine(
     'FLASHLOAN_PROVIDERS.MORPHO',
     factory,

@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers, network } from 'hardhat';
-import { OrigamiGmxEarnAccount__factory } from '../../../../typechain';
+import { MorigamiGmxEarnAccount__factory } from '../../../../typechain';
 import {
   deployProxyAndMine,
   ensureExpectedEnvvars,
@@ -12,7 +12,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const GMX_DEPLOYED_CONTRACTS = getDeployedContracts(network.name);
 
-  const factory = new OrigamiGmxEarnAccount__factory(owner);
+  const factory = new MorigamiGmxEarnAccount__factory(owner);
   await deployProxyAndMine(
     GMX_DEPLOYED_CONTRACTS.ORIGAMI.GMX.GLP_SECONDARY_EARN_ACCOUNT,
     'origamiGlpSecondaryEarnAccount', 'uups', 

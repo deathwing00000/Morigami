@@ -1,20 +1,17 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { OrigamiTest } from "test/foundry/OrigamiTest.sol";
-import { SafeCast } from "contracts/libraries/SafeCast.sol";
+import {MorigamiTest} from "test/foundry/MorigamiTest.sol";
+import {SafeCast} from "contracts/libraries/SafeCast.sol";
 
-contract SafeCastTest is OrigamiTest {
+contract SafeCastTest is MorigamiTest {
     function test_encodeUInt128_success() public {
         assertEq(
             SafeCast.encodeUInt128(uint256(type(uint128).max)),
             type(uint128).max
         );
 
-        assertEq(
-            SafeCast.encodeUInt128(uint256(0)),
-            uint128(0)
-        );
+        assertEq(SafeCast.encodeUInt128(uint256(0)), uint128(0));
     }
 
     function test_encodeUInt128_failure() public {

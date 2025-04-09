@@ -3,7 +3,7 @@ import { ethers, network } from 'hardhat';
 import {
   encodedMulPrice,
   encodedOraclePrice,
-  encodedOrigamiOraclePrice,
+  encodedMorigamiOraclePrice,
   encodedRepricingTokenPrice,
   ensureExpectedEnvvars,
   impersonateAndFund,
@@ -24,7 +24,7 @@ let INSTANCES: ContractInstances;
 
 const getEncodedPrices = () => (
   {
-    ptToUsd: encodedOrigamiOraclePrice(
+    ptToUsd: encodedMorigamiOraclePrice(
       // This is PT/USD (we assume DAI === USD)
       ADDRS.ORACLES.PT_SUSDE_OCT24_DAI,
       PriceType.SPOT_PRICE, 

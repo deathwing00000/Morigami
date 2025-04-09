@@ -2,7 +2,7 @@
 // yarn hardhat verify --network sepolia 0xb215b61ce9d7176B6c07f1dD05F5231c6357cb74 --constructor-args scripts/deploys/sepolia/deploymentArgs/0xb215b61ce9d7176B6c07f1dD05F5231c6357cb74.js
 module.exports = [
   "0xA7F0F04efB55eaEfBC4649C523F7a773f91D5526",
-  "Origami lov-USDe-a",
+  "Morigami lov-USDe-a",
   "lov-USDe-a",
   1000,
   "0xF8Ab0fF572e48059c45eF3fa804e5A369d2b9b2B",

@@ -4,7 +4,7 @@ import {
   encodedAliasFor,
   encodedMulPrice,
   encodedOraclePrice,
-  encodedOrigamiOraclePrice,
+  encodedMorigamiOraclePrice,
   encodedRepricingTokenPrice,
   ensureExpectedEnvvars,
   impersonateAndFund,
@@ -28,7 +28,7 @@ const getEncodedPrices = () => (
     eBtcToUsd: encodedAliasFor(ADDRS.EXTERNAL.WBTC_TOKEN),
     ptToUsd: encodedMulPrice(
       // PT eBTC => eBTC
-      encodedOrigamiOraclePrice(
+      encodedMorigamiOraclePrice(
         ADDRS.ORACLES.PT_EBTC_DEC24_EBTC,
         PriceType.SPOT_PRICE, 
         RoundingMode.ROUND_DOWN

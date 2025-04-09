@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers, network} from 'hardhat';
-import { OrigamiTestnetMinter__factory, GMX_GMX__factory, OrigamiTestnetMinter, GMX_StakedGlp__factory } from '../../../../typechain';
+import { MorigamiTestnetMinter__factory, GMX_GMX__factory, MorigamiTestnetMinter, GMX_StakedGlp__factory } from '../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -13,7 +13,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const GMX_DEPLOYED_CONTRACTS = getDeployedContracts(network.name);
 
-  const factory = new OrigamiTestnetMinter__factory(owner);
+  const factory = new MorigamiTestnetMinter__factory(owner);
   const pairs = [
     {token: GMX_DEPLOYED_CONTRACTS.GMX.LIQUIDITY_POOL.WETH_TOKEN, amount: ethers.utils.parseEther("10"), mintType: 0,},
     {token: GMX_DEPLOYED_CONTRACTS.GMX.LIQUIDITY_POOL.BNB_TOKEN, amount: ethers.utils.parseEther("67"), mintType: 0,},
@@ -23,7 +23,7 @@ async function main() {
     {token: GMX_DEPLOYED_CONTRACTS.GMX.STAKING.STAKED_GLP, amount: ethers.utils.parseEther("20000"), mintType: 1,},
   ];
   console.log([pairs, 86400]);
-  const minter: OrigamiTestnetMinter = await deployAndMine(
+  const minter: MorigamiTestnetMinter = await deployAndMine(
     'GMX Testnet Minter', factory, factory.deploy,
     pairs,
     86400,

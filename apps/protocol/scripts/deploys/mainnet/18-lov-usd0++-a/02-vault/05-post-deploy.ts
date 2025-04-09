@@ -4,7 +4,7 @@ import {
   encodedAliasFor,
   encodedMulPrice,
   encodedOraclePrice,
-  encodedOrigamiOraclePrice,
+  encodedMorigamiOraclePrice,
   encodedRepricingTokenPrice,
   ensureExpectedEnvvars,
   impersonateAndFund,
@@ -43,7 +43,7 @@ async function updatePrices(contract: TokenPrices) {
   // USD0/USD
   // == USD0/USDC * USDC/USD [chainlink]
   const encodedUsd0 = encodedMulPrice(
-    encodedOrigamiOraclePrice(ADDRS.ORACLES.USD0_USDC, PriceType.SPOT_PRICE, RoundingMode.ROUND_DOWN),
+    encodedMorigamiOraclePrice(ADDRS.ORACLES.USD0_USDC, PriceType.SPOT_PRICE, RoundingMode.ROUND_DOWN),
     encodedAliasFor(ADDRS.EXTERNAL.CIRCLE.USDC_TOKEN)
   );
   await mine(contract.setTokenPriceFunction(
@@ -54,7 +54,7 @@ async function updatePrices(contract: TokenPrices) {
   // USD0++/USD
   // == USD0++/USD0 * USD0/USD
   const encodedUsd0pp = encodedMulPrice(
-    encodedOrigamiOraclePrice(ADDRS.ORACLES.USD0pp_USD0, PriceType.SPOT_PRICE, RoundingMode.ROUND_DOWN),
+    encodedMorigamiOraclePrice(ADDRS.ORACLES.USD0pp_USD0, PriceType.SPOT_PRICE, RoundingMode.ROUND_DOWN),
     encodedAliasFor(ADDRS.EXTERNAL.USUAL.USD0_TOKEN)
   );
   await mine(contract.setTokenPriceFunction(
@@ -78,13 +78,13 @@ async function updatePricesSafeBatch(contract: TokenPrices) {
       ),
       setTokenPriceFunction(contract, ADDRS.EXTERNAL.USUAL.USD0_TOKEN, 
         encodedMulPrice(
-          encodedOrigamiOraclePrice(ADDRS.ORACLES.USD0_USDC, PriceType.SPOT_PRICE, RoundingMode.ROUND_DOWN),
+          encodedMorigamiOraclePrice(ADDRS.ORACLES.USD0_USDC, PriceType.SPOT_PRICE, RoundingMode.ROUND_DOWN),
           encodedAliasFor(ADDRS.EXTERNAL.CIRCLE.USDC_TOKEN)
         )
       ),
       setTokenPriceFunction(contract, ADDRS.EXTERNAL.USUAL.USD0pp_TOKEN, 
         encodedMulPrice(
-          encodedOrigamiOraclePrice(ADDRS.ORACLES.USD0pp_USD0, PriceType.SPOT_PRICE, RoundingMode.ROUND_DOWN),
+          encodedMorigamiOraclePrice(ADDRS.ORACLES.USD0pp_USD0, PriceType.SPOT_PRICE, RoundingMode.ROUND_DOWN),
           encodedAliasFor(ADDRS.EXTERNAL.USUAL.USD0_TOKEN)
         )
       ),

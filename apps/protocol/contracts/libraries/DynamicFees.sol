@@ -1,9 +1,9 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (libraries/DynamicFees.sol)
+// Morigami (libraries/DynamicFees.sol)
 
-import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
-import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
+import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 /**
@@ -11,7 +11,7 @@ import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors
  * between an oracle historic vs spot price
  */
 library DynamicFees {
-    using OrigamiMath for uint256;
+    using MorigamiMath for uint256;
 
     enum FeeType {
         DEPOSIT_FEE,
@@ -30,7 +30,7 @@ library DynamicFees {
      */
     function dynamicFeeBps(
         FeeType feeType,
-        IOrigamiOracle oracle,
+        IMorigamiOracle oracle,
         address expectedBaseAsset,
         uint64 minFeeBps,
         uint256 feeLeverageFactor
@@ -38,10 +38,10 @@ library DynamicFees {
         // Pull the spot and expected historic price from the oracle.
         // Round up for both to be consistent no matter if the oracle is in expected quoted order or not.
         (uint256 _spotPrice, uint256 _histPrice, address _baseAsset, address _quoteAsset) = oracle.latestPrices(
-            IOrigamiOracle.PriceType.SPOT_PRICE,
-            OrigamiMath.Rounding.ROUND_UP,
-            IOrigamiOracle.PriceType.HISTORIC_PRICE,
-            OrigamiMath.Rounding.ROUND_UP
+            IMorigamiOracle.PriceType.SPOT_PRICE,
+            MorigamiMath.Rounding.ROUND_UP,
+            IMorigamiOracle.PriceType.HISTORIC_PRICE,
+            MorigamiMath.Rounding.ROUND_UP
         );
         
         // Whether the expected 'base' asset of the oracle is indeed the base asset.
@@ -100,7 +100,7 @@ library DynamicFees {
         uint256 _fee = _delta.mulDiv(
             feeLeverageFactor,
             _denominator,
-            OrigamiMath.Rounding.ROUND_UP
+            MorigamiMath.Rounding.ROUND_UP
         );
 
         // Use the maximum of the calculated fee and a pre-set minimum.

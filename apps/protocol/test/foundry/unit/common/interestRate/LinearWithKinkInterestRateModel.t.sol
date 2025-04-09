@@ -1,11 +1,11 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { OrigamiTest } from "test/foundry/OrigamiTest.sol";
-import { LinearWithKinkInterestRateModel } from "contracts/common/interestRate/LinearWithKinkInterestRateModel.sol";
-import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
+import {MorigamiTest} from "test/foundry/MorigamiTest.sol";
+import {LinearWithKinkInterestRateModel} from "contracts/common/interestRate/LinearWithKinkInterestRateModel.sol";
+import {CommonEventsAndErrors} from "contracts/libraries/CommonEventsAndErrors.sol";
 
-contract LinearWithKinkInterestRateModelTestBase is OrigamiTest {
+contract LinearWithKinkInterestRateModelTestBase is MorigamiTest {
     LinearWithKinkInterestRateModel public interestRateModelKinkNinety;
     LinearWithKinkInterestRateModel public interestRateModelFlat;
     uint256 public UTILIZATION_RATIO_90 = 0.9e18; // 90%
@@ -80,12 +80,13 @@ contract LinearWithKinkInterestRateModelTestAccess is
     }
 }
 
-contract LinearWithKinkInterestRateModelTestAdmin is LinearWithKinkInterestRateModelTestBase
+contract LinearWithKinkInterestRateModelTestAdmin is
+    LinearWithKinkInterestRateModelTestBase
 {
     event InterestRateParamsSet(
-        uint80 _baseInterestRate, 
-        uint80 _maxInterestRate, 
-        uint256 _kinkUtilizationRatio, 
+        uint80 _baseInterestRate,
+        uint80 _maxInterestRate,
+        uint256 _kinkUtilizationRatio,
         uint80 _kinkInterestRate
     );
 
@@ -132,11 +133,15 @@ contract LinearWithKinkInterestRateModelTestAdmin is LinearWithKinkInterestRateM
     function test_setRateParams_failWrongOrder() public {
         vm.startPrank(origamiMultisig);
         // Base rate is bigger thank Kink rate
-        vm.expectRevert(abi.encodeWithSelector(CommonEventsAndErrors.InvalidParam.selector));
+        vm.expectRevert(
+            abi.encodeWithSelector(CommonEventsAndErrors.InvalidParam.selector)
+        );
         interestRateModelKinkNinety.setRateParams(100, 100, 100, 99);
 
         // Kink rate is bigger thank Max rate
-        vm.expectRevert(abi.encodeWithSelector(CommonEventsAndErrors.InvalidParam.selector));
+        vm.expectRevert(
+            abi.encodeWithSelector(CommonEventsAndErrors.InvalidParam.selector)
+        );
         interestRateModelKinkNinety.setRateParams(100, 99, 100, 100);
     }
 
@@ -144,18 +149,36 @@ contract LinearWithKinkInterestRateModelTestAdmin is LinearWithKinkInterestRateM
         vm.startPrank(origamiMultisig);
 
         // base->kink slope > kink->max slope
-        vm.expectRevert(abi.encodeWithSelector(CommonEventsAndErrors.InvalidParam.selector));
-        interestRateModelKinkNinety.setRateParams(0.1e18, 0.29999e18, 0.5e18, 0.2e18);
+        vm.expectRevert(
+            abi.encodeWithSelector(CommonEventsAndErrors.InvalidParam.selector)
+        );
+        interestRateModelKinkNinety.setRateParams(
+            0.1e18,
+            0.29999e18,
+            0.5e18,
+            0.2e18
+        );
 
         // base->kink slope == kink->max slope
-        interestRateModelKinkNinety.setRateParams(0.1e18, 0.3e18, 0.5e18, 0.2e18);
+        interestRateModelKinkNinety.setRateParams(
+            0.1e18,
+            0.3e18,
+            0.5e18,
+            0.2e18
+        );
 
         // base->kink slope < kink->max slope
-        interestRateModelKinkNinety.setRateParams(0.1e18, 3.0001e18, 0.5e18, 0.2e18);
+        interestRateModelKinkNinety.setRateParams(
+            0.1e18,
+            3.0001e18,
+            0.5e18,
+            0.2e18
+        );
     }
 }
 
-contract LinearWithKinkInterestRateModelTestCalculateIR is LinearWithKinkInterestRateModelTestBase
+contract LinearWithKinkInterestRateModelTestCalculateIR is
+    LinearWithKinkInterestRateModelTestBase
 {
     function test_calculateInterestRateKink_zeroUR() public {
         uint256 utilizationRatio = 0.0e18; // 0% UR
@@ -301,7 +324,7 @@ contract LinearWithKinkInterestRateModelTestCalculateIR is LinearWithKinkInteres
             UTILIZATION_RATIO_90,
             uint80(IR_AT_KINK_90)
         );
-        
+
         // we should expect 900% IR  at 100% UR, however, there is a hard cap at 500%
         uint256 expectedInterestRate = interestRateModelKinkNinety
             .calculateInterestRate(100e18);

@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (interfaces/external/curve/ICurveStableSwapNG.sol)
+// Morigami (interfaces/external/curve/ICurveStableSwapNG.sol)
 
 interface ICurveStableSwapNG {
     /**

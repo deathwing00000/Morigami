@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers, network } from 'hardhat';
-import { OrigamiGmxRewardsAggregator__factory } from '../../../../typechain';
+import { MorigamiGmxRewardsAggregator__factory } from '../../../../typechain';
 import {
   GmxVaultType,
   deployAndMine,
@@ -15,7 +15,7 @@ async function main() {
   const GMX_DEPLOYED_CONTRACTS = gmxDeployedContracts(network.name);
   const GOV_DEPLOYED_CONTRACTS = govDeployedContracts();
 
-  const factory = new OrigamiGmxRewardsAggregator__factory(owner);
+  const factory = new MorigamiGmxRewardsAggregator__factory(owner);
   await deployAndMine(
     'origamiGlpRewardsAggregator', factory, factory.deploy,
     await owner.getAddress(),

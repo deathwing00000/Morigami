@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiVolatileCurveEmaOracle__factory } from '../../../../../typechain';
+import { MorigamiVolatileCurveEmaOracle__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -14,7 +14,7 @@ async function main() {
   const ADDRS = await getDeployedContracts1(__dirname);
   const INSTANCES = connectToContracts1(owner, ADDRS);
 
-  const factory = new OrigamiVolatileCurveEmaOracle__factory(owner);
+  const factory = new MorigamiVolatileCurveEmaOracle__factory(owner);
   await deployAndMine(
     'ORACLES.USD0pp_USD0',
     factory,

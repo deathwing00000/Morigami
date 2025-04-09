@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiLendingSupplyManager__factory } from '../../../../../typechain';
+import { MorigamiLendingSupplyManager__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -13,7 +13,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = getDeployedContracts();
 
-  const factory = new OrigamiLendingSupplyManager__factory(owner);
+  const factory = new MorigamiLendingSupplyManager__factory(owner);
   await deployAndMine(
     'OV_USDC.SUPPLY.SUPPLY_MANAGER',
     factory,

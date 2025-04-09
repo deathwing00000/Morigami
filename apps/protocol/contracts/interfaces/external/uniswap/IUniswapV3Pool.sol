@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (interfaces/external/uniswap/IUniswapV3Pool.sol)
+// Morigami (interfaces/external/uniswap/IUniswapV3Pool.sol)
 
 interface IUniswapV3Pool {
     function slot0() external view returns (

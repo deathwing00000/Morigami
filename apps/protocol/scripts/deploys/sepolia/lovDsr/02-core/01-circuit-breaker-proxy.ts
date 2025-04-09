@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiCircuitBreakerProxy__factory } from '../../../../../typechain';
+import { MorigamiCircuitBreakerProxy__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -10,7 +10,7 @@ async function main() {
   ensureExpectedEnvvars();
   const [owner] = await ethers.getSigners();
 
-  const factory = new OrigamiCircuitBreakerProxy__factory(owner);
+  const factory = new MorigamiCircuitBreakerProxy__factory(owner);
   await deployAndMine(
     'CORE.CIRCUIT_BREAKER_PROXY',
     factory,

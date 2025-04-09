@@ -9,7 +9,7 @@ import { connectToContracts, ContractInstances, getDeployedContracts } from '../
 import { DEFAULT_SETTINGS } from '../../default-settings';
 import { BigNumber } from 'ethers';
 import { ContractAddresses } from '../../contract-addresses/types';
-import { OrigamiMorphoBorrowAndLend__factory } from '../../../../../typechain';
+import { MorigamiMorphoBorrowAndLend__factory } from '../../../../../typechain';
 
 let ADDRS: ContractAddresses;
 let INSTANCES: ContractInstances;
@@ -49,7 +49,7 @@ async function main() {
     )
   }
 
-  const factory = new OrigamiMorphoBorrowAndLend__factory(owner);
+  const factory = new MorigamiMorphoBorrowAndLend__factory(owner);
   await deployAndMine(
     'LOV_PT_SUSDE_OCT24_A.MORPHO_BORROW_LEND',
     factory,

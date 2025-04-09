@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiVolatileChainlinkOracle__factory } from '../../../../../typechain';
+import { MorigamiVolatileChainlinkOracle__factory } from '../../../../../typechain';
 import {
 	deployAndMine,
 	ensureExpectedEnvvars,
@@ -13,7 +13,7 @@ async function main() {
 	const ADDRS = await getDeployedContracts1(__dirname);
 	const INSTANCES = connectToContracts1(owner, ADDRS);
 
-	const factory = new OrigamiVolatileChainlinkOracle__factory(owner);
+	const factory = new MorigamiVolatileChainlinkOracle__factory(owner);
 	await deployAndMine(
 		'ORACLES.RSWETH_WETH',
 		factory,
@@ -27,7 +27,7 @@ async function main() {
 		},
 		ADDRS.EXTERNAL.ORIGAMI_ORACLE_ADAPTERS.RSWETH_ETH_EXCHANGE_RATE,
 		0,
-		false, // Origami adapter does not use roundId
+		false, // Morigami adapter does not use roundId
 		false  // It does not use the lastUpdatedAt
 	);
 }

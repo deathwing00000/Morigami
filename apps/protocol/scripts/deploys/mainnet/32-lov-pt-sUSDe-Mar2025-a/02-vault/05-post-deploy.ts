@@ -1,7 +1,7 @@
 import '@nomiclabs/hardhat-ethers';
 import { network } from 'hardhat';
 import {
-  encodedOrigamiOraclePrice,
+  encodedMorigamiOraclePrice,
   encodedRepricingTokenPrice,
   impersonateAndFund,
   mine,
@@ -23,7 +23,7 @@ let INSTANCES: ContractInstances;
 
 const getEncodedPrices = () => (
   {
-    ptToUsd: encodedOrigamiOraclePrice(
+    ptToUsd: encodedMorigamiOraclePrice(
       // This is PT/USD (we assume DAI === USD)
       ADDRS.ORACLES.PT_SUSDE_MAR_2025_DAI,
       PriceType.SPOT_PRICE, 

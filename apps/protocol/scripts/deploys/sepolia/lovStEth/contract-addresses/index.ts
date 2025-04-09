@@ -1,24 +1,24 @@
 import { network } from "hardhat";
 import { 
   RelayedOracle, RelayedOracle__factory,
-  OrigamiDexAggregatorSwapper, OrigamiDexAggregatorSwapper__factory, 
+  MorigamiDexAggregatorSwapper, MorigamiDexAggregatorSwapper__factory, 
   TokenPrices, TokenPrices__factory,
-  OrigamiStableChainlinkOracle,
-  OrigamiStableChainlinkOracle__factory,
+  MorigamiStableChainlinkOracle,
+  MorigamiStableChainlinkOracle__factory,
   MockWrappedEther,
   MockStEthToken,
   MockWstEthToken,
   MockWrappedEther__factory,
   MockWstEthToken__factory,
   MockStEthToken__factory,
-  OrigamiWstEthToEthOracle,
-  OrigamiWstEthToEthOracle__factory,
+  MorigamiWstEthToEthOracle,
+  MorigamiWstEthToEthOracle__factory,
   MockFlashLoanProvider,
   MockFlashLoanProvider__factory,
-  OrigamiLovToken,
-  OrigamiLovTokenFlashAndBorrowManager,
-  OrigamiLovToken__factory,
-  OrigamiLovTokenFlashAndBorrowManager__factory,
+  MorigamiLovToken,
+  MorigamiLovTokenFlashAndBorrowManager,
+  MorigamiLovToken__factory,
+  MorigamiLovTokenFlashAndBorrowManager__factory,
   MockBorrowAndLend,
   MockBorrowAndLend__factory
 } from "../../../../../typechain";
@@ -40,17 +40,17 @@ export function getDeployedContracts(): ContractAddresses {
 export interface ContractInstances {
   CORE: {
     TOKEN_PRICES: TokenPrices;
-    SWAPPER_1INCH: OrigamiDexAggregatorSwapper;
+    SWAPPER_1INCH: MorigamiDexAggregatorSwapper;
     SPARK_FLASH_LOAN_PROVIDER: MockFlashLoanProvider;
   },
   ORACLES: {
-    STETH_ETH: OrigamiStableChainlinkOracle;
-    WSTETH_ETH: OrigamiWstEthToEthOracle;
+    STETH_ETH: MorigamiStableChainlinkOracle;
+    WSTETH_ETH: MorigamiWstEthToEthOracle;
   },
   LOV_STETH: {
-    TOKEN: OrigamiLovToken;
+    TOKEN: MorigamiLovToken;
     SPARK_BORROW_LEND: MockBorrowAndLend;
-    MANAGER: OrigamiLovTokenFlashAndBorrowManager;
+    MANAGER: MorigamiLovTokenFlashAndBorrowManager;
   },
   EXTERNAL: {
     WETH_TOKEN: MockWrappedEther,
@@ -71,17 +71,17 @@ export function connectToContracts(owner: Signer): ContractInstances {
     return {
       CORE: {
         TOKEN_PRICES: TokenPrices__factory.connect(ADDRS.CORE.TOKEN_PRICES, owner),
-        SWAPPER_1INCH: OrigamiDexAggregatorSwapper__factory.connect(ADDRS.CORE.SWAPPER_1INCH, owner),
+        SWAPPER_1INCH: MorigamiDexAggregatorSwapper__factory.connect(ADDRS.CORE.SWAPPER_1INCH, owner),
         SPARK_FLASH_LOAN_PROVIDER: MockFlashLoanProvider__factory.connect(ADDRS.CORE.SPARK_FLASH_LOAN_PROVIDER, owner)
       },
       ORACLES: {
-        STETH_ETH: OrigamiStableChainlinkOracle__factory.connect(ADDRS.ORACLES.STETH_ETH, owner),
-        WSTETH_ETH: OrigamiWstEthToEthOracle__factory.connect(ADDRS.ORACLES.WSTETH_ETH, owner),
+        STETH_ETH: MorigamiStableChainlinkOracle__factory.connect(ADDRS.ORACLES.STETH_ETH, owner),
+        WSTETH_ETH: MorigamiWstEthToEthOracle__factory.connect(ADDRS.ORACLES.WSTETH_ETH, owner),
       },
       LOV_STETH: {
-        TOKEN: OrigamiLovToken__factory.connect(ADDRS.LOV_STETH.TOKEN, owner),
+        TOKEN: MorigamiLovToken__factory.connect(ADDRS.LOV_STETH.TOKEN, owner),
         SPARK_BORROW_LEND: MockBorrowAndLend__factory.connect(ADDRS.LOV_STETH.SPARK_BORROW_LEND, owner),
-        MANAGER: OrigamiLovTokenFlashAndBorrowManager__factory.connect(ADDRS.LOV_STETH.MANAGER, owner),
+        MANAGER: MorigamiLovTokenFlashAndBorrowManager__factory.connect(ADDRS.LOV_STETH.MANAGER, owner),
       },
       EXTERNAL: {
         WETH_TOKEN: MockWrappedEther__factory.connect(ADDRS.EXTERNAL.WETH_TOKEN, owner),

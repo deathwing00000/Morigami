@@ -1,10 +1,10 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (libraries/Chainlink.sol)
+// Morigami (libraries/Chainlink.sol)
 
 import { IAggregatorV3Interface } from "contracts/interfaces/external/chainlink/IAggregatorV3Interface.sol";
-import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
-import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
+import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
+import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
 
 /**
  * @notice A helper library to safely query prices from Chainlink oracles and scale them 
@@ -14,7 +14,7 @@ import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
  * eg: https://docs.chain.link/data-feeds/l2-sequencer-feeds#example-code
  */
 library Chainlink {
-    using OrigamiMath for uint256;
+    using MorigamiMath for uint256;
 
     struct Config {
         IAggregatorV3Interface oracle;
@@ -27,30 +27,30 @@ library Chainlink {
 
     /**
      * @notice Query a price from a Chainlink oracle interface and perform sanity checks
-     * The oracle price is scaled to the expected Origami precision (18dp)
+     * The oracle price is scaled to the expected Morigami precision (18dp)
      */
     function price(
         Config memory self,
-        OrigamiMath.Rounding roundingMode
+        MorigamiMath.Rounding roundingMode
     ) internal view returns (uint256) {
         (uint80 roundId, int256 feedValue, , uint256 lastUpdatedAt,) = self.oracle.latestRoundData();
 
         // Invalid chainlink parameters
-        if (self.validateRoundId && roundId == 0) revert IOrigamiOracle.InvalidOracleData(address(self.oracle));
+        if (self.validateRoundId && roundId == 0) revert IMorigamiOracle.InvalidOracleData(address(self.oracle));
         if (self.validateLastUpdatedAt) {
-            if (lastUpdatedAt == 0) revert IOrigamiOracle.InvalidOracleData(address(self.oracle));
+            if (lastUpdatedAt == 0) revert IMorigamiOracle.InvalidOracleData(address(self.oracle));
 
             // Check for future time or if it's too stale
-            if (lastUpdatedAt > block.timestamp) revert IOrigamiOracle.InvalidOracleData(address(self.oracle));
+            if (lastUpdatedAt > block.timestamp) revert IMorigamiOracle.InvalidOracleData(address(self.oracle));
             unchecked {
                 if (block.timestamp - lastUpdatedAt > self.stalenessThreshold) {
-                    revert IOrigamiOracle.StalePrice(address(self.oracle), lastUpdatedAt, feedValue);
+                    revert IMorigamiOracle.StalePrice(address(self.oracle), lastUpdatedAt, feedValue);
                 }
             }
         }
 
         // Check for negative price
-        if (feedValue < 0) revert IOrigamiOracle.InvalidPrice(address(self.oracle), feedValue);
+        if (feedValue < 0) revert IMorigamiOracle.InvalidPrice(address(self.oracle), feedValue);
 
         return self.scaleDown 
             ? uint256(feedValue).scaleDown(self.scalar, roundingMode)

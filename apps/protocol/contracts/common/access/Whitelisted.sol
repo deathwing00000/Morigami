@@ -1,16 +1,16 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (common/access/Whitelisted.sol)
+// Morigami (common/access/Whitelisted.sol)
 
 import { IWhitelisted } from "contracts/interfaces/common/access/IWhitelisted.sol";
-import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
+import { MorigamiElevatedAccess } from "contracts/common/access/MorigamiElevatedAccess.sol";
 import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 /**
  * @title Whitelisted abstract contract
  * @notice Functionality to deny non-EOA addresses unless whitelisted
  */
-abstract contract Whitelisted is IWhitelisted, OrigamiElevatedAccess {
+abstract contract Whitelisted is IWhitelisted, MorigamiElevatedAccess {
     /**
      * @notice Allow all (both EOAs and contracts) without whitelisting
      */

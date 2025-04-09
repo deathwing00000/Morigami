@@ -1,5 +1,5 @@
 import '@nomiclabs/hardhat-ethers';
-import { OrigamiLovTokenMorphoManagerMarketAL__factory } from '../../../../../typechain';
+import { MorigamiLovTokenMorphoManagerMarketAL__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   runAsyncMain,
@@ -9,7 +9,7 @@ import { getDeployContext } from '../../deploy-context';
 async function main() {
   const { owner, ADDRS } = await getDeployContext(__dirname);
 
-  const factory = new OrigamiLovTokenMorphoManagerMarketAL__factory(owner);
+  const factory = new MorigamiLovTokenMorphoManagerMarketAL__factory(owner);
   await deployAndMine(
     'LOV_PT_SUSDE_MAR_2025_A.MANAGER',
     factory,

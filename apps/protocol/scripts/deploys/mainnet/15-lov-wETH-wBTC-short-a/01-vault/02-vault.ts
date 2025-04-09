@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers, network } from 'hardhat';
-import { OrigamiLovToken__factory } from '../../../../../typechain';
+import { MorigamiLovToken__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -13,7 +13,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = getDeployedContracts();
 
-  const factory = new OrigamiLovToken__factory(owner);
+  const factory = new MorigamiLovToken__factory(owner);
   await deployAndMine(
     'LOV_WETH_WBTC_SHORT_A.TOKEN',
     factory,

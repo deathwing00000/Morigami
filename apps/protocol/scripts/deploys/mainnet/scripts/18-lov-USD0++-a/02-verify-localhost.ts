@@ -5,7 +5,7 @@ import { ContractInstances, connectToContracts1, getDeployedContracts1 } from ".
 import { BigNumber } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ContractAddresses } from "../../contract-addresses/types";
-import { IERC20Metadata, OrigamiLovToken, OrigamiLovTokenMorphoManager, OrigamiMorphoBorrowAndLend, OrigamiOracleBase } from "../../../../../typechain";
+import { IERC20Metadata, MorigamiLovToken, MorigamiLovTokenMorphoManager, MorigamiMorphoBorrowAndLend, MorigamiOracleBase } from "../../../../../typechain";
 
 let ADDRS: ContractAddresses;
 let INSTANCES: ContractInstances;
@@ -17,14 +17,14 @@ const DEBT_TOKEN_WHALE = "0xf584F8728B874a6a5c7A8d4d387C9aae9172D621";
 
 interface TestContracts {
   DEPOSIT_TOKEN: IERC20Metadata;
-  VAULT_TOKEN: OrigamiLovToken;
+  VAULT_TOKEN: MorigamiLovToken;
   DEPOSIT_TOKEN_DECIMALS: number;
   VAULT_TOKEN_DECIMALS: number;
   DEBT_TOKEN: IERC20Metadata;
   DEBT_TOKEN_DECIMALS: number;
-  MANAGER: OrigamiLovTokenMorphoManager;
-  BORROW_LEND: OrigamiMorphoBorrowAndLend;
-  DEPOSIT_TO_DEBT_ORACLE: OrigamiOracleBase;
+  MANAGER: MorigamiLovTokenMorphoManager;
+  BORROW_LEND: MorigamiMorphoBorrowAndLend;
+  DEPOSIT_TO_DEBT_ORACLE: MorigamiOracleBase;
 }
 let TEST_CONTRACTS: TestContracts;
 

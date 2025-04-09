@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (interfaces/common/ITokenPrices.sol)
+// Morigami (interfaces/common/ITokenPrices.sol)
 
 /// @title Token Prices
 /// @notice A utility contract to pull token prices from on-chain.

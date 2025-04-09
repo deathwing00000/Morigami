@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiLovTokenMorphoManager__factory } from '../../../../../typechain';
+import { MorigamiLovTokenMorphoManager__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -12,7 +12,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = getDeployedContracts();
 
-  const factory = new OrigamiLovTokenMorphoManager__factory(owner);
+  const factory = new MorigamiLovTokenMorphoManager__factory(owner);
   await deployAndMine(
     'LOV_EZETH_A.MANAGER',
     factory,

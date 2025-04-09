@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { IPool__factory, OrigamiAaveV3BorrowAndLend__factory } from '../../../../typechain';
+import { IPool__factory, MorigamiAaveV3BorrowAndLend__factory } from '../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -15,9 +15,9 @@ async function main() {
   const ADDRS = getDeployedContracts();
   const INSTANCES = connectToContracts(owner);
 
-  const factory = new OrigamiAaveV3BorrowAndLend__factory(owner);
+  const factory = new MorigamiAaveV3BorrowAndLend__factory(owner);
   const aavePool = await INSTANCES.EXTERNAL.SPARK.POOL_ADDRESS_PROVIDER.getPool();
-  const oldBorrowLend = OrigamiAaveV3BorrowAndLend__factory.connect(OLD_BORROW_LEND_ADDRESS, owner);
+  const oldBorrowLend = MorigamiAaveV3BorrowAndLend__factory.connect(OLD_BORROW_LEND_ADDRESS, owner);
   await deployAndMine(
     'LOV_WSTETH_A.SPARK_BORROW_LEND',
     factory,

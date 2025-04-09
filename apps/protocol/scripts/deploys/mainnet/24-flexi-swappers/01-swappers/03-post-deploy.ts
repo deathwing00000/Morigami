@@ -8,7 +8,7 @@ import {
 import { ContractInstances, connectToContracts1, getDeployedContracts1 } from '../../contract-addresses';
 import { ContractAddresses } from '../../contract-addresses/types';
 import { createSafeBatch, createSafeTransaction, writeSafeTransactionsBatch } from '../../../safe-tx-builder';
-import { OrigamiLovTokenFlashAndBorrowManager, OrigamiMorphoBorrowAndLend } from '../../../../../typechain';
+import { MorigamiLovTokenFlashAndBorrowManager, MorigamiMorphoBorrowAndLend } from '../../../../../typechain';
 import path from 'path';
 import { JsonRpcSigner } from '@ethersproject/providers';
 
@@ -105,7 +105,7 @@ async function updateSwappers(signer: JsonRpcSigner) {
 }
 
 export function setSwapperFunction(
-  contract: OrigamiMorphoBorrowAndLend | OrigamiLovTokenFlashAndBorrowManager,
+  contract: MorigamiMorphoBorrowAndLend | MorigamiLovTokenFlashAndBorrowManager,
   swapper: string,
 ) {
   return createSafeTransaction(

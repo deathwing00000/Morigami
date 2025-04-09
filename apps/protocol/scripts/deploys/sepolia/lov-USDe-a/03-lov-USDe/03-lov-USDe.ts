@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiLovToken__factory } from '../../../../../typechain';
+import { MorigamiLovToken__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -13,13 +13,13 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = getDeployedContracts();
 
-  const factory = new OrigamiLovToken__factory(owner);
+  const factory = new MorigamiLovToken__factory(owner);
   await deployAndMine(
     'LOV_USDE.TOKEN',
     factory,
     factory.deploy,
     await owner.getAddress(),
-    "Origami lov-USDe-a",
+    "Morigami lov-USDe-a",
     "lov-USDe-a",
     DEFAULT_SETTINGS.LOV_USDE.PERFORMANCE_FEE_BPS,
     ADDRS.CORE.FEE_COLLECTOR,

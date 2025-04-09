@@ -3,7 +3,7 @@ import { ethers, network } from 'hardhat';
 import {
   encodedMulPrice,
   encodedOraclePrice,
-  encodedOrigamiOraclePrice,
+  encodedMorigamiOraclePrice,
   encodedRepricingTokenPrice,
   ensureExpectedEnvvars,
   impersonateAndFund,
@@ -25,7 +25,7 @@ let INSTANCES: ContractInstances;
 const getEncodedPrices = () => (
   {
     rswEthToUsd: encodedMulPrice(
-      encodedOrigamiOraclePrice(ADDRS.ORACLES.RSWETH_WETH, PriceType.SPOT_PRICE, RoundingMode.ROUND_DOWN),
+      encodedMorigamiOraclePrice(ADDRS.ORACLES.RSWETH_WETH, PriceType.SPOT_PRICE, RoundingMode.ROUND_DOWN),
       encodedOraclePrice(
         ADDRS.EXTERNAL.CHAINLINK.ETH_USD_ORACLE, 
         DEFAULT_SETTINGS.EXTERNAL.CHAINLINK.ETH_USD_ORACLE.STALENESS_THRESHOLD

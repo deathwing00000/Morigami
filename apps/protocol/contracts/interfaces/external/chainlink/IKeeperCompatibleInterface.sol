@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (interfaces/external/chainlink/IKeeperCompatibleInterface.sol)
+// Morigami (interfaces/external/chainlink/IKeeperCompatibleInterface.sol)
 
 interface IKeeperCompatibleInterface {
     /**

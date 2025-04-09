@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiGmxManager__factory } from '../../../../typechain';
+import { MorigamiGmxManager__factory } from '../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -14,7 +14,7 @@ async function main() {
   const GMX_DEPLOYED_CONTRACTS = gmxDeployedContracts();
   const GOV_DEPLOYED_CONTRACTS = govDeployedContracts();
 
-  const factory = new OrigamiGmxManager__factory(owner);
+  const factory = new MorigamiGmxManager__factory(owner);
   await deployAndMine(
     'origamiGlpManager', factory, factory.deploy,
     await owner.getAddress(),

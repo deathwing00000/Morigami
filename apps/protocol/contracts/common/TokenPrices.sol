@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (common/TokenPrices.sol)
+// Morigami (common/TokenPrices.sol)
 
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -17,8 +17,8 @@ import { IStETH } from "contracts/interfaces/external/lido/IStETH.sol";
 
 import { ITokenPrices } from "contracts/interfaces/common/ITokenPrices.sol";
 import { IRepricingToken } from "contracts/interfaces/common/IRepricingToken.sol";
-import { OrigamiMath } from "contracts/libraries/OrigamiMath.sol";
-import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+import { MorigamiMath } from "contracts/libraries/MorigamiMath.sol";
+import { IMorigamiOracle } from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
 /// @title Token Prices
 /// @notice A utility contract to pull token prices on-chain.
@@ -114,10 +114,10 @@ contract TokenPrices is ITokenPrices, Ownable {
         // https://xn--2-umb.com/21/muldiv/index.html
         if (inQuotedOrder) {
             // price = sqrtPriceX96^2 / 2^192
-            return OrigamiMath.mulDiv(uint256(sqrtPriceX96) * sqrtPriceX96, 10 ** decimals, 1 << 192, OrigamiMath.Rounding.ROUND_DOWN);
+            return MorigamiMath.mulDiv(uint256(sqrtPriceX96) * sqrtPriceX96, 10 ** decimals, 1 << 192, MorigamiMath.Rounding.ROUND_DOWN);
         } else {
             // price = 2^192 / sqrtPriceX96^2
-            return OrigamiMath.mulDiv(1 << 192, 10 ** decimals, sqrtPriceX96, OrigamiMath.Rounding.ROUND_DOWN) / sqrtPriceX96;
+            return MorigamiMath.mulDiv(1 << 192, 10 ** decimals, sqrtPriceX96, MorigamiMath.Rounding.ROUND_DOWN) / sqrtPriceX96;
         }
     }
 
@@ -143,11 +143,11 @@ contract TokenPrices is ITokenPrices, Ownable {
         return scaleToPrecision(IGmxVault(vault).getMinPrice(token), 30);
     }
 
-    /// @notice Use the origami defined oracle price
+    /// @notice Use the Morigami defined oracle price
     function origamiOraclePrice(
-        IOrigamiOracle origamiOracle, 
-        IOrigamiOracle.PriceType priceType, 
-        OrigamiMath.Rounding roundingMode
+        IMorigamiOracle origamiOracle, 
+        IMorigamiOracle.PriceType priceType, 
+        MorigamiMath.Rounding roundingMode
     ) external view returns (uint256) {
         return scaleToPrecision(origamiOracle.latestPrice(priceType, roundingMode), origamiOracle.decimals());
     }

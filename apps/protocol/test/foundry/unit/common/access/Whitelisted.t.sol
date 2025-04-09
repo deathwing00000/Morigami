@@ -1,14 +1,14 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { OrigamiTest } from "test/foundry/OrigamiTest.sol";
-import { Whitelisted } from "contracts/common/access/Whitelisted.sol";
-import { OrigamiElevatedAccess } from "contracts/common/access/OrigamiElevatedAccess.sol";
-import { DummyMintableToken } from "contracts/test/common/DummyMintableToken.sol";
-import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
+import {MorigamiTest} from "test/foundry/MorigamiTest.sol";
+import {Whitelisted} from "contracts/common/access/Whitelisted.sol";
+import {MorigamiElevatedAccess} from "contracts/common/access/MorigamiElevatedAccess.sol";
+import {DummyMintableToken} from "contracts/test/common/DummyMintableToken.sol";
+import {CommonEventsAndErrors} from "contracts/libraries/CommonEventsAndErrors.sol";
 
 contract MockWhitelisted is Whitelisted {
-    constructor(address _initialGov) OrigamiElevatedAccess(_initialGov) {}
+    constructor(address _initialGov) MorigamiElevatedAccess(_initialGov) {}
 
     function isAllowed(address account) external view returns (bool) {
         return _isAllowed(account);
@@ -30,14 +30,19 @@ contract MockAccessInConstruction {
 }
 
 /* solhint-disable func-name-mixedcase, contract-name-camelcase, not-rely-on-time */
-contract WhitelistedTestBase is OrigamiTest {
+contract WhitelistedTestBase is MorigamiTest {
     MockWhitelisted public whitelisted;
     DummyMintableToken public someContract;
 
     function setUp() public {
         vm.startPrank(origamiMultisig);
         whitelisted = new MockWhitelisted(origamiMultisig);
-        someContract = new DummyMintableToken(origamiMultisig, "Deposit Token", "token", 18);
+        someContract = new DummyMintableToken(
+            origamiMultisig,
+            "Deposit Token",
+            "token",
+            18
+        );
         vm.stopPrank();
     }
 }
@@ -89,10 +94,20 @@ contract WhitelistedTestAdmin is WhitelistedTestBase {
 
     function test_setAllowAccount_fail() public {
         vm.startPrank(origamiMultisig);
-        vm.expectRevert(abi.encodeWithSelector(CommonEventsAndErrors.InvalidAddress.selector, address(0)));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                CommonEventsAndErrors.InvalidAddress.selector,
+                address(0)
+            )
+        );
         whitelisted.setAllowAccount(address(0), true);
 
-        vm.expectRevert(abi.encodeWithSelector(CommonEventsAndErrors.InvalidAddress.selector, bob));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                CommonEventsAndErrors.InvalidAddress.selector,
+                bob
+            )
+        );
         whitelisted.setAllowAccount(bob, true);
     }
 
@@ -124,7 +139,9 @@ contract WhitelistedTestAdmin is WhitelistedTestBase {
 
     function test_allowedDepositorAtConstruction() public {
         // A contract will be allowed to deposit during construction (since code.length == 0 during that time)
-        MockAccessInConstruction inConstruction = new MockAccessInConstruction(whitelisted);
+        MockAccessInConstruction inConstruction = new MockAccessInConstruction(
+            whitelisted
+        );
         assertEq(inConstruction.allowedInConstruction(), true);
         assertEq(inConstruction.allowedAfterConstruction(), false);
     }

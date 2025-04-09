@@ -4,7 +4,7 @@ export const DEFAULT_SETTINGS = {
     VAULTS: {
       SUSDSpS: {
         TOKEN_SYMBOL: "sUSDS+s",
-        TOKEN_NAME: "Origami sUSDS + Sky Farms",
+        TOKEN_NAME: "Morigami sUSDS + Sky Farms",
         SWITCH_FARM_COOLDOWN_SECS: 86_400, // 1 day
         PERFORMANCE_FEE_FOR_CALLER_BPS: 100,
         PERFORMANCE_FEE_FOR_ORIGAMI_BPS: 400,

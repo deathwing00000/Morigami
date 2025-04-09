@@ -17,8 +17,8 @@ import {
   writeSafeTransactionsBatch,
 } from "../../../safe-tx-builder";
 import {
-  OrigamiLovTokenFlashAndBorrowManager,
-  OrigamiMorphoBorrowAndLend,
+  MorigamiLovTokenFlashAndBorrowManager,
+  MorigamiMorphoBorrowAndLend,
 } from "../../../../../typechain";
 import path from "path";
 import { JsonRpcSigner } from "@ethersproject/providers";
@@ -116,7 +116,7 @@ async function updateSwappers(signer: JsonRpcSigner) {
 }
 
 export function setSwapperFunction(
-  contract: OrigamiMorphoBorrowAndLend | OrigamiLovTokenFlashAndBorrowManager,
+  contract: MorigamiMorphoBorrowAndLend | MorigamiLovTokenFlashAndBorrowManager,
   swapper: string
 ) {
   return createSafeTransaction(contract.address, "setSwapper", [

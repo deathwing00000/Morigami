@@ -1,12 +1,12 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import { OrigamiTest } from "test/foundry/OrigamiTest.sol";
-import { DummyMintableToken } from "contracts/test/common/DummyMintableToken.sol";
-import { MintableToken } from "contracts/common/MintableToken.sol";
+import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import {MorigamiTest} from "test/foundry/MorigamiTest.sol";
+import {DummyMintableToken} from "contracts/test/common/DummyMintableToken.sol";
+import {MintableToken} from "contracts/common/MintableToken.sol";
 
-contract MintableTokenTestBase is OrigamiTest {
+contract MintableTokenTestBase is MorigamiTest {
     DummyMintableToken public token;
 
     function setUp() public {
@@ -55,13 +55,23 @@ contract MintableTokenTestAdmin is MintableTokenTestBase {
 contract MintableTokenTestAccess is MintableTokenTestBase {
     function test_mint_access() public {
         vm.prank(unauthorizedUser);
-        vm.expectRevert(abi.encodeWithSelector(MintableToken.CannotMintOrBurn.selector, unauthorizedUser));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                MintableToken.CannotMintOrBurn.selector,
+                unauthorizedUser
+            )
+        );
         token.mint(alice, 10);
     }
 
     function test_burn_access() public {
         vm.prank(unauthorizedUser);
-        vm.expectRevert(abi.encodeWithSelector(MintableToken.CannotMintOrBurn.selector, unauthorizedUser));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                MintableToken.CannotMintOrBurn.selector,
+                unauthorizedUser
+            )
+        );
         token.burn(alice, 10);
     }
 
@@ -109,28 +119,52 @@ contract MintableTokenTestMintAndBurn is MintableTokenTestBase {
 }
 
 contract MintableTokenTestPermit is MintableTokenTestBase {
-
     bytes32 private constant _TYPE_HASH =
-        keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)");
+        keccak256(
+            "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
+        );
     bytes32 private constant _PERMIT_TYPEHASH =
-        keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
+        keccak256(
+            "Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)"
+        );
 
     function buildDomainSeparator() internal view returns (bytes32) {
         bytes32 _hashedName = keccak256(bytes(token.name()));
         bytes32 _hashedVersion = keccak256(bytes("1"));
-        return keccak256(abi.encode(_TYPE_HASH, _hashedName, _hashedVersion, block.chainid, address(token)));
+        return
+            keccak256(
+                abi.encode(
+                    _TYPE_HASH,
+                    _hashedName,
+                    _hashedVersion,
+                    block.chainid,
+                    address(token)
+                )
+            );
     }
 
     function signedPermit(
-        address signer, 
-        uint256 signerPk, 
-        address spender, 
-        uint256 amount, 
+        address signer,
+        uint256 signerPk,
+        address spender,
+        uint256 amount,
         uint256 deadline
     ) internal view returns (uint8 v, bytes32 r, bytes32 s) {
         bytes32 domainSeparator = buildDomainSeparator();
-        bytes32 structHash = keccak256(abi.encode(_PERMIT_TYPEHASH, signer, spender, amount, token.nonces(signer), deadline));
-        bytes32 typedDataHash = ECDSA.toTypedDataHash(domainSeparator, structHash);
+        bytes32 structHash = keccak256(
+            abi.encode(
+                _PERMIT_TYPEHASH,
+                signer,
+                spender,
+                amount,
+                token.nonces(signer),
+                deadline
+            )
+        );
+        bytes32 typedDataHash = ECDSA.toTypedDataHash(
+            domainSeparator,
+            structHash
+        );
         return vm.sign(signerPk, typedDataHash);
     }
 
@@ -142,8 +176,14 @@ contract MintableTokenTestPermit is MintableTokenTestBase {
         uint256 allowanceBefore = token.allowance(signer, spender);
 
         // Check for expired deadlines
-        uint256 deadline = block.timestamp-1;
-        (uint8 v, bytes32 r, bytes32 s) = signedPermit(signer, signerPk, spender, amount, deadline);
+        uint256 deadline = block.timestamp - 1;
+        (uint8 v, bytes32 r, bytes32 s) = signedPermit(
+            signer,
+            signerPk,
+            spender,
+            amount,
+            deadline
+        );
         vm.expectRevert("ERC20Permit: expired deadline");
         token.permit(signer, spender, amount, deadline, v, r, s);
 
@@ -151,7 +191,7 @@ contract MintableTokenTestPermit is MintableTokenTestBase {
         deadline = block.timestamp + 3600;
         (v, r, s) = signedPermit(signer, signerPk, spender, amount, deadline);
         token.permit(signer, spender, amount, deadline, v, r, s);
-        assertEq(token.allowance(signer, spender), allowanceBefore+amount);
+        assertEq(token.allowance(signer, spender), allowanceBefore + amount);
 
         // Can't re-use the same signature for another permit (the nonce was incremented)
         vm.expectRevert("ERC20Permit: invalid signature");

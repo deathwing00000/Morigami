@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (interfaces/external/snapshot/ISnapshotDelegator.sol)
+// Morigami (interfaces/external/snapshot/ISnapshotDelegator.sol)
 
 interface ISnapshotDelegator {
     function setDelegate(bytes32 id, address delegate) external;

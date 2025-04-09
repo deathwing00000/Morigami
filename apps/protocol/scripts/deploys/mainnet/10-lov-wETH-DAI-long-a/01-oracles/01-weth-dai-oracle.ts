@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiVolatileChainlinkOracle__factory } from '../../../../../typechain';
+import { MorigamiVolatileChainlinkOracle__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -14,7 +14,7 @@ async function main() {
   const ADDRS = getDeployedContracts();
   const INSTANCES = connectToContracts(owner);
 
-  const factory = new OrigamiVolatileChainlinkOracle__factory(owner);
+  const factory = new MorigamiVolatileChainlinkOracle__factory(owner);
   await deployAndMine(
     'ORACLES.WETH_DAI',
     factory,

@@ -1,7 +1,6 @@
-
 # Swappers Docs
 
-# Origami Cow Swapper
+# Morigami Cow Swapper
 
 [CoW Swap](https://swap.cow.fi/) is known to get best execution through `asynchronous` off-chain auctions, where solvers submit bids for the right to execute swaps.
 
@@ -26,36 +25,36 @@ To reiterate - this is only useful for `ASYNCHRONOUS` swaps. They are not atomic
 ```mermaid
 sequenceDiagram
     actor Multisig
-    participant OrigamiCowSwapper
+    participant MorigamiCowSwapper
     box Purple Off-Chain
     participant Watchtower
     participant CowSwapOrderBook
     participant Solver
     end
-    Multisig->>OrigamiCowSwapper: setOrderConfig(sDAI, config)
-    Multisig->>+OrigamiCowSwapper: setCowApproval(sDAI, 100e18)
-    OrigamiCowSwapper->>-OrigamiCowSwapper: sDAI.approve(cowSwapRelayer, 100e18)
+    Multisig->>MorigamiCowSwapper: setOrderConfig(sDAI, config)
+    Multisig->>+MorigamiCowSwapper: setCowApproval(sDAI, 100e18)
+    MorigamiCowSwapper->>-MorigamiCowSwapper: sDAI.approve(cowSwapRelayer, 100e18)
     Watchtower->>+Watchtower: poll - NO ORDERS
-    Multisig->>+OrigamiCowSwapper: createConditionalOrder(sDAI)
-    OrigamiCowSwapper->>Watchtower: emit ConditionalOrderCreated()
+    Multisig->>+MorigamiCowSwapper: createConditionalOrder(sDAI)
+    MorigamiCowSwapper->>Watchtower: emit ConditionalOrderCreated()
     Watchtower->>Watchtower: poll - FOUND ORDER!
-    Watchtower<<->>OrigamiCowSwapper: getTradeableOrderWithSignature()
+    Watchtower<<->>MorigamiCowSwapper: getTradeableOrderWithSignature()
     Watchtower->>+CowSwapOrderBook: submitOrder()
     CowSwapOrderBook->>CowSwapOrderBook: start auction()
     CowSwapOrderBook->>-Solver: winner()
     Solver->>+CowSettlement: execute()
-    CowSettlement<<->>OrigamiCowSwapper: isValidSignature()
-    OrigamiCowSwapper->>CowSettlement: pull sDAI (via Relayer)
+    CowSettlement<<->>MorigamiCowSwapper: isValidSignature()
+    MorigamiCowSwapper->>CowSettlement: pull sDAI (via Relayer)
     CowSettlement<<->>+Market: swap(sDAI for sUSDe)
-    CowSettlement->>-OrigamiCowSwapper: send sUSDe
+    CowSettlement->>-MorigamiCowSwapper: send sUSDe
 ```
 
 - [CowSwapOrderBook](https://github.com/cowprotocol/services): This is the CoW API responsible for taking new order requests and orchestrating the auction process
- `Solvers`: The participants in the auction - they are responsible for submitting bids, and then if they are the winning bidder they must execute the trade, via the `CowSettlement` contract
-- [CowSettlement](https://github.com/cowprotocol/contracts/blob/main/src/contracts/GPv2Settlement.sol): The onchain settlement contract. As part of this, it asks the `OrigamiCowSwapper` to verify that the signature is legitimate.
+  `Solvers`: The participants in the auction - they are responsible for submitting bids, and then if they are the winning bidder they must execute the trade, via the `CowSettlement` contract
+- [CowSettlement](https://github.com/cowprotocol/contracts/blob/main/src/contracts/GPv2Settlement.sol): The onchain settlement contract. As part of this, it asks the `MorigamiCowSwapper` to verify that the signature is legitimate.
 - [Watchtower](https://github.com/cowprotocol/watch-tower): An off-chain bot listing to `ConditionalOrderCreated()` events (from any contract on mainnet). It subsquently queries that contract for new discrete orders to place by calling `getTradeableOrderWithSignature()`, and then submits these orders to the `CowSwapOrderBook`.
-- [OrigamiCowSwapper](./OrigamiCowSwapper.sol): This handles the logic on what discrete orders to place and the subsequent verification of them.
-- `Origami Multisig`: Elevated access to:
+- [MorigamiCowSwapper](./MorigamiCowSwapper.sol): This handles the logic on what discrete orders to place and the subsequent verification of them.
+- `Morigami Multisig`: Elevated access to:
   - Update any configuration required to decide what orders to place
   - Set ERC20 approval limits to cow swap
   - Register to cow swap's Watchtower that we want it to start monitring our contract.
@@ -68,10 +67,10 @@ Watchtower polls every 5 seconds, so careful attention needs to be given to thes
 
 - `buyAmount`: If this is intended as a limit order, and `buyAmount` will change over time (eg dependant on an onchain oracle), then it may need to round down to a discrete step (eg round down to the nearest 10 DAI).
   - That way when `Watchtower` polls frequently the unrounded `buyAmount` may change, but the rounded `buyAmount` won't as much.
-  - An example [here](./OrigamiCowSwapper.sol#316)
+  - An example [here](./MorigamiCowSwapper.sol#316)
 - `validTo`: Represents the expiry date (UNIX timestamp) of the order.
   - Simply having `block.timestamp + 300 seconds` is not enough, since that will roll forward every time it's called - resulting in non-unique orders.
-  - The solution is to [bucket these timestamps into time windows](./OrigamiCowSwapper.sol#355)
+  - The solution is to [bucket these timestamps into time windows](./MorigamiCowSwapper.sol#355)
 
 ## Order Configuration
 
@@ -79,35 +78,35 @@ Both LIMIT orders and MARKET orders are supported, using the same configuration 
 
 Configured for a given `sellToken`:
 
-| Config Item                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                     | Intended for MARKET orders                                                                                             | Intended for LIMIT orders                                                        |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| maxSellAmount                  | The amount of sellToken to place an order for <br>  MUST be > 0 <br> This can be set to a higher amount than the current balance the contract holds. <br> CoW swap will still work and sell as much as it can, up until the order expiry.                                                                                                                                                                                                       | :white_check_mark:                                                                                                     | :white_check_mark:                                                               |
-| buyToken                       | The IERC20 token to buy. <br> MUST NOT be address(0) <br> MUST NOT be the same as `sellToken`                                                                                                                                                                                                                                                                                                                                                   | :white_check_mark:                                                                                                     | :white_check_mark:                                                               |
-| minBuyAmount                   | The minimum amount of buyToken to purchase in the order <br> Note this is total order size, not each individual fill <br> MUST be > 0                                                                                                                                                                                                                                                                                                           | :white_check_mark:                                                                                                     | :x: <br> Can still be set to have an absolute floor under the `limitPriceOracle` |
-| partiallyFillable              | True if partial fills are ok, false for a 'fill or kill'                                                                                                                                                                                                                                                                                                                                                                                        | :white_check_mark: <br> Generally should be `false` for market orders                                                  | :white_check_mark:                                                               |
-| useCurrentBalanceForSellAmount | True if the order sellAmount should be determined from the current `sellToken.balanceOf(address(this))` (capped to the maxSellAmount). <br> False if the order sellAmount should just use the `maxSellAmount`                                                                                                                                                                                                                                   | :white_check_mark: <br> Generally should be `true` for market orders                                                   | :x: <br> Generally should be `false` for limit orders                            |
-| limitPriceOracle               | The origami oracle to lookup the limit order price. <br> Not used if set to address(0)                                                                                                                                                                                                                                                                                                                                                          | :x:                                                                                                                    | :white_check_mark:                                                               |
-| limitPricePremiumBps           | How many basis points premium above the `limitPriceOracle` is the limit order set. <br> Not used if set to zero                                                                                                                                                                                                                                                                                                                                 | :x:                                                                                                                    | :white_check_mark:                                                               |
-| roundDownDivisor               | When specifying the order for watchtower, the buyAmount is rounded down to the nearest specified divisor. <br> This is to ensure we have discrete unique orders, rather than spamming CoW swap with slightly different orders (which may get us on the deny list) <br> Specified in full precision in the buyToken decimals <br> Eg if buyToken is 18dp, to round down to the nearest 50 tokens, set this to 50e18 <br> Not used if set to zero | :x: <br> Since buyAmount isn't dependant on an oracle, it shouldn't be changing over time (except for config updates)  | :white_check_mark:                                                               |
-| verifySlippageBps              | The acceptable slippage (in basis points) to the unrounded buyAmount between <br> T1. The order being picked up by watchtower. <br> T2. It being verified and added to the cow swap order book. <br> Not used if set to zero                                                                                                                                                                                                                    | :x:  <br> Since buyAmount isn't dependant on an oracle, it shouldn't be changing over time (except for config updates) | :white_check_mark:                                                               |
-| expiryPeriodSecs               | The expiryPeriodSecs time window, used to set the expiry time of any new discrete order. <br> `expiryPeriodSecs=300 seconds` means that an order as of 13:45:15 UTC will have an expiry of the nearest 5 minute boundary, so 13:50:00 UTC                                                                                                                                                                                                       | :white_check_mark:                                                                                                     | :white_check_mark:                                                               |
-| recipient                      | The receiver of buyToken's on each fill.                                                                                                                                                                                                                                                                                                                                                                                                        | :white_check_mark:                                                                                                     | :white_check_mark:                                                               |
-| appData                        | The appData for any new discrete orders. <br> It refers to an IPFS blob containing metadata, but also controls the pre and post hooks to run upon settlement. <br> This is set on the contract in advance to avoid incorrect setting. <br> NOTE: There are constraints around hooks - study the docs                                                                                                                                            | :white_check_mark:                                                                                                     | :white_check_mark:                                                               |
+| Config Item                    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                     | Intended for MARKET orders                                                                                            | Intended for LIMIT orders                                                        |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| maxSellAmount                  | The amount of sellToken to place an order for <br> MUST be > 0 <br> This can be set to a higher amount than the current balance the contract holds. <br> CoW swap will still work and sell as much as it can, up until the order expiry.                                                                                                                                                                                                        | :white_check_mark:                                                                                                    | :white_check_mark:                                                               |
+| buyToken                       | The IERC20 token to buy. <br> MUST NOT be address(0) <br> MUST NOT be the same as `sellToken`                                                                                                                                                                                                                                                                                                                                                   | :white_check_mark:                                                                                                    | :white_check_mark:                                                               |
+| minBuyAmount                   | The minimum amount of buyToken to purchase in the order <br> Note this is total order size, not each individual fill <br> MUST be > 0                                                                                                                                                                                                                                                                                                           | :white_check_mark:                                                                                                    | :x: <br> Can still be set to have an absolute floor under the `limitPriceOracle` |
+| partiallyFillable              | True if partial fills are ok, false for a 'fill or kill'                                                                                                                                                                                                                                                                                                                                                                                        | :white_check_mark: <br> Generally should be `false` for market orders                                                 | :white_check_mark:                                                               |
+| useCurrentBalanceForSellAmount | True if the order sellAmount should be determined from the current `sellToken.balanceOf(address(this))` (capped to the maxSellAmount). <br> False if the order sellAmount should just use the `maxSellAmount`                                                                                                                                                                                                                                   | :white_check_mark: <br> Generally should be `true` for market orders                                                  | :x: <br> Generally should be `false` for limit orders                            |
+| limitPriceOracle               | The Morigami oracle to lookup the limit order price. <br> Not used if set to address(0)                                                                                                                                                                                                                                                                                                                                                          | :x:                                                                                                                   | :white_check_mark:                                                               |
+| limitPricePremiumBps           | How many basis points premium above the `limitPriceOracle` is the limit order set. <br> Not used if set to zero                                                                                                                                                                                                                                                                                                                                 | :x:                                                                                                                   | :white_check_mark:                                                               |
+| roundDownDivisor               | When specifying the order for watchtower, the buyAmount is rounded down to the nearest specified divisor. <br> This is to ensure we have discrete unique orders, rather than spamming CoW swap with slightly different orders (which may get us on the deny list) <br> Specified in full precision in the buyToken decimals <br> Eg if buyToken is 18dp, to round down to the nearest 50 tokens, set this to 50e18 <br> Not used if set to zero | :x: <br> Since buyAmount isn't dependant on an oracle, it shouldn't be changing over time (except for config updates) | :white_check_mark:                                                               |
+| verifySlippageBps              | The acceptable slippage (in basis points) to the unrounded buyAmount between <br> T1. The order being picked up by watchtower. <br> T2. It being verified and added to the cow swap order book. <br> Not used if set to zero                                                                                                                                                                                                                    | :x: <br> Since buyAmount isn't dependant on an oracle, it shouldn't be changing over time (except for config updates) | :white_check_mark:                                                               |
+| expiryPeriodSecs               | The expiryPeriodSecs time window, used to set the expiry time of any new discrete order. <br> `expiryPeriodSecs=300 seconds` means that an order as of 13:45:15 UTC will have an expiry of the nearest 5 minute boundary, so 13:50:00 UTC                                                                                                                                                                                                       | :white_check_mark:                                                                                                    | :white_check_mark:                                                               |
+| recipient                      | The receiver of buyToken's on each fill.                                                                                                                                                                                                                                                                                                                                                                                                        | :white_check_mark:                                                                                                    | :white_check_mark:                                                               |
+| appData                        | The appData for any new discrete orders. <br> It refers to an IPFS blob containing metadata, but also controls the pre and post hooks to run upon settlement. <br> This is set on the contract in advance to avoid incorrect setting. <br> NOTE: There are constraints around hooks - study the docs                                                                                                                                            | :white_check_mark:                                                                                                    | :white_check_mark:                                                               |
 
 ## Order Verification
 
-`OrigamiCowSwapper` needs to verify any orders being placed. It trusts the `CowSettlement` to do this (the trust is granted by any ERC20 token approval).
+`MorigamiCowSwapper` needs to verify any orders being placed. It trusts the `CowSettlement` to do this (the trust is granted by any ERC20 token approval).
 
 This verification is done by [ERC-1271](https://eips.ethereum.org/EIPS/eip-1271)
 
 Without this validation, any actor may submit orders on this contracts behalf. So if that happens (and if there's an ERC20 approval for that token given to CoW Swap) then the order may be unintentionally executed
 
-When `Watchtower` calls [getTradeableOrderWithSignature()](./OrigamiCowSwapper.sol#173), `OrigamiCowSwapper` will first run validation on the order and then return both:
+When `Watchtower` calls [getTradeableOrderWithSignature()](./MorigamiCowSwapper.sol#173), `MorigamiCowSwapper` will first run validation on the order and then return both:
 
 - The discrete order to place
 - A custom signature representing the order and any other params it wants to be passed into the verification.
 
-Then when `CowSettlement` calls the [isValidSignature()](./OrigamiCowSwapper.sol#221), that signature (and a hash of the original order) is verified.
+Then when `CowSettlement` calls the [isValidSignature()](./MorigamiCowSwapper.sol#221), that signature (and a hash of the original order) is verified.
 
 It is important for `isValidSignature()` to validate all fields in the provided order hash are as expected. So it should reconstruct the order and then validate that the GPv2 order hash (using CowSwap's `domainSeparator`) is identical.
 
@@ -115,7 +114,7 @@ Now, since there may be a delay between when the order is placed (by `Watchtower
 
 It is up to the contract implement to verify that these are either exactly the same or within a tolerance range of the initial order that was placed.
 
-Any extra information required for these checks can be added into the signature within `getTradeableOrderWithSignature()`. For example we provide the [unrounded buyAmount](./OrigamiCowSwapper.sol#215) in order to check that directly, since the GPv2 order itself only contains the pre-rounded buyAmount (to avoid spam as above)
+Any extra information required for these checks can be added into the signature within `getTradeableOrderWithSignature()`. For example we provide the [unrounded buyAmount](./MorigamiCowSwapper.sol#215) in order to check that directly, since the GPv2 order itself only contains the pre-rounded buyAmount (to avoid spam as above)
 
 ## Constraints
 
@@ -138,7 +137,7 @@ Eg on [this order](https://explorer.cow.fi/orders/0xf556971294bcb124123e1272c6f7
 
 ```json
 {
-  "appCode": "https://origami.finance/",
+  "appCode": "https://Morigami.finance/",
   "metadata": {
     "hooks": {
       "version": "0.1.0"
@@ -152,7 +151,7 @@ Given by the IPFS hash: `0x0609da86e2234e72a1e230a0591bec8a3c2e99c9f47b60e6bb41d
 
 This metadata can be added via the [CoW Orderbook API](https://docs.cow.fi/cow-protocol/reference/apis/orderbook), via `/api/v1/app_data`
 
-And then specified via the order config when calling `setOrderConfig()` on the `OrigamiCowSwapper`
+And then specified via the order config when calling `setOrderConfig()` on the `MorigamiCowSwapper`
 
 ## Hooks
 
@@ -194,20 +193,20 @@ Where the config can look like (example for Sepolia)
 
 ```json
 {
-    "networks": [
-        {
-            "name": "sepolia",
-            "rpc": "wss://eth-sepolia.g.alchemy.com/v2/XXX",
-            "deploymentBlock": 6636278,
-            "watchdogTimeout": 3000,
-            "filterPolicy": {
-                "defaultAction": "DROP",
-                "owners": {
-                  "0x5C5e0c5d8c800dbB497CF3fcd90d9a050A3A4F58": "ACCEPT"
-                }
-            }
+  "networks": [
+    {
+      "name": "sepolia",
+      "rpc": "wss://eth-sepolia.g.alchemy.com/v2/XXX",
+      "deploymentBlock": 6636278,
+      "watchdogTimeout": 3000,
+      "filterPolicy": {
+        "defaultAction": "DROP",
+        "owners": {
+          "0x5C5e0c5d8c800dbB497CF3fcd90d9a050A3A4F58": "ACCEPT"
         }
-    ]
+      }
+    }
+  ]
 }
 ```
 

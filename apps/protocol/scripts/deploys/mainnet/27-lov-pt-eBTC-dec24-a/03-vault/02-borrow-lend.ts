@@ -6,7 +6,7 @@ import {
 } from '../../../helpers';
 import { getDeployedContracts1, connectToContracts1 } from '../../contract-addresses';
 import { DEFAULT_SETTINGS } from '../../default-settings';
-import { OrigamiAaveV3BorrowAndLend__factory } from '../../../../../typechain';
+import { MorigamiAaveV3BorrowAndLend__factory } from '../../../../../typechain';
 
 async function main() {
   ensureExpectedEnvvars();
@@ -14,7 +14,7 @@ async function main() {
   const ADDRS = await getDeployedContracts1(__dirname);
   const INSTANCES = connectToContracts1(owner, ADDRS);
 
-  const factory = new OrigamiAaveV3BorrowAndLend__factory(owner);
+  const factory = new MorigamiAaveV3BorrowAndLend__factory(owner);
   await deployAndMine(
     'LOV_PT_EBTC_DEC24_A.ZEROLEND_BORROW_LEND',
     factory,

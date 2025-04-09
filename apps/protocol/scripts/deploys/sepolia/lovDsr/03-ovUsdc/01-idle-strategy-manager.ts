@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiIdleStrategyManager__factory } from '../../../../../typechain';
+import { MorigamiIdleStrategyManager__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -12,7 +12,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = getDeployedContracts();
 
-  const factory = new OrigamiIdleStrategyManager__factory(owner);
+  const factory = new MorigamiIdleStrategyManager__factory(owner);
   await deployAndMine(
     'OV_USDC.SUPPLY.IDLE_STRATEGY_MANAGER',
     factory,

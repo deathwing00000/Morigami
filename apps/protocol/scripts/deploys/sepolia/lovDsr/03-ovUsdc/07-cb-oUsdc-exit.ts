@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiCircuitBreakerAllUsersPerPeriod__factory } from '../../../../../typechain';
+import { MorigamiCircuitBreakerAllUsersPerPeriod__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -13,7 +13,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = getDeployedContracts();
 
-  const factory = new OrigamiCircuitBreakerAllUsersPerPeriod__factory(owner);
+  const factory = new MorigamiCircuitBreakerAllUsersPerPeriod__factory(owner);
   await deployAndMine(
     'OV_USDC.BORROW.CIRCUIT_BREAKER_OUSDC_EXIT',
     factory,

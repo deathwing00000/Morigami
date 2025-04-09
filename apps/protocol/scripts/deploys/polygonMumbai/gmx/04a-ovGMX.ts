@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers, network } from 'hardhat';
-import { OrigamiInvestmentVault__factory } from '../../../../typechain';
+import { MorigamiInvestmentVault__factory } from '../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -12,11 +12,11 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const GMX_DEPLOYED_CONTRACTS = getDeployedContracts(network.name);
 
-  const factory = new OrigamiInvestmentVault__factory(owner);
+  const factory = new MorigamiInvestmentVault__factory(owner);
   await deployAndMine(
     'ovGMX', factory, factory.deploy,
     await owner.getAddress(),
-    'Origami GMX Vault', 'ovGMX',
+    'Morigami GMX Vault', 'ovGMX',
     GMX_DEPLOYED_CONTRACTS.ORIGAMI.GMX.oGMX,
     GMX_DEPLOYED_CONTRACTS.ORIGAMI.TOKEN_PRICES,
     500, // 5% performance fee

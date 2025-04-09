@@ -14,7 +14,7 @@ type DataType =
   | "bytes4"
   | "bool"
   | "tuple[]"
-  | "struct IOrigamiElevatedAccess.ExplicitAccess[]";
+  | "struct IMorigamiElevatedAccess.ExplicitAccess[]";
 
 interface InputType {
   internalType: DataType;

@@ -5,7 +5,7 @@ import {
   ensureExpectedEnvvars,
 } from '../../helpers';
 import { getDeployedContracts1 } from '../contract-addresses';
-import { OrigamiBorrowLendMigrator__factory } from '../../../../typechain';
+import { MorigamiBorrowLendMigrator__factory } from '../../../../typechain';
 
 async function main() {
   ensureExpectedEnvvars();
@@ -13,7 +13,7 @@ async function main() {
   const ADDRS = await getDeployedContracts1(__dirname);
 
   const oldBorrowLendAddress = '0xDF3D394669Fe433713D170c6DE85f02E260c1c34';
-  const factory = new OrigamiBorrowLendMigrator__factory(owner);
+  const factory = new MorigamiBorrowLendMigrator__factory(owner);
   await deployAndMine(
     'MIGRATOR',
     factory,

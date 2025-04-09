@@ -1,4 +1,4 @@
-// arbitrum: origamiGmxManager=0xc0F9dd64D247f4Cb50C07632353896918bE79562
+// arbitrum: morigamiGmxManager=0xc0F9dd64D247f4Cb50C07632353896918bE79562
 // yarn hardhat verify --network arbitrum 0xc0F9dd64D247f4Cb50C07632353896918bE79562 --constructor-args scripts/deploys/arbitrum/deploymentArgs/0xc0F9dd64D247f4Cb50C07632353896918bE79562.js
 module.exports = [
   "0xb20AaE0Fe007519b7cE6f090a2aB8353B3Da5d80",

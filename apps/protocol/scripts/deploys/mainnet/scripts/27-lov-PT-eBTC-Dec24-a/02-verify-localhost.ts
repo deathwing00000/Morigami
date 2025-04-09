@@ -5,7 +5,7 @@ import { ContractInstances, connectToContracts1, getDeployedContracts1 } from ".
 import { BigNumber } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ContractAddresses } from "../../contract-addresses/types";
-import { IERC20Metadata, OrigamiAaveV3BorrowAndLend, OrigamiLovToken, OrigamiLovTokenFlashAndBorrowManager, OrigamiOracleBase } from "../../../../../typechain";
+import { IERC20Metadata, MorigamiAaveV3BorrowAndLend, MorigamiLovToken, MorigamiLovTokenFlashAndBorrowManager, MorigamiOracleBase } from "../../../../../typechain";
 import { swapExactPtForToken, swapExactTokenForPt } from "../swaps/pendle";
 
 let ADDRS: ContractAddresses;
@@ -19,14 +19,14 @@ const AL_TARGET = "1.1429"; // 87.5% LTV
 
 interface TestContracts {
   DEPOSIT_TOKEN: IERC20Metadata;
-  VAULT_TOKEN: OrigamiLovToken;
+  VAULT_TOKEN: MorigamiLovToken;
   DEPOSIT_TOKEN_DECIMALS: number;
   VAULT_TOKEN_DECIMALS: number;
   DEBT_TOKEN: IERC20Metadata;
   DEBT_TOKEN_DECIMALS: number;
-  MANAGER: OrigamiLovTokenFlashAndBorrowManager;
-  BORROW_LEND: OrigamiAaveV3BorrowAndLend;
-  DEPOSIT_TO_DEBT_ORACLE: OrigamiOracleBase;
+  MANAGER: MorigamiLovTokenFlashAndBorrowManager;
+  BORROW_LEND: MorigamiAaveV3BorrowAndLend;
+  DEPOSIT_TO_DEBT_ORACLE: MorigamiOracleBase;
   SWAPPER_ADDRESS: string;
   PT_MARKET_ADDRESS: string;
 }

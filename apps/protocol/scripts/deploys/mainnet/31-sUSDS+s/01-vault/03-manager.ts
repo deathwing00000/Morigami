@@ -1,5 +1,5 @@
 import '@nomiclabs/hardhat-ethers';
-import { OrigamiSuperSavingsUsdsManager__factory } from '../../../../../typechain';
+import { MorigamiSuperSavingsUsdsManager__factory } from '../../../../../typechain';
 import { DEFAULT_SETTINGS } from '../../default-settings';
 import { deployAndMine, runAsyncMain } from '../../../helpers';
 import { getDeployContext } from '../../deploy-context';
@@ -7,7 +7,7 @@ import { getDeployContext } from '../../deploy-context';
 async function main() {
   const { owner, ADDRS } = await getDeployContext(__dirname);
 
-  const factory = new OrigamiSuperSavingsUsdsManager__factory(owner);
+  const factory = new MorigamiSuperSavingsUsdsManager__factory(owner);
   await deployAndMine(
     'VAULTS.SUSDSpS.MANAGER',
     factory,

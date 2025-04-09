@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (interfaces/external/gmx/IGmxVault.sol)
+// Morigami (interfaces/external/gmx/IGmxVault.sol)
 
 interface IGmxVault {
     function getMinPrice(address _token) external view returns (uint256);

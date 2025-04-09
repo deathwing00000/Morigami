@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers, network } from 'hardhat';
-import { IPMarket__factory, OrigamiPendlePtToAssetOracle__factory, PendlePYLpOracle__factory } from '../../../../../typechain';
+import { IPMarket__factory, MorigamiPendlePtToAssetOracle__factory, PendlePYLpOracle__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -23,7 +23,7 @@ async function main() {
   // Check the Pendle Oracle and increase the cardinality if required.
   await updatePendleOracleCardinality(pendleOracleAddress, pendleMarketAddress, owner, twapSecs);
 
-  const factory = new OrigamiPendlePtToAssetOracle__factory(owner);
+  const factory = new MorigamiPendlePtToAssetOracle__factory(owner);
   await deployAndMine(
     'ORACLES.PT_CORN_LBTC_DEC24_LBTC',
     factory,

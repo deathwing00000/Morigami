@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiCrossRateOracle__factory } from '../../../../../typechain';
+import { MorigamiCrossRateOracle__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -13,7 +13,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = getDeployedContracts();
 
-  const factory = new OrigamiCrossRateOracle__factory(owner);
+  const factory = new MorigamiCrossRateOracle__factory(owner);
   await deployAndMine(
     'ORACLES.DAI_IUSDC',
     factory,

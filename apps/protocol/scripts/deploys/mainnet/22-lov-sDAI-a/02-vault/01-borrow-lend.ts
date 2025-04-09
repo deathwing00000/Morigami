@@ -6,14 +6,14 @@ import {
 } from '../../../helpers';
 import { getDeployedContracts1 } from '../../contract-addresses';
 import { DEFAULT_SETTINGS } from '../../default-settings';
-import { OrigamiMorphoBorrowAndLend__factory } from '../../../../../typechain';
+import { MorigamiMorphoBorrowAndLend__factory } from '../../../../../typechain';
 
 async function main() {
   ensureExpectedEnvvars();
   const [owner] = await ethers.getSigners();
   const ADDRS = await getDeployedContracts1(__dirname);
 
-  const factory = new OrigamiMorphoBorrowAndLend__factory(owner);
+  const factory = new MorigamiMorphoBorrowAndLend__factory(owner);
   await deployAndMine(
     'LOV_SDAI_A.MORPHO_BORROW_LEND',
     factory,

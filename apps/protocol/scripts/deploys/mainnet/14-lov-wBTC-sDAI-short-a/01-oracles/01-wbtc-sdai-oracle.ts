@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiCrossRateOracle__factory } from '../../../../../typechain';
+import { MorigamiCrossRateOracle__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -13,7 +13,7 @@ async function main() {
   const ADDRS = getDeployedContracts();
   const INSTANCES = connectToContracts(owner);
 
-  const factory = new OrigamiCrossRateOracle__factory(owner);
+  const factory = new MorigamiCrossRateOracle__factory(owner);
   await deployAndMine(
     'ORACLES.WBTC_SDAI',
     factory,

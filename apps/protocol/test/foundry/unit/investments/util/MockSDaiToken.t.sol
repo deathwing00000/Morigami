@@ -1,12 +1,12 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { OrigamiTest } from "test/foundry/OrigamiTest.sol";
+import {MorigamiTest} from "test/foundry/MorigamiTest.sol";
 
-import { MockSDaiToken } from "contracts/test/external/maker/MockSDaiToken.m.sol";
-import { DummyMintableToken } from "contracts/test/common/DummyMintableToken.sol";
+import {MockSDaiToken} from "contracts/test/external/maker/MockSDaiToken.m.sol";
+import {DummyMintableToken} from "contracts/test/common/DummyMintableToken.sol";
 
-contract MockSDaiTest is OrigamiTest {
+contract MockSDaiTest is MorigamiTest {
     MockSDaiToken public sdai;
     DummyMintableToken public daiToken;
 

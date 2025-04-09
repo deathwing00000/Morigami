@@ -1,13 +1,13 @@
 import '@nomiclabs/hardhat-ethers';
 import { deployAndMine, runAsyncMain } from '../../../helpers';
 import { DEFAULT_SETTINGS } from '../../default-settings';
-import { OrigamiAaveV3BorrowAndLend__factory } from '../../../../../typechain';
+import { MorigamiAaveV3BorrowAndLend__factory } from '../../../../../typechain';
 import { getDeployContext } from '../../deploy-context';
 
 async function main() {
   const { owner, ADDRS, INSTANCES } = await getDeployContext(__dirname);
 
-  const factory = new OrigamiAaveV3BorrowAndLend__factory(owner);
+  const factory = new MorigamiAaveV3BorrowAndLend__factory(owner);
   await deployAndMine(
     'LOV_WETH_CBBTC_LONG_A.SPARK_BORROW_LEND',
     factory,

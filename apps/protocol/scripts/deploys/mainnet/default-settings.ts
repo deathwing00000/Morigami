@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 export const DEFAULT_SETTINGS = {
     LOV_SUSDE_A: {
       TOKEN_SYMBOL: "lov-sUSDe-a",
-      TOKEN_NAME: "Origami lov-sUSDe-a",
+      TOKEN_NAME: "Morigami lov-sUSDe-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 250, // 2.5%
@@ -25,7 +25,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_SUSDE_B: {
       TOKEN_SYMBOL: "lov-sUSDe-b",
-      TOKEN_NAME: "Origami lov-sUSDe-b",
+      TOKEN_NAME: "Morigami lov-sUSDe-b",
 
       MIN_DEPOSIT_FEE_BPS: 100, // 1%
       MIN_EXIT_FEE_BPS: 350, // 3.5%
@@ -47,7 +47,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_USDE_A: {
       TOKEN_SYMBOL: "lov-USDe-a",
-      TOKEN_NAME: "Origami lov-USDe-a",
+      TOKEN_NAME: "Morigami lov-USDe-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -69,7 +69,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_USDE_B: {
       TOKEN_SYMBOL: "lov-USDe-b",
-      TOKEN_NAME: "Origami lov-USDe-b",
+      TOKEN_NAME: "Morigami lov-USDe-b",
 
       MIN_DEPOSIT_FEE_BPS: 150, // 1.5%
       MIN_EXIT_FEE_BPS: 150, // 1.5%
@@ -91,7 +91,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_WEETH_A: {
       TOKEN_SYMBOL: "lov-weETH-a",
-      TOKEN_NAME: "Origami lov-weETH-a",
+      TOKEN_NAME: "Morigami lov-weETH-a",
 
       MIN_DEPOSIT_FEE_BPS: 100, // 1%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -113,7 +113,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_EZETH_A: {
       TOKEN_SYMBOL: "lov-ezETH-a",
-      TOKEN_NAME: "Origami lov-ezETH-a",
+      TOKEN_NAME: "Morigami lov-ezETH-a",
 
       MIN_DEPOSIT_FEE_BPS: 100, // 1%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -135,7 +135,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_WSTETH_A: {
       TOKEN_SYMBOL: "lov-wstETH-a",
-      TOKEN_NAME: "Origami lov-wstETH-a",
+      TOKEN_NAME: "Morigami lov-wstETH-a",
 
       MIN_DEPOSIT_FEE_BPS: 100, // 1%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -152,7 +152,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_WSTETH_B: {
       TOKEN_SYMBOL: "lov-wstETH-b",
-      TOKEN_NAME: "Origami lov-wstETH-b",
+      TOKEN_NAME: "Morigami lov-wstETH-b",
 
       MIN_DEPOSIT_FEE_BPS: 150, // 1%
       MIN_EXIT_FEE_BPS: 150, // 1%
@@ -169,7 +169,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_WOETH_A: {
       TOKEN_SYMBOL: "lov-woETH-a",
-      TOKEN_NAME: "Origami lov-woETH-a",
+      TOKEN_NAME: "Morigami lov-woETH-a",
 
       MIN_DEPOSIT_FEE_BPS: 100, // 1%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -191,7 +191,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_WETH_DAI_LONG_A: {
       TOKEN_SYMBOL: "lov-wETH-DAI-long-a",
-      TOKEN_NAME: "Origami lov-wETH-DAI-long-a",
+      TOKEN_NAME: "Morigami lov-wETH-DAI-long-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -209,7 +209,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_WETH_SDAI_SHORT_A: {
       TOKEN_SYMBOL: "lov-wETH-sDAI-short-a",
-      TOKEN_NAME: "Origami lov-wETH-sDAI-short-a",
+      TOKEN_NAME: "Morigami lov-wETH-sDAI-short-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -227,7 +227,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_WBTC_DAI_LONG_A: {
       TOKEN_SYMBOL: "lov-wBTC-DAI-long-a",
-      TOKEN_NAME: "Origami lov-wBTC-DAI-long-a",
+      TOKEN_NAME: "Morigami lov-wBTC-DAI-long-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -245,7 +245,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_WBTC_SDAI_SHORT_A: {
       TOKEN_SYMBOL: "lov-wBTC-sDAI-short-a",
-      TOKEN_NAME: "Origami lov-wBTC-sDAI-short-a",
+      TOKEN_NAME: "Morigami lov-wBTC-sDAI-short-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -263,7 +263,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_WETH_WBTC_LONG_A: {
       TOKEN_SYMBOL: "lov-wETH-wBTC-long-a",
-      TOKEN_NAME: "Origami lov-wETH-wBTC-long-a",
+      TOKEN_NAME: "Morigami lov-wETH-wBTC-long-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -281,7 +281,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_WETH_WBTC_SHORT_A: {
       TOKEN_SYMBOL: "lov-wETH-wBTC-short-a",
-      TOKEN_NAME: "Origami lov-wETH-wBTC-short-a",
+      TOKEN_NAME: "Morigami lov-wETH-wBTC-short-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -299,7 +299,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_PT_SUSDE_OCT24_A: {
       TOKEN_SYMBOL: "lov-PT-sUSDe-Oct2024-a",
-      TOKEN_NAME: "Origami lov-PT-sUSDe-Oct2024-a",
+      TOKEN_NAME: "Morigami lov-PT-sUSDe-Oct2024-a",
 
       MIN_DEPOSIT_FEE_BPS: 0,    // 0%
       MIN_EXIT_FEE_BPS: 300,     // 3%
@@ -324,7 +324,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_PT_SUSDE_MAR_2025_A: {
       TOKEN_SYMBOL: "lov-PT-sUSDe-Mar2025-a",
-      TOKEN_NAME: "Origami lov-PT-sUSDe-Mar2025-a",
+      TOKEN_NAME: "Morigami lov-PT-sUSDe-Mar2025-a",
 
       MIN_DEPOSIT_FEE_BPS: 0,    // 0%
       MIN_EXIT_FEE_BPS: 200,     // 2%
@@ -351,7 +351,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_MKR_DAI_LONG_A: {
       TOKEN_SYMBOL: "lov-MKR-DAI-long-a",
-      TOKEN_NAME: "Origami lov-MKR-DAI-long-a",
+      TOKEN_NAME: "Morigami lov-MKR-DAI-long-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -369,7 +369,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_AAVE_USDC_LONG_A: {
       TOKEN_SYMBOL: "lov-AAVE-USDC-long-a",
-      TOKEN_NAME: "Origami lov-AAVE-USDC-long-a",
+      TOKEN_NAME: "Morigami lov-AAVE-USDC-long-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -387,7 +387,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_SDAI_A: {
       TOKEN_SYMBOL: "lov-sDAI-a",
-      TOKEN_NAME: "Origami lov-sDAI-a",
+      TOKEN_NAME: "Morigami lov-sDAI-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 0, // 0%
@@ -410,7 +410,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_USD0pp_A: {
       TOKEN_SYMBOL: "lov-USD0++-a",
-      TOKEN_NAME: "Origami lov-USD0++-a",
+      TOKEN_NAME: "Morigami lov-USD0++-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 400, // 4%
@@ -432,7 +432,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_RSWETH_A: {
       TOKEN_SYMBOL: "lov-rswETH-a",
-      TOKEN_NAME: "Origami lov-rswETH-a",
+      TOKEN_NAME: "Morigami lov-rswETH-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -455,7 +455,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_PT_EBTC_DEC24_A: {
       TOKEN_SYMBOL: "lov-PT-eBTC-Dec2024-a",
-      TOKEN_NAME: "Origami lov-PT-eBTC-Dec2024-a",
+      TOKEN_NAME: "Morigami lov-PT-eBTC-Dec2024-a",
 
       MIN_DEPOSIT_FEE_BPS: 0,    // 0%
       MIN_EXIT_FEE_BPS: 175,     // 1.75%
@@ -472,7 +472,7 @@ export const DEFAULT_SETTINGS = {
 
     LOV_PT_CORN_LBTC_DEC24_A: {
       TOKEN_SYMBOL: "lov-PT-cornLBTC-Dec2024-a",
-      TOKEN_NAME: "Origami lov-PT-cornLBTC-Dec2024-a",
+      TOKEN_NAME: "Morigami lov-PT-cornLBTC-Dec2024-a",
 
       MIN_DEPOSIT_FEE_BPS: 0,    // 0%
       MIN_EXIT_FEE_BPS: 175,     // 1.75%
@@ -489,7 +489,7 @@ export const DEFAULT_SETTINGS = {
     
     LOV_WETH_CBBTC_LONG_A: {
       TOKEN_SYMBOL: "lov-WETH-CBBTC-long-a",
-      TOKEN_NAME: "Origami lov-WETH-CBBTC-long-a",
+      TOKEN_NAME: "Morigami lov-WETH-CBBTC-long-a",
 
       MIN_DEPOSIT_FEE_BPS: 0, // 0%
       MIN_EXIT_FEE_BPS: 100, // 1%
@@ -508,7 +508,7 @@ export const DEFAULT_SETTINGS = {
     VAULTS: {
       SUSDSpS: {
         TOKEN_SYMBOL: "sUSDS+s",
-        TOKEN_NAME: "Origami sUSDS + Sky Farms",
+        TOKEN_NAME: "Morigami sUSDS + Sky Farms",
         SWITCH_FARM_COOLDOWN_SECS: 86_400,
         PERFORMANCE_FEE_FOR_CALLER_BPS: 100,
         PERFORMANCE_FEE_FOR_ORIGAMI_BPS: 400,

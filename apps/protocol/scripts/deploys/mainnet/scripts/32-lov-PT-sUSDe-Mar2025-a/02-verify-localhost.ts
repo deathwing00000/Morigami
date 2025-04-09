@@ -5,7 +5,7 @@ import { ContractInstances } from "../../contract-addresses";
 import { BigNumber } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ContractAddresses } from "../../contract-addresses/types";
-import { IERC20Metadata, IOrigamiOracle__factory, OrigamiCrossRateOracle, OrigamiLovToken, OrigamiLovTokenMorphoManagerMarketAL, OrigamiMorphoBorrowAndLend } from "../../../../../typechain";
+import { IERC20Metadata, IMorigamiOracle__factory, MorigamiCrossRateOracle, MorigamiLovToken, MorigamiLovTokenMorphoManagerMarketAL, MorigamiMorphoBorrowAndLend } from "../../../../../typechain";
 import { swapExactPtForToken, swapExactTokenForPt } from "../swaps/pendle";
 import { getDeployContext } from "../../deploy-context";
 
@@ -21,14 +21,14 @@ const AL_TARGET = "1.1666";     // 85.7% LTV
 
 interface TestContracts {
   DEPOSIT_TOKEN: IERC20Metadata;
-  VAULT_TOKEN: OrigamiLovToken;
+  VAULT_TOKEN: MorigamiLovToken;
   DEPOSIT_TOKEN_DECIMALS: number;
   VAULT_TOKEN_DECIMALS: number;
   DEBT_TOKEN: IERC20Metadata;
   DEBT_TOKEN_DECIMALS: number;
-  MANAGER: OrigamiLovTokenMorphoManagerMarketAL;
-  BORROW_LEND: OrigamiMorphoBorrowAndLend;
-  DEPOSIT_TO_DEBT_ORACLE: OrigamiCrossRateOracle;
+  MANAGER: MorigamiLovTokenMorphoManagerMarketAL;
+  BORROW_LEND: MorigamiMorphoBorrowAndLend;
+  DEPOSIT_TO_DEBT_ORACLE: MorigamiCrossRateOracle;
   SWAPPER_ADDRESS: string;
   PT_MARKET_ADDRESS: string;
 }
@@ -430,7 +430,7 @@ async function supplyDaiIntoMorpho(owner: SignerWithAddress) {
 }
 
 async function marketALTarget(owner: SignerWithAddress) {
-  const morphoToMarketALPrice = IOrigamiOracle__factory.connect(await TEST_CONTRACTS.MANAGER.morphoALToMarketALOracle(), owner);
+  const morphoToMarketALPrice = IMorigamiOracle__factory.connect(await TEST_CONTRACTS.MANAGER.morphoALToMarketALOracle(), owner);
   const price = await morphoToMarketALPrice.latestPrice(0, 0);
   return ethers.utils.parseEther(AL_TARGET).mul(price).div(ONE_ETHER);
 }

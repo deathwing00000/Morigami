@@ -1,6 +1,6 @@
 import '@nomiclabs/hardhat-ethers';
 import { ethers } from 'hardhat';
-import { OrigamiDexAggregatorSwapper__factory } from '../../../../../typechain';
+import { MorigamiDexAggregatorSwapper__factory } from '../../../../../typechain';
 import {
   deployAndMine,
   ensureExpectedEnvvars,
@@ -12,7 +12,7 @@ async function main() {
   const [owner] = await ethers.getSigners();
   const ADDRS = getDeployedContracts();
 
-  const factory = new OrigamiDexAggregatorSwapper__factory(owner);
+  const factory = new MorigamiDexAggregatorSwapper__factory(owner);
   await deployAndMine(
     'SWAPPERS.DIRECT_SWAPPER',
     factory,

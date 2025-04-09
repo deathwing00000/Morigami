@@ -1,26 +1,26 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { OrigamiTest } from "test/foundry/OrigamiTest.sol";
-import { MockBorrowAndLend } from "contracts/test/common/borrowAndLend/MockBorrowAndLend.m.sol";
-import { MockStEthToken } from "contracts/test/external/lido/MockStEthToken.m.sol";
-import { MockWstEthToken } from "contracts/test/external/lido/MockWstEthToken.m.sol";
-import { MockWrappedEther } from "contracts/test/external/MockWrappedEther.m.sol";
-import { OrigamiStableChainlinkOracle } from "contracts/common/oracle/OrigamiStableChainlinkOracle.sol";
-import { OrigamiWstEthToEthOracle } from "contracts/common/oracle/OrigamiWstEthToEthOracle.sol";
-import { DummyOracle } from "contracts/test/common/DummyOracle.sol";
-import { Range } from "contracts/libraries/Range.sol";
-import { IOrigamiOracle } from "contracts/interfaces/common/oracle/IOrigamiOracle.sol";
+import {MorigamiTest} from "test/foundry/MorigamiTest.sol";
+import {MockBorrowAndLend} from "contracts/test/common/borrowAndLend/MockBorrowAndLend.m.sol";
+import {MockStEthToken} from "contracts/test/external/lido/MockStEthToken.m.sol";
+import {MockWstEthToken} from "contracts/test/external/lido/MockWstEthToken.m.sol";
+import {MockWrappedEther} from "contracts/test/external/MockWrappedEther.m.sol";
+import {MorigamiStableChainlinkOracle} from "contracts/common/oracle/MorigamiStableChainlinkOracle.sol";
+import {MorigamiWstEthToEthOracle} from "contracts/common/oracle/MorigamiWstEthToEthOracle.sol";
+import {DummyOracle} from "contracts/test/common/DummyOracle.sol";
+import {Range} from "contracts/libraries/Range.sol";
+import {IMorigamiOracle} from "contracts/interfaces/common/oracle/IMorigamiOracle.sol";
 
-contract MockBorrowAndLendTestBase is OrigamiTest {
+contract MockBorrowAndLendTestBase is MorigamiTest {
     MockWrappedEther internal wethToken;
     MockStEthToken internal stEthToken;
     MockWstEthToken internal wstEthToken;
     MockBorrowAndLend internal borrowLend;
 
     DummyOracle internal clStEthToEthOracle;
-    OrigamiStableChainlinkOracle internal oStEthToEthOracle;
-    OrigamiWstEthToEthOracle internal oWstEthToEthOracle;
+    MorigamiStableChainlinkOracle internal oStEthToEthOracle;
+    MorigamiWstEthToEthOracle internal oWstEthToEthOracle;
 
     address internal posOwner = makeAddr("posOwner");
     uint96 internal WSTETH_SUPPLY_INTEREST_RATE = 0.01e18;
@@ -50,9 +50,9 @@ contract MockBorrowAndLendTestBase is OrigamiTest {
             18
         );
 
-        oStEthToEthOracle = new OrigamiStableChainlinkOracle(
+        oStEthToEthOracle = new MorigamiStableChainlinkOracle(
             origamiMultisig,
-            IOrigamiOracle.BaseOracleParams(
+            IMorigamiOracle.BaseOracleParams(
                 "stETH/ETH",
                 address(stEthToken),
                 18,
@@ -67,11 +67,11 @@ contract MockBorrowAndLendTestBase is OrigamiTest {
             true // It does use lastUpdatedAt
         );
 
-        oWstEthToEthOracle = new OrigamiWstEthToEthOracle(
-            IOrigamiOracle.BaseOracleParams(
+        oWstEthToEthOracle = new MorigamiWstEthToEthOracle(
+            IMorigamiOracle.BaseOracleParams(
                 "wstETH/ETH",
                 address(wstEthToken),
-                18, 
+                18,
                 address(wethToken),
                 18
             ),
@@ -118,7 +118,10 @@ contract MockStEthTest is MockBorrowAndLendTestBase {
             assertEq(address(stEthToken).balance, 1e18);
             assertEq(stEthToken.balanceOf(alice), expectedRatio);
             assertEq(alice.balance, 99e18);
-            assertEq(stEthToken.getSharesByPooledEth(1e18), expectedInverseRatio);
+            assertEq(
+                stEthToken.getSharesByPooledEth(1e18),
+                expectedInverseRatio
+            );
             assertEq(stEthToken.getPooledEthByShares(1e18), expectedRatio);
         }
 
@@ -132,7 +135,10 @@ contract MockStEthTest is MockBorrowAndLendTestBase {
             assertEq(stEthToken.balanceOf(alice), expectedRatio);
             assertEq(stEthToken.balanceOf(bob), 0.999999999999999999e18);
             assertEq(bob.balance, 99e18);
-            assertEq(stEthToken.getSharesByPooledEth(1e18), expectedInverseRatio);
+            assertEq(
+                stEthToken.getSharesByPooledEth(1e18),
+                expectedInverseRatio
+            );
             assertEq(stEthToken.getPooledEthByShares(1e18), expectedRatio);
         }
 
@@ -140,10 +146,16 @@ contract MockStEthTest is MockBorrowAndLendTestBase {
             vm.warp(block.timestamp + 365 days);
             assertEq(address(stEthToken).balance, 2e18);
             assertEq(stEthToken.balanceOf(alice), 1.083287067674958553e18);
-            assertEq(stEthToken.balanceOf(bob), expectedRatio-1);
+            assertEq(stEthToken.balanceOf(bob), expectedRatio - 1);
             assertEq(bob.balance, 99e18);
-            assertEq(stEthToken.getSharesByPooledEth(1e18), 0.923116346386635784e18);
-            assertEq(stEthToken.getPooledEthByShares(1e18), 1.083287067674958553e18);
+            assertEq(
+                stEthToken.getSharesByPooledEth(1e18),
+                0.923116346386635784e18
+            );
+            assertEq(
+                stEthToken.getPooledEthByShares(1e18),
+                1.083287067674958553e18
+            );
         }
     }
 
@@ -157,7 +169,6 @@ contract MockStEthTest is MockBorrowAndLendTestBase {
         assertEq(bob.balance, 0.25e18);
         assertEq(address(stEthToken).balance, 0.75e18);
     }
-
 }
 
 contract MockWstEthTest is MockBorrowAndLendTestBase {
@@ -205,8 +216,11 @@ contract MockWstEthTest is MockBorrowAndLendTestBase {
             assertEq(stEthToken.balanceOf(bob), 1);
 
             assertEq(wstEthToken.balanceOf(alice), 1e18);
-            assertEq(wstEthToken.balanceOf(bob), expectedInverseRatio-1);
-            assertEq(stEthToken.balanceOf(address(wstEthToken)), 1e18+expectedRatio-2);
+            assertEq(wstEthToken.balanceOf(bob), expectedInverseRatio - 1);
+            assertEq(
+                stEthToken.balanceOf(address(wstEthToken)),
+                1e18 + expectedRatio - 2
+            );
             assertEq(wstEthToken.getStETHByWstETH(1e18), expectedRatio);
             assertEq(wstEthToken.getWstETHByStETH(1e18), expectedInverseRatio);
             assertEq(wstEthToken.stEthPerToken(), expectedRatio);
@@ -217,19 +231,29 @@ contract MockWstEthTest is MockBorrowAndLendTestBase {
             vm.warp(block.timestamp + 365 days);
             assertEq(address(stEthToken).balance, 2e18);
             assertEq(wstEthToken.balanceOf(alice), 1e18);
-            assertEq(wstEthToken.balanceOf(bob), expectedInverseRatio-1);
-            assertEq(stEthToken.balanceOf(address(wstEthToken)), 2.124097841867346777e18);
-            assertEq(wstEthToken.getStETHByWstETH(1e18), 1.083287067674958553e18);
-            assertEq(wstEthToken.getWstETHByStETH(1e18), 0.923116346386635784e18);
+            assertEq(wstEthToken.balanceOf(bob), expectedInverseRatio - 1);
+            assertEq(
+                stEthToken.balanceOf(address(wstEthToken)),
+                2.124097841867346777e18
+            );
+            assertEq(
+                wstEthToken.getStETHByWstETH(1e18),
+                1.083287067674958553e18
+            );
+            assertEq(
+                wstEthToken.getWstETHByStETH(1e18),
+                0.923116346386635784e18
+            );
             assertEq(wstEthToken.stEthPerToken(), 1.083287067674958553e18);
             assertEq(wstEthToken.tokensPerStEth(), 0.923116346386635784e18);
         }
 
         vm.startPrank(bob);
-        uint256 expectedOut = 1.083287067674958553e18*(expectedInverseRatio-1)/1e18;
-        amountOut = wstEthToken.unwrap(expectedInverseRatio-1);
+        uint256 expectedOut = (1.083287067674958553e18 *
+            (expectedInverseRatio - 1)) / 1e18;
+        amountOut = wstEthToken.unwrap(expectedInverseRatio - 1);
         assertEq(amountOut, expectedOut);
-        assertEq(stEthToken.balanceOf(bob), expectedOut+1);
+        assertEq(stEthToken.balanceOf(bob), expectedOut + 1);
         assertEq(wstEthToken.balanceOf(bob), 0);
 
         vm.startPrank(alice);
@@ -244,18 +268,24 @@ contract MockWstEthTest is MockBorrowAndLendTestBase {
 contract MockBorrowAndLendTest is MockBorrowAndLendTestBase {
     error Fail();
 
-    function dealWstEth(uint256 ethAmount, address recipient) internal returns (uint256) {
+    function dealWstEth(
+        uint256 ethAmount,
+        address recipient
+    ) internal returns (uint256) {
         deal(recipient, ethAmount);
         uint256 balBefore = wstEthToken.balanceOf(recipient);
         vm.startPrank(recipient);
-        (bool success,) = payable(wstEthToken).call{value: ethAmount}("");
+        (bool success, ) = payable(wstEthToken).call{value: ethAmount}("");
         if (!success) revert Fail();
 
         vm.stopPrank();
         return wstEthToken.balanceOf(recipient) - balBefore;
     }
 
-    function supply(uint256 ethAmount, address recipient) internal returns (uint256) {
+    function supply(
+        uint256 ethAmount,
+        address recipient
+    ) internal returns (uint256) {
         uint256 wstEthAmount = dealWstEth(ethAmount, recipient);
         vm.startPrank(recipient);
         wstEthToken.transfer(address(borrowLend), wstEthAmount);
@@ -276,12 +306,10 @@ contract MockBorrowAndLendTest is MockBorrowAndLendTestBase {
         borrowLend.supply(wstEthAmount);
         assertEq(borrowLend.suppliedBalance(), wstEthAmount);
         assertEq(borrowLend.availableToWithdraw(), wstEthAmount);
-        (
-            uint256 _supplyCap,
-            uint256 available
-        ) = borrowLend.availableToSupply();
+        (uint256 _supplyCap, uint256 available) = borrowLend
+            .availableToSupply();
         assertEq(_supplyCap, MAX_SUPPLY);
-        assertEq(available, _supplyCap-wstEthAmount);
+        assertEq(available, _supplyCap - wstEthAmount);
 
         (
             uint256 accumulatorUpdatedAt,
@@ -372,8 +400,11 @@ contract MockBorrowAndLendTest is MockBorrowAndLendTestBase {
         vm.expectRevert();
         borrowLend.withdraw(10e18, posOwner);
         borrowLend.withdraw(5e18, posOwner);
-        assertEq(borrowLend.suppliedBalance(), 101.005016708416805700e18-5e18);
-        assertEq(borrowLend.debtBalance(), 92.740908055816516950e18-5e18);
+        assertEq(
+            borrowLend.suppliedBalance(),
+            101.005016708416805700e18 - 5e18
+        );
+        assertEq(borrowLend.debtBalance(), 92.740908055816516950e18 - 5e18);
 
         borrowLend.repay(100e18);
 
@@ -383,5 +414,4 @@ contract MockBorrowAndLendTest is MockBorrowAndLendTestBase {
         assertEq(borrowLend.debtBalance(), 0);
         assertEq(wstEthToken.balanceOf(posOwner), 101.005016708416805700e18);
     }
-
 }

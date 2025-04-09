@@ -2,10 +2,10 @@ import { ethers } from "hardhat";
 import { Signer, BigNumber } from "ethers";
 import { expect } from "chai";
 import { 
-    OrigamiGmxEarnAccount, OrigamiGmxEarnAccount__factory,
-    OrigamiGmxManager, OrigamiGmxManager__factory,
-    OrigamiGlpInvestment, OrigamiGlpInvestment__factory, 
-    OrigamiGmxInvestment, OrigamiGmxInvestment__factory, IOrigamiGmxManager, 
+    MorigamiGmxEarnAccount, MorigamiGmxEarnAccount__factory,
+    MorigamiGmxManager, MorigamiGmxManager__factory,
+    MorigamiGlpInvestment, MorigamiGlpInvestment__factory, 
+    MorigamiGmxInvestment, MorigamiGmxInvestment__factory, IMorigamiGmxManager, 
     MintableToken, DummyMintableToken__factory, 
 } from "../../../../typechain";
 import { addDefaultGlpLiquidity, deployGmx, GmxContracts } from "./gmx-helpers";
@@ -27,7 +27,7 @@ import {
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { getSigners } from "../../signers";
 
-describe("Origami GLP Investment", async () => {
+describe("Morigami GLP Investment", async () => {
     let owner: Signer;
     let alan: Signer;
     let bob: Signer;
@@ -36,9 +36,9 @@ describe("Origami GLP Investment", async () => {
     let dailyTransferKeeper: Signer;
     let gov: Signer;
     let govAddr: string;
-    let origamiGlpManager: OrigamiGmxManager;
-    let oGMX: OrigamiGmxInvestment;  
-    let oGLP: OrigamiGlpInvestment;
+    let origamiGlpManager: MorigamiGmxManager;
+    let oGMX: MorigamiGmxInvestment;  
+    let oGLP: MorigamiGlpInvestment;
     let gmxContracts: GmxContracts;
     let randoErc20: MintableToken;
 
@@ -46,8 +46,8 @@ describe("Origami GLP Investment", async () => {
     const ethPerSecond = BigNumber.from("41335970000000"); // 0.00004133597 ETH per second
     const esGmxPerSecond = BigNumber.from("20667989410000000"); // 0.02066798941 esGmx per second
 
-    let primaryEarnAccount: OrigamiGmxEarnAccount;
-    let secondaryEarnAccount: OrigamiGmxEarnAccount;
+    let primaryEarnAccount: MorigamiGmxEarnAccount;
+    let secondaryEarnAccount: MorigamiGmxEarnAccount;
 
     before( async () => {
         [owner, alan, bob, fred, feeCollector, dailyTransferKeeper, gov] = await getSigners();
@@ -57,15 +57,15 @@ describe("Origami GLP Investment", async () => {
     async function setup() {
         gmxContracts = await deployGmx(owner, esGmxPerSecond, esGmxPerSecond, ethPerSecond, ethPerSecond);
 
-        oGMX = await new OrigamiGmxInvestment__factory(gov).deploy(govAddr);
+        oGMX = await new MorigamiGmxInvestment__factory(gov).deploy(govAddr);
         
-        oGLP = await new OrigamiGlpInvestment__factory(gov).deploy(
+        oGLP = await new MorigamiGlpInvestment__factory(gov).deploy(
             govAddr,
             gmxContracts.wrappedNativeToken.address,
         );
 
         primaryEarnAccount = await deployUupsProxy(
-            new OrigamiGmxEarnAccount__factory(gov), 
+            new MorigamiGmxEarnAccount__factory(gov), 
             [gmxContracts.gmxRewardRouter.address],
             govAddr,
             gmxContracts.gmxRewardRouter.address,
@@ -75,7 +75,7 @@ describe("Origami GLP Investment", async () => {
         );
 
         secondaryEarnAccount = await deployUupsProxy(
-            new OrigamiGmxEarnAccount__factory(gov), 
+            new MorigamiGmxEarnAccount__factory(gov), 
             [gmxContracts.gmxRewardRouter.address],
             govAddr,
             gmxContracts.gmxRewardRouter.address,
@@ -84,7 +84,7 @@ describe("Origami GLP Investment", async () => {
             gmxContracts.stakedGlp.address,
         );
 
-        origamiGlpManager = await new OrigamiGmxManager__factory(gov).deploy(
+        origamiGlpManager = await new MorigamiGmxManager__factory(gov).deploy(
             govAddr,
             gmxContracts.gmxRewardRouter.address,
             gmxContracts.glpRewardRouter.address,
@@ -95,7 +95,7 @@ describe("Origami GLP Investment", async () => {
             secondaryEarnAccount.address,
         );
 
-        await oGLP.setOrigamiGlpManager(origamiGlpManager.address);
+        await oGLP.setMorigamiGlpManager(origamiGlpManager.address);
 
         await setExplicitAccess(
             origamiGlpManager,
@@ -165,11 +165,11 @@ describe("Origami GLP Investment", async () => {
     });
 
     it("admin", async () => {
-        await shouldRevertInvalidAccess(oGLP, oGLP.connect(owner).setOrigamiGlpManager(ZERO_ADDRESS));
+        await shouldRevertInvalidAccess(oGLP, oGLP.connect(owner).setMorigamiGlpManager(ZERO_ADDRESS));
         await shouldRevertInvalidAccess(oGLP, oGLP.connect(owner).recoverToken(gmxContracts.bnbToken.address, alan.getAddress(), 10));
 
         // Happy paths
-        await oGLP.connect(gov).setOrigamiGlpManager(origamiGlpManager.address);
+        await oGLP.connect(gov).setMorigamiGlpManager(origamiGlpManager.address);
         await expect(oGLP.connect(gov).recoverToken(gmxContracts.bnbToken.address, alan.getAddress(), 10))
             .to.revertedWith("ERC20: transfer amount exceeds balance");
     });
@@ -207,7 +207,7 @@ describe("Origami GLP Investment", async () => {
         expect(await oGLP.areExitsPaused()).eq(false);
         
         // Finally set to be paused on the gmx manager.
-        const paused: IOrigamiGmxManager.PausedStruct = {
+        const paused: IMorigamiGmxManager.PausedStruct = {
             glpInvestmentsPaused: true,
             gmxInvestmentsPaused: true,
             glpExitsPaused: true,
@@ -237,11 +237,11 @@ describe("Origami GLP Investment", async () => {
     });
 
     it("Should set gmx manager", async () => {
-        await expect(oGLP.setOrigamiGlpManager(ZERO_ADDRESS))
+        await expect(oGLP.setMorigamiGlpManager(ZERO_ADDRESS))
             .to.be.revertedWithCustomError(oGLP, "InvalidAddress")
             .withArgs(ZERO_ADDRESS);
 
-        const origamiGlpManager2 = await new OrigamiGmxManager__factory(owner).deploy(
+        const origamiGlpManager2 = await new MorigamiGmxManager__factory(owner).deploy(
             govAddr,
             gmxContracts.gmxRewardRouter.address,
             gmxContracts.glpRewardRouter.address,
@@ -251,8 +251,8 @@ describe("Origami GLP Investment", async () => {
             primaryEarnAccount.address,
             secondaryEarnAccount.address,
         );
-        await expect(oGLP.setOrigamiGlpManager(origamiGlpManager2.address))
-            .to.emit(oGLP, "OrigamiGlpManagerSet")
+        await expect(oGLP.setMorigamiGlpManager(origamiGlpManager2.address))
+            .to.emit(oGLP, "MorigamiGlpManagerSet")
             .withArgs(origamiGlpManager2.address);
 
         expect(await oGLP.origamiGlpManager()).eq(origamiGlpManager2.address);
@@ -392,7 +392,7 @@ describe("Origami GLP Investment", async () => {
             await expect(oGLP.investWithToken(quote.quoteData))
                 .to.be.revertedWith("StakedGlp: transfer amount exceeds allowance");
 
-            // Alan first invests GLP directly, rather than via Origami
+            // Alan first invests GLP directly, rather than via Morigami
             let glpAmount;
             {
                 await gmxContracts.bnbToken.mint(alan.getAddress(), amount);
@@ -664,7 +664,7 @@ describe("Origami GLP Investment", async () => {
                 [gmxContracts.stakedGlpTracker, secondaryEarnAccount, 0],
             );
 
-            // If just directly minting, Origami doesn't have any GMX to unstake.
+            // If just directly minting, Morigami doesn't have any GMX to unstake.
             await oGLP.mint(alan.getAddress(), exitAmount);
             await expect(oGLP.connect(alan).exitToToken(exitQuote.quoteData, alan.getAddress()))
                 .to.be.revertedWith("RewardTracker: _amount exceeds stakedAmount");
@@ -782,7 +782,7 @@ describe("Origami GLP Investment", async () => {
             // Invest
             let glpAmount: BigNumber;
             {
-                // Alan first invests GLP directly, rather than via Origami
+                // Alan first invests GLP directly, rather than via Morigami
                 {
                     await gmxContracts.bnbToken.mint(alan.getAddress(), investAmount);
                     await gmxContracts.bnbToken.connect(alan).approve(gmxContracts.glpRewardRouter.glpManager(), investAmount);
@@ -827,7 +827,7 @@ describe("Origami GLP Investment", async () => {
             // Invest
             let glpAmount: BigNumber;
             {
-                // Alan first invests GLP directly, rather than via Origami
+                // Alan first invests GLP directly, rather than via Morigami
                 {
                     await gmxContracts.bnbToken.mint(alan.getAddress(), investAmount);
                     await gmxContracts.bnbToken.connect(alan).approve(gmxContracts.glpRewardRouter.glpManager(), investAmount);
@@ -950,7 +950,7 @@ describe("Origami GLP Investment", async () => {
                 expect(ethBalAfter.sub(ethBalBefore)).lt(exitQuote.quoteData.expectedToTokenAmount);
             }
             
-            // If just directly minting, Origami doesn't have any GLP to unstake.
+            // If just directly minting, Morigami doesn't have any GLP to unstake.
             await oGLP.mint(alan.getAddress(), exitAmount);
             await expect(oGLP.connect(alan).exitToNative(exitQuote.quoteData, alan.getAddress()))
                 .to.be.revertedWith("RewardTracker: _amount exceeds stakedAmount");

@@ -1,6 +1,6 @@
 pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Origami (common/interestRate/BaseInterestRateModel.sol)
+// Morigami (common/interestRate/BaseInterestRateModel.sol)
 
 import { IInterestRateModel } from "contracts/interfaces/common/interestRate/IInterestRateModel.sol";
 

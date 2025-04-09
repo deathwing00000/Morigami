@@ -1,12 +1,12 @@
 import { network } from "hardhat";
 import {
   TokenPrices, TokenPrices__factory,
-  OrigamiCowSwapper, OrigamiCowSwapper__factory,
+  MorigamiCowSwapper, MorigamiCowSwapper__factory,
   DummyMintableToken, DummyMintableToken__factory,
-  OrigamiSuperSavingsUsdsVault,
-  OrigamiSuperSavingsUsdsManager,
-  OrigamiSuperSavingsUsdsVault__factory,
-  OrigamiSuperSavingsUsdsManager__factory,
+  MorigamiSuperSavingsUsdsVault,
+  MorigamiSuperSavingsUsdsManager,
+  MorigamiSuperSavingsUsdsVault__factory,
+  MorigamiSuperSavingsUsdsManager__factory,
   MockSDaiToken,
   MockSDaiToken__factory,
   DummySkyStakingRewards,
@@ -60,9 +60,9 @@ export interface ContractInstances {
 
   VAULTS: {
     SUSDSpS: {
-      TOKEN: OrigamiSuperSavingsUsdsVault;
-      MANAGER: OrigamiSuperSavingsUsdsManager;
-      COW_SWAPPER: OrigamiCowSwapper;
+      TOKEN: MorigamiSuperSavingsUsdsVault;
+      MANAGER: MorigamiSuperSavingsUsdsManager;
+      COW_SWAPPER: MorigamiCowSwapper;
     };
   };
   
@@ -93,9 +93,9 @@ export function connectToContracts1(owner: Signer, ADDRS: ContractAddresses): Co
     },
     VAULTS: {
       SUSDSpS: {
-        TOKEN: OrigamiSuperSavingsUsdsVault__factory.connect(ADDRS.VAULTS.SUSDSpS.TOKEN, owner),
-        MANAGER: OrigamiSuperSavingsUsdsManager__factory.connect(ADDRS.VAULTS.SUSDSpS.MANAGER, owner),
-        COW_SWAPPER: OrigamiCowSwapper__factory.connect(ADDRS.VAULTS.SUSDSpS.COW_SWAPPER, owner),
+        TOKEN: MorigamiSuperSavingsUsdsVault__factory.connect(ADDRS.VAULTS.SUSDSpS.TOKEN, owner),
+        MANAGER: MorigamiSuperSavingsUsdsManager__factory.connect(ADDRS.VAULTS.SUSDSpS.MANAGER, owner),
+        COW_SWAPPER: MorigamiCowSwapper__factory.connect(ADDRS.VAULTS.SUSDSpS.COW_SWAPPER, owner),
       },
     },
     EXTERNAL: {
