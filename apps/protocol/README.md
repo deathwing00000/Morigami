@@ -1,6 +1,8 @@
-# Origami Contracts v2
+# Morigami Contracts v2
 
 ## Getting Started
+
+These smart contracts is mostly forked of the [Origami V2 contracts](https://github.com/TempleDAO/origami-public/tree/main/apps/protocol) with few additions to make it possible perform multi assets flashloans and use LP tokens(must be ERC20) as reserve asset in the lovToken.
 
 ### Submodules
 
@@ -13,9 +15,9 @@ git submodule update --init --recursive
 
 ### Requirements
 
-* node
-* yarn
-* [Foundry](https://book.getfoundry.sh/getting-started/installation)
+- node
+- yarn
+- [Foundry](https://book.getfoundry.sh/getting-started/installation)
 
 This repository uses `.nvmrc` to dictate the version of node required to compile and run the project. This will allow you to use `nvm` followed by either `nvm use` or `nvm install` to automatically set the right version of node in that terminal session.
 
@@ -23,7 +25,7 @@ This project uses yarn workspaces to share common dependencies between all the a
 
 ### Build And Test
 
-Origami mostly uses Foundry for development and testing, with some legacy tests still in Hardhat.
+Morigami mostly uses Foundry for development and testing, with some legacy tests still in Hardhat.
 
 Copy `env.sample` to `.env` and tweak the `MAINNET_RPC_URL` and `ETHERSCAN_API_KEY` (signup for a free acount on both to generate an API key)
 
@@ -97,9 +99,9 @@ https://hardhat.org/guides/vscode-tests.html
 
 tl;dr;
 
-  1. Install https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-mocha-test-adapter
-  2. Set the VSCode config value `"mochaExplorer.files": "test/**/*.{j,t}s"`
-  3. Reload VSCode, click the flask icon, see all tests :)
+1. Install https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-mocha-test-adapter
+2. Set the VSCode config value `"mochaExplorer.files": "test/**/*.{j,t}s"`
+3. Reload VSCode, click the flask icon, see all tests :)
 
 ### Local Forks
 

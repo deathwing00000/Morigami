@@ -1,6 +1,6 @@
-# Origami Monorepo
+# Morigami Monorepo
 
-For documentation on the upcoming Origami v2, please see [HERE](./docs/README.md)
+Current repo contains forked smart contracts of the [Origami Protocol](https://docs.origami.finance/) With new versions of Flash and Borrow manager that supposed to be used only by More Vaults. It support multi asset flashloans and set lp token(must be ERC20) as the reserve asset.
 
 ## Getting Started
 
