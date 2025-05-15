@@ -16,7 +16,7 @@ interface ICurvePool {
      */
     function calc_withdraw_one_coin(
         uint256 _burn_amount,
-        uint256 _coin_index
+        int128 _coin_index
     ) external view returns (uint256);
 
     /**
