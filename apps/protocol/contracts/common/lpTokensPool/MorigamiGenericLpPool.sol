@@ -65,6 +65,14 @@ contract MorigamiGenericLpPool is IMorigamiLpPool, MorigamiElevatedAccess {
         if (!whitelistedRouters[routeData.router])
             revert InvalidRouter(routeData.router);
 
+        uint256[] memory balancesBefore = new uint256[](tokensInPool.length);
+        for (uint256 i = 0; i < tokensInPool.length; ) {
+            balancesBefore[i] = tokensInPool[i].balanceOf(address(this));
+            unchecked {
+                ++i;
+            }
+        }
+
         if (actionType == Action.Add) {
             for (uint256 i = 0; i < tokensInPool.length; i++) {
                 tokensInPool[i].safeTransferFrom(
@@ -84,6 +92,16 @@ contract MorigamiGenericLpPool is IMorigamiLpPool, MorigamiElevatedAccess {
 
             // Transfer back to the caller
             lpToken.safeTransfer(msg.sender, amountLpTokenDesired);
+
+            for (uint256 i = 0; i < amounts.length; ) {
+                tokensInPool[i].safeTransfer(
+                    msg.sender,
+                    tokensInPool[i].balanceOf(address(this)) - balancesBefore[i]
+                );
+                unchecked {
+                    ++i;
+                }
+            }
         } else {
             lpToken.safeTransferFrom(
                 msg.sender,
@@ -100,8 +118,11 @@ contract MorigamiGenericLpPool is IMorigamiLpPool, MorigamiElevatedAccess {
             );
 
             // Transfer back to the caller
-            for (uint256 i = 0; i < tokensInPool.length; ) {
-                tokensInPool[i].safeTransfer(msg.sender, amounts[i]);
+            for (uint256 i = 0; i < amounts.length; ) {
+                tokensInPool[i].safeTransfer(
+                    msg.sender,
+                    tokensInPool[i].balanceOf(address(this)) - balancesBefore[i]
+                );
                 unchecked {
                     ++i;
                 }
