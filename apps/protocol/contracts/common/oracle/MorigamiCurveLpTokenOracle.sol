@@ -6,6 +6,7 @@ import {MorigamiOracleBase} from "contracts/common/oracle/MorigamiOracleBase.sol
 import {MorigamiMath} from "contracts/libraries/MorigamiMath.sol";
 import {ICurvePool} from "contracts/interfaces/external/curve/ICurvePool.sol";
 import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+import {IAggregatorV3Interface} from "../../interfaces/external/chainlink/IAggregatorV3Interface.sol";
 
 /**
  * @title MorigamiCurveLpTokenOracle
@@ -16,15 +17,19 @@ contract MorigamiCurveLpTokenOracle is MorigamiOracleBase {
     ICurvePool public immutable curvePool;
 
     // index of the quote token in the CurvePool
-    uint256 public immutable qouteTokenIndex;
+    int128 public immutable qouteTokenIndex;
+
+    address public immutable quoteAssetOracleAddress;
 
     constructor(
         BaseOracleParams memory baseParams,
-        uint256 _qouteTokenIndex,
-        address _curvePool
+        int128 _qouteTokenIndex,
+        address _curvePool,
+        address _quoteAssetOracleAddress
     ) MorigamiOracleBase(baseParams) {
         qouteTokenIndex = _qouteTokenIndex;
         curvePool = ICurvePool(_curvePool);
+        quoteAssetOracleAddress = _quoteAssetOracleAddress;
     }
 
     /**
@@ -40,5 +45,9 @@ contract MorigamiCurveLpTokenOracle is MorigamiOracleBase {
             1 * 10 ** (IERC20Metadata(baseAsset).decimals()),
             qouteTokenIndex
         );
+
+        price =
+            (price * 10 ** decimals) /
+            10 ** (IERC20Metadata(quoteAsset).decimals());
     }
 }

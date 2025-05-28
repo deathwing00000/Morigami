@@ -40,5 +40,9 @@ contract MorigamiUniswapV2LpTokenOracle is MorigamiOracleBase {
         price = quoteAsset == IUniswapV2Pair(baseAsset).token0()
             ? token0.mulDiv(balance, totalSupply, roundingMode) * 2
             : token1.mulDiv(balance, totalSupply, roundingMode) * 2;
+
+        price =
+            (price * 10 ** decimals) /
+            10 ** (IERC20Metadata(quoteAsset).decimals());
     }
 }
