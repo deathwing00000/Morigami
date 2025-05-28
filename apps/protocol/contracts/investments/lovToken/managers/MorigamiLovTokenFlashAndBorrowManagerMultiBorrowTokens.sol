@@ -407,7 +407,16 @@ contract MorigamiLovTokenFlashAndBorrowManagerMultiBorrowTokens is
         if (msg.sender != address(flashLoanProvider))
             revert CommonEventsAndErrors.InvalidAccess();
         for (uint256 i = 0; i < tokens.length; ) {
-            if (address(tokens[i]) != address(_debtTokens[i]))
+            uint256 j = 0;
+            for (j; j < _debtTokens.length; ) {
+                if (address(tokens[i]) == address(_debtTokens[j])) {
+                    break;
+                }
+                unchecked {
+                    ++j;
+                }
+            }
+            if (j == _debtTokens.length)
                 revert CommonEventsAndErrors.InvalidToken(address(tokens[i]));
             unchecked {
                 ++i;
