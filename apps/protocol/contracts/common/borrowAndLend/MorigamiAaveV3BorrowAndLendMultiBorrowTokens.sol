@@ -389,8 +389,15 @@ contract MorigamiAaveV3BorrowAndLendMultiBorrowTokens is
     function debtBalance(
         address debtToken_
     ) public view override returns (uint256) {
-        _validateBorrowToken(debtToken_);
-        return IERC20(debtToken_).balanceOf(address(this));
+        for (uint256 i = 0; i < _borrowTokens.length; ) {
+            if (debtToken_ == _borrowTokens[i])
+                return _aaveDebtTokens[i].balanceOf(address(this));
+            unchecked {
+                ++i;
+            }
+        }
+
+        return 0;
     }
 
     /**
@@ -574,16 +581,14 @@ contract MorigamiAaveV3BorrowAndLendMultiBorrowTokens is
         }
     }
 
-    function _validateBorrowToken(
-        address _borrowToken
-    ) internal view returns (bool) {
+    function _validateBorrowToken(address _borrowToken) internal view {
         for (uint256 i = 0; i < _borrowTokens.length; ) {
-            if (_borrowToken == _borrowTokens[i]) return true;
+            if (_borrowToken == _borrowTokens[i]) return;
             unchecked {
                 ++i;
             }
         }
-        return false;
+        revert CommonEventsAndErrors.InvalidToken(_borrowToken);
     }
     /**
      * @dev Only the positionOwner or Elevated Access is allowed to call.
