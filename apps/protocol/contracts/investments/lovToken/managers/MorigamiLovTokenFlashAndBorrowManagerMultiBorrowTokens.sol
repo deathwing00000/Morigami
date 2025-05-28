@@ -369,7 +369,12 @@ contract MorigamiLovTokenFlashAndBorrowManagerMultiBorrowTokens is
         uint256 totalDebtInReserveToken = 0;
         for (uint256 i = 0; i < _debtTokens.length; ) {
             uint256 debt = borrowLend.debtBalance(address(_debtTokens[i]));
-            if (debt == 0) continue;
+            if (debt == 0) {
+                unchecked {
+                    ++i;
+                }
+                continue;
+            }
             totalDebtInReserveToken += _debtTokenToReserveTokenOracles[i]
                 .convertAmount(
                     address(_debtTokens[i]),
