@@ -67,7 +67,7 @@ interface IMorigamiLovTokenFlashAndBorrowManagerMultiBorrowTokens is
         // The lp pool data to add/remove liquidity
         bytes lpPoolData;
         // The min balance threshold for when surplus balance of `debtToken` is repaid to the Spark/Aave position
-        uint256 repaySurplusThreshold;
+        uint256[] repaySurplusThresholdAmounts;
         // The minimum acceptable A/L, will revert if below this
         uint128 minNewAL;
         // The maximum acceptable A/L, will revert if above this

@@ -603,7 +603,7 @@ contract MorigamiLovTokenFlashAndBorrowManagerMultiBorrowTokens is
                 );
                 if (
                     borrowLendSurplus + surplusAfterBurn >
-                    params.repaySurplusThreshold
+                    params.repaySurplusThresholdAmounts[i]
                 ) {
                     if (surplusAfterBurn != 0) {
                         _debtTokens_[i].safeTransfer(
