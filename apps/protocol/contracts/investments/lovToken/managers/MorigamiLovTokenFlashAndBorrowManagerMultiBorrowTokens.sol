@@ -137,6 +137,9 @@ contract MorigamiLovTokenFlashAndBorrowManagerMultiBorrowTokens is
     ) external override onlyElevatedAccess {
         if (__debtTokenToReserveTokenOracles.length != _debtTokens.length)
             revert CommonEventsAndErrors.InvalidParam();
+        _debtTokenToReserveTokenOracles = new IMorigamiOracle[](
+            __debtTokenToReserveTokenOracles.length
+        );
         for (uint256 i = 0; i < __debtTokenToReserveTokenOracles.length; ) {
             _debtTokenToReserveTokenOracles[i] = _validatedOracle(
                 __debtTokenToReserveTokenOracles[i],

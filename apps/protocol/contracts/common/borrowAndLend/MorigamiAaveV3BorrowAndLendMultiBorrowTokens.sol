@@ -95,6 +95,8 @@ contract MorigamiAaveV3BorrowAndLendMultiBorrowTokens is
         aaveAToken = IAaveAToken(
             aavePool.getReserveData(supplyToken).aTokenAddress
         );
+
+        _aaveDebtTokens = new IERC20Metadata[](borrowTokens_.length);
         for (uint256 i = 0; i < borrowTokens_.length; ) {
             _aaveDebtTokens[i] = IERC20Metadata(
                 aavePool
