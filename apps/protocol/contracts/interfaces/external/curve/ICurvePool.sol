@@ -30,4 +30,12 @@ interface ICurvePool {
      * @return price EMA price of coin i.
      */
     function price_oracle(uint256 i) external view returns (uint256 price);
+
+    function get_virtual_price() external view returns (uint256);
+
+    function remove_liquidity_one_coin(
+        uint256 _burn_amount,
+        int128 _coin_index,
+        uint256 _min_amount
+    ) external returns (uint256);
 }

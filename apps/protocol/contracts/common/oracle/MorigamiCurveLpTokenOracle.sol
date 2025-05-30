@@ -13,18 +13,27 @@ import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IER
  * @dev The price is calculated as the amount of quoteAsset that would be received for 1 lpToken(baseAsset)
  */
 contract MorigamiCurveLpTokenOracle is MorigamiOracleBase {
-    ICurvePool public immutable curvePool;
 
-    // index of the quote token in the CurvePool
-    int128 public immutable qouteTokenIndex;
+    error UnknownAsset(address asset);
+
+    ICurvePool public immutable curvePool;
+    mapping(address => uint256) public assetIndices;
 
     constructor(
         BaseOracleParams memory baseParams,
-        uint256 _qouteTokenIndex,
-        address _curvePool
+        address _curvePool,
+        address[] memory higherIndexAssets_
     ) MorigamiOracleBase(baseParams) {
-        qouteTokenIndex = int128(uint128(_qouteTokenIndex));
         curvePool = ICurvePool(_curvePool);
+        assetIndices[baseParams.quoteAssetAddress] = type(uint256).max;
+        for (uint256 i = 1; i <= higherIndexAssets_.length;) {
+            // index 0 is preserved for quoteAsset
+            // write asset indices starting from 1
+            assetIndices[higherIndexAssets_[i]] = i;
+            unchecked {
+                ++i;
+            }
+        }
     }
 
     /**
@@ -36,9 +45,22 @@ contract MorigamiCurveLpTokenOracle is MorigamiOracleBase {
         MorigamiMath.Rounding
     ) public view override returns (uint256 price) {
         // should take into account decimals difference between baseAsset and quoteAsset
-        price = curvePool.calc_withdraw_one_coin(
-            1 * 10 ** (IERC20Metadata(baseAsset).decimals()),
-            qouteTokenIndex
-        );
+        price = curvePool.get_virtual_price();
     }
+
+    /** */
+    function convertAmount(
+        address fromAsset,
+        uint256 fromAssetAmount,
+        PriceType priceType,
+        MorigamiMath.Rounding roundingMode
+    ) public view override(MorigamiOracleBase) returns (uint256 toAssetAmount) {
+        if (assetIndices[fromAsset] == type(uint256).max) {
+            toAssetAmount = curvePool.get_virtual_price() * fromAssetAmount;
+        }
+        uint256 lpPrice = curvePool.get_virtual_price();
+        uint256 fromQuotePrice = curvePool.price_oracle(assetIndices[fromAsset]);
+        toAssetAmount = fromQuotePrice * fromAssetAmount / lpPrice;
+    }
+
 }

@@ -18,6 +18,9 @@ import {Range} from "contracts/libraries/Range.sol";
 import {DynamicFees} from "contracts/libraries/DynamicFees.sol";
 import {IMorigamiBorrowAndLendMultiBorrowTokens} from "contracts/interfaces/common/borrowAndLend/IMorigamiBorrowAndLendMultiBorrowTokens.sol";
 import {ICurveStableSwapNG} from "contracts/interfaces/external/curve/ICurveStableSwapNG.sol";
+import {ICurvePool} from "contracts/interfaces/external/curve/ICurvePool.sol";
+import {IMorigamiInvestment} from "contracts/interfaces/investments/IMorigamiInvestment.sol";
+import {IMorigamiOTokenManager} from "contracts/interfaces/investments/IMorigamiOTokenManager.sol";
 
 /**
  * @title Morigami LovToken Multi Flash And Borrow Manager
@@ -37,6 +40,8 @@ contract MorigamiLovTokenFlashAndBorrowManagerMultiBorrowTokens is
      * This is also the asset which users deposit/exit with in this lovToken manager
      */
     IERC20 private immutable _reserveToken;
+
+    bool private _checkForLock;
 
     /**
      * @notice The assets which lovToken borrows from the money market to increase the A/L ratio
@@ -82,7 +87,8 @@ contract MorigamiLovTokenFlashAndBorrowManagerMultiBorrowTokens is
         IERC20[] memory _debtTokens_,
         address _lovToken,
         address _flashLoanProvider,
-        address _borrowLend
+        address _borrowLend,
+        bool checkForLock
     )
         MorigamiAbstractLovTokenManagerMultiBorrowTokens(
             _initialOwner,
@@ -96,6 +102,37 @@ contract MorigamiLovTokenFlashAndBorrowManagerMultiBorrowTokens is
             _flashLoanProvider
         );
         borrowLend = IMorigamiBorrowAndLendMultiBorrowTokens(_borrowLend);
+
+        _checkForLock = checkForLock;
+    }
+
+    function investWithToken(
+        address account,
+        IMorigamiInvestment.InvestQuoteData calldata quoteData
+    ) public override(IMorigamiOTokenManager, MorigamiAbstractLovTokenManagerMultiBorrowTokens) returns (uint256) {
+        if (_checkForLock) {
+            ICurvePool(address(_reserveToken)).remove_liquidity_one_coin(
+                0,
+                0,
+                0
+            );
+        }
+        return MorigamiAbstractLovTokenManagerMultiBorrowTokens.investWithToken(account, quoteData);
+    }
+
+    function exitToToken(
+        address account,
+        IMorigamiInvestment.ExitQuoteData calldata quoteData,
+        address recipient
+    ) public override(IMorigamiOTokenManager, MorigamiAbstractLovTokenManagerMultiBorrowTokens) returns (uint256, uint256) {
+        if (_checkForLock) {
+            ICurvePool(address(_reserveToken)).remove_liquidity_one_coin(
+                0,
+                0,
+                0
+            );
+        }
+        return MorigamiAbstractLovTokenManagerMultiBorrowTokens.exitToToken(account, quoteData, recipient);
     }
 
     /**

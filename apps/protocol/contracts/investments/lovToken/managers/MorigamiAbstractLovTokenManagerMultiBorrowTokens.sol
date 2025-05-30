@@ -188,7 +188,7 @@ abstract contract MorigamiAbstractLovTokenManagerMultiBorrowTokens is
         address account,
         IMorigamiInvestment.InvestQuoteData calldata quoteData
     )
-        external
+        public
         virtual
         override
         onlyLovToken
@@ -260,7 +260,7 @@ abstract contract MorigamiAbstractLovTokenManagerMultiBorrowTokens is
         IMorigamiInvestment.ExitQuoteData calldata quoteData,
         address recipient
     )
-        external
+        public
         virtual
         override
         onlyLovToken

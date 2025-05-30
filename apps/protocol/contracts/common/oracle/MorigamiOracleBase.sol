@@ -95,7 +95,7 @@ abstract contract MorigamiOracleBase is IMorigamiOracle {
         uint256 fromAssetAmount,
         PriceType priceType,
         MorigamiMath.Rounding roundingMode 
-    ) external override view returns (uint256 toAssetAmount) {
+    ) public virtual override view returns (uint256 toAssetAmount) {
         if (fromAsset == baseAsset) {
             // The numerator needs to round in the same way to be conservative
             uint256 _price = latestPrice(
