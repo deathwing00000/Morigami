@@ -31,14 +31,25 @@ contract MorigamiUniswapV2LpTokenOracle is MorigamiOracleBase {
     ) public view override returns (uint256 price) {
         uint totalSupply = IERC20(baseAsset).totalSupply();
         uint balance = 1 * 10 ** IERC20Metadata(baseAsset).decimals();
-        (uint token0, uint token1, ) = IUniswapV2Pair(baseAsset).getReserves();
-
-        // on remove liquidity, we get half of the withdrawn amount in
-        // token0 and half of in token1, the prices of amount0 and amount1 should be equal
-        // according to lp pool ratio. Since their price are the same, then total price of
-        // lp token is 2x of the price of token0 or token1 in current state.
-        price = quoteAsset == IUniswapV2Pair(baseAsset).token0()
-            ? token0.mulDiv(balance, totalSupply, roundingMode) * 2
-            : token1.mulDiv(balance, totalSupply, roundingMode) * 2;
+        
+        // Get current reserves and calculate k
+        (uint reserve0, uint reserve1, ) = IUniswapV2Pair(baseAsset).getReserves();
+        uint k = reserve0 * reserve1;
+        
+        // Calculate fair reserves based on the current price ratio
+        uint priceRatio = reserve0.mulDiv(1e18, reserve1, roundingMode);
+        uint fairReserve0 = MorigamiMath.sqrt(k.mulDiv(priceRatio, 1e18, roundingMode));
+        uint fairReserve1 = MorigamiMath.sqrt(k.mulDiv(1e18, priceRatio, roundingMode));
+        
+        // Calculate our share of the fair reserves
+        uint amount0 = fairReserve0.mulDiv(balance, totalSupply, roundingMode);
+        uint amount1 = fairReserve1.mulDiv(balance, totalSupply, roundingMode);
+        
+        // Convert both amounts to quoteAsset using the fair reserves ratio
+        if (quoteAsset == IUniswapV2Pair(baseAsset).token0()) {
+            price = amount0 + amount1.mulDiv(fairReserve0, fairReserve1, roundingMode);
+        } else {
+            price = amount1 + amount0.mulDiv(fairReserve1, fairReserve0, roundingMode);
+        }
     }
 }

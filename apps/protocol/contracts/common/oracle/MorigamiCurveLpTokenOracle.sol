@@ -16,14 +16,14 @@ contract MorigamiCurveLpTokenOracle is MorigamiOracleBase {
     ICurvePool public immutable curvePool;
 
     // index of the quote token in the CurvePool
-    uint256 public immutable qouteTokenIndex;
+    int128 public immutable qouteTokenIndex;
 
     constructor(
         BaseOracleParams memory baseParams,
         uint256 _qouteTokenIndex,
         address _curvePool
     ) MorigamiOracleBase(baseParams) {
-        qouteTokenIndex = _qouteTokenIndex;
+        qouteTokenIndex = int128(uint128(_qouteTokenIndex));
         curvePool = ICurvePool(_curvePool);
     }
 

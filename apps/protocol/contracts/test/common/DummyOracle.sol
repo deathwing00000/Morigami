@@ -43,6 +43,10 @@ contract DummyOracle is IAggregatorV3Interface {
         );
     }
 
+    function latestAnswer() external override view returns (int256) {
+        return _answer.answer;
+    }
+
     function decimals() external override view returns (uint8) {
         return _decimals;
     }
