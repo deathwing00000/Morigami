@@ -2,7 +2,7 @@ pragma solidity 0.8.19;
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Morigami (libraries/MorigamiMath.sol)
 
-import { mulDiv as prbMulDiv, PRBMath_MulDiv_Overflow } from "@prb/math/src/Common.sol";
+import { mulDiv as prbMulDiv, PRBMath_MulDiv_Overflow, sqrt as prbSqrt } from "@prb/math/src/Common.sol";
 import { CommonEventsAndErrors } from "contracts/libraries/CommonEventsAndErrors.sol";
 
 /**
@@ -169,5 +169,9 @@ library MorigamiMath {
             referenceValue,
             roundingMode
         );
+    }
+
+    function sqrt(uint256 x) internal pure returns (uint256) {
+        return prbSqrt(x);
     }
 }
