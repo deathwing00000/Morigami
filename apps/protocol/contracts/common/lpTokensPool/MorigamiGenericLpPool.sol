@@ -82,6 +82,8 @@ contract MorigamiGenericLpPool is IMorigamiLpPool, MorigamiElevatedAccess {
                 );
             }
 
+            uint256 lpBalanceBefore = lpToken.balanceOf(address(this));
+
             routeData.router.addLiquidity(
                 lpToken,
                 tokensInPool,
@@ -91,7 +93,10 @@ contract MorigamiGenericLpPool is IMorigamiLpPool, MorigamiElevatedAccess {
             );
 
             // Transfer back to the caller
-            lpToken.safeTransfer(msg.sender, amountLpTokenDesired);
+            lpToken.safeTransfer(
+                msg.sender,
+                lpToken.balanceOf(address(this)) - lpBalanceBefore
+            );
 
             for (uint256 i = 0; i < amounts.length; ) {
                 tokensInPool[i].safeTransfer(
