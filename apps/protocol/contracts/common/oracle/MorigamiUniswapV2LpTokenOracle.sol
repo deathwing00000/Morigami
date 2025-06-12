@@ -7,6 +7,7 @@ import {MorigamiMath} from "contracts/libraries/MorigamiMath.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import {IUniswapV2Pair} from "contracts/interfaces/external/uniswap/IUniswapV2Pair.sol";
+import {IAggregatorV3Interface} from "contracts/interfaces/external/chainlink/IAggregatorV3Interface.sol";
 
 /**
  * @title MorigamiUniswapV2LpTokenOracle
@@ -15,10 +16,26 @@ import {IUniswapV2Pair} from "contracts/interfaces/external/uniswap/IUniswapV2Pa
  */
 contract MorigamiUniswapV2LpTokenOracle is MorigamiOracleBase {
     using MorigamiMath for uint256;
+
+    error QuoteAssetIsNotInPair(address);
+
+    IAggregatorV3Interface immutable public oracleToken0;
+    IAggregatorV3Interface immutable public oracleToken1;
+
     constructor(
         address _initialOwner,
-        BaseOracleParams memory baseParams
-    ) MorigamiOracleBase(baseParams) {}
+        BaseOracleParams memory baseParams,
+        IAggregatorV3Interface _oracleToken0, 
+        IAggregatorV3Interface _oracleToken1
+    ) MorigamiOracleBase(baseParams) {
+        address baseAsset = baseParams.baseAssetAddress;
+        if (baseParams.quoteAssetAddress != IUniswapV2Pair(baseAsset).token0() && 
+            baseParams.quoteAssetAddress != IUniswapV2Pair(baseAsset).token1()) {
+                revert QuoteAssetIsNotInPair(baseParams.quoteAssetAddress);
+        }
+        oracleToken0 = _oracleToken0;
+        oracleToken1 = _oracleToken1;
+    }
 
     /**
      * @notice Return the current conversion rate a.k.a price for 1 lpToken in quoteAsset
@@ -32,24 +49,23 @@ contract MorigamiUniswapV2LpTokenOracle is MorigamiOracleBase {
         uint totalSupply = IERC20(baseAsset).totalSupply();
         uint balance = 1 * 10 ** IERC20Metadata(baseAsset).decimals();
         
-        // Get current reserves and calculate k
         (uint reserve0, uint reserve1, ) = IUniswapV2Pair(baseAsset).getReserves();
-        uint k = reserve0 * reserve1;
-        
-        // Calculate fair reserves based on the current price ratio
-        uint priceRatio = reserve0.mulDiv(1e18, reserve1, roundingMode);
-        uint fairReserve0 = MorigamiMath.sqrt(k.mulDiv(priceRatio, 1e18, roundingMode));
-        uint fairReserve1 = MorigamiMath.sqrt(k.mulDiv(1e18, priceRatio, roundingMode));
-        
-        // Calculate our share of the fair reserves
-        uint amount0 = fairReserve0.mulDiv(balance, totalSupply, roundingMode);
-        uint amount1 = fairReserve1.mulDiv(balance, totalSupply, roundingMode);
-        
-        // Convert both amounts to quoteAsset using the fair reserves ratio
-        if (quoteAsset == IUniswapV2Pair(baseAsset).token0()) {
-            price = amount0 + amount1.mulDiv(fairReserve0, fairReserve1, roundingMode);
+
+        // Get token addresses from the pair
+        address token0 = IUniswapV2Pair(baseAsset).token0();
+        address token1 = IUniswapV2Pair(baseAsset).token1();
+
+        uint d0 = IERC20Metadata(token0).decimals();
+        uint d1 = IERC20Metadata(token1).decimals();
+        uint256 price0 = uint256(oracleToken0.latestAnswer());
+        uint256 price1 = uint256(oracleToken1.latestAnswer());
+
+        uint totalValues = 2 * MorigamiMath.sqrt(price0 * reserve0 / 10 ** d0 *  price1 * reserve1 / 10 ** d1);
+        price = totalValues.mulDiv(balance, totalSupply, roundingMode);
+        if (quoteAsset == token0) {
+            price = price * 10 ** oracleToken0.decimals() / price0;
         } else {
-            price = amount1 + amount0.mulDiv(fairReserve1, fairReserve0, roundingMode);
-        }
+            price = price * 10 ** oracleToken1.decimals() / price1;
+        }  
     }
 }
