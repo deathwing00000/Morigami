@@ -5,6 +5,7 @@ pragma solidity 0.8.19;
 import {MorigamiOracleBase} from "contracts/common/oracle/MorigamiOracleBase.sol";
 import {MorigamiMath} from "contracts/libraries/MorigamiMath.sol";
 import {ICurvePool} from "contracts/interfaces/external/curve/ICurvePool.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
 /**
@@ -48,19 +49,32 @@ contract MorigamiCurveLpTokenOracle is MorigamiOracleBase {
         price = curvePool.get_virtual_price();
     }
 
-    /** */
     function convertAmount(
         address fromAsset,
         uint256 fromAssetAmount,
-        PriceType priceType,
-        MorigamiMath.Rounding roundingMode
-    ) public view override(MorigamiOracleBase) returns (uint256 toAssetAmount) {
-        if (assetIndices[fromAsset] == type(uint256).max) {
-            toAssetAmount = curvePool.get_virtual_price() * fromAssetAmount;
+        PriceType,
+        MorigamiMath.Rounding
+    ) public view override(MorigamiOracleBase) returns (uint256) {
+        if (assetIndices[fromAsset] == 0) {
+            revert UnknownAsset(fromAsset);
         }
+        uint8 baseDecimals = IERC20Metadata(baseAsset).decimals();
+        // if converting from base asset return lp price in quote
+        if (fromAsset == baseAsset) return curvePool.get_virtual_price() * fromAssetAmount / 10 ** baseDecimals;
+
+        // get lp price in quote
         uint256 lpPrice = curvePool.get_virtual_price();
-        uint256 fromQuotePrice = curvePool.price_oracle(assetIndices[fromAsset]);
-        toAssetAmount = fromQuotePrice * fromAssetAmount / lpPrice;
+        // if from asset is quote asset return base asset
+        if (assetIndices[fromAsset] == type(uint256).max) {
+            return fromAssetAmount * 10 ** baseDecimals / lpPrice;
+        }
+        uint8 quoteDecimals = IERC20Metadata(quoteAsset).decimals();
+        // calc price of asset at index
+        uint256 fromAssetPriceInquote = curvePool.price_oracle(assetIndices[fromAsset]);
+        // calc amount of from asset in quoute asset
+        uint256 fromAmountInQuoute = fromAssetAmount * fromAssetPriceInquote / 10 ** quoteDecimals;
+        // return lp amount
+        return fromAmountInQuoute * 10 ** baseDecimals / lpPrice;
     }
 
 }
