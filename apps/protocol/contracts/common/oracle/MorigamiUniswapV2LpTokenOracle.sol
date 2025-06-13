@@ -23,7 +23,6 @@ contract MorigamiUniswapV2LpTokenOracle is MorigamiOracleBase {
     IAggregatorV3Interface immutable public oracleToken1;
 
     constructor(
-        address _initialOwner,
         BaseOracleParams memory baseParams,
         IAggregatorV3Interface _oracleToken0, 
         IAggregatorV3Interface _oracleToken1
@@ -46,26 +45,43 @@ contract MorigamiUniswapV2LpTokenOracle is MorigamiOracleBase {
         PriceType,
         MorigamiMath.Rounding roundingMode
     ) public view override returns (uint256 price) {
-        uint totalSupply = IERC20(baseAsset).totalSupply();
-        uint balance = 1 * 10 ** IERC20Metadata(baseAsset).decimals();
         
-        (uint reserve0, uint reserve1, ) = IUniswapV2Pair(baseAsset).getReserves();
+        uint totalValues;
+        uint256 price0;
+        uint256 price1;
+        address token0;
+        uint8 oracleDecimal0;
+        uint8 oracleDecimal1;
+        
+        {
+            (uint reserve0, uint reserve1, ) = IUniswapV2Pair(baseAsset).getReserves();
 
-        // Get token addresses from the pair
-        address token0 = IUniswapV2Pair(baseAsset).token0();
-        address token1 = IUniswapV2Pair(baseAsset).token1();
+            // Get token addresses from the pair
+            token0 = IUniswapV2Pair(baseAsset).token0();
+            address token1 = IUniswapV2Pair(baseAsset).token1();
 
-        uint d0 = IERC20Metadata(token0).decimals();
-        uint d1 = IERC20Metadata(token1).decimals();
-        uint256 price0 = uint256(oracleToken0.latestAnswer());
-        uint256 price1 = uint256(oracleToken1.latestAnswer());
+            uint8 d0 = IERC20Metadata(token0).decimals();
+            uint8 d1 = IERC20Metadata(token1).decimals();
+            price0 = uint256(oracleToken0.latestAnswer());
+            price1 = uint256(oracleToken1.latestAnswer());
 
-        uint totalValues = 2 * MorigamiMath.sqrt(price0 * reserve0 / 10 ** d0 *  price1 * reserve1 / 10 ** d1);
+            oracleDecimal0 = oracleToken0.decimals();
+            oracleDecimal1 = oracleToken1.decimals();
+            
+            uint256 value0 = price0 * reserve0 * 10 ** decimals / 10 ** (d0 + oracleDecimal0);
+            uint256 value1 = price1 * reserve1 * 10 ** decimals / 10 ** (d1 + oracleDecimal1);
+            
+            totalValues = 2 * MorigamiMath.sqrt(value0 * value1);
+        }
+
+        uint256 totalSupply = IERC20(baseAsset).totalSupply();
+        uint256 balance = 1 * 10 ** IERC20Metadata(baseAsset).decimals();
+
         price = totalValues.mulDiv(balance, totalSupply, roundingMode);
         if (quoteAsset == token0) {
-            price = price * 10 ** oracleToken0.decimals() / price0;
+            price = price * 10 ** oracleDecimal0 / price0;
         } else {
-            price = price * 10 ** oracleToken1.decimals() / price1;
-        }  
+            price = price * 10 ** oracleDecimal1  / price1;
+        }
     }
 }
